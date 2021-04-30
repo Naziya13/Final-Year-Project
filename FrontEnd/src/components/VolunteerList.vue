@@ -4,7 +4,7 @@
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
-                    
+                    <th>Id</th>
                     <th>Email</th>
                     <th>Name</th>
                     <th>Mobile No</th>
@@ -13,6 +13,7 @@
             </thead>
             <tbody>
                 <tr v-for="(row,id) in rows"  v-bind:Key="id">
+                    <td>{{id+1}}</td>
                     <td>{{row.email}}</td>
                     <td>{{row.FullName}}</td>
                     <td>{{row.mobileNo}}</td>
@@ -33,6 +34,7 @@ export default {
     data() {
         return {
             rows: [['email','FullName','mobileNo','address']],
+            id:[]
             
         }
     },
@@ -47,6 +49,7 @@ export default {
             for(var i=0;i<(response.data.data.Items).length;i++)
             {   
                 currentObj.rows=response.data.data.Items;
+                currentObj.id=+i;
             }
             console.log((response.data.data.Items).length)
             console.log(currentObj.rows)
@@ -56,7 +59,7 @@ export default {
         })
         .catch(function(error){
             console.log(error)
-            router.push('homepage')
+            
         })
  
     }
