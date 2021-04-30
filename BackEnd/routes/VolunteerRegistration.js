@@ -71,12 +71,16 @@ router.get("/", (req, res) => res.json('welcome'));
 router.post("/volunteerRegistrationRoute",cors(corsOptions),uploads.single('file'), (req, res) => {
     console.log("reqFile:" + JSON.stringify(req.file));
     console.log("reqBody:" + JSON.stringify(req.body));
-
-    const {
+   
+    
+     //write code for adding new users to database...
+    
+     const {
       fullName,
       email,
       mob,
-      address
+      address,
+      pass
     } = req.body;
  
     console.log('fullname : '+JSON.stringify(fullName));
@@ -87,6 +91,7 @@ router.post("/volunteerRegistrationRoute",cors(corsOptions),uploads.single('file
       Item: {  
           "email": email, 
           "FullName":fullName,
+          "password":pass,
           "mobileNo":mob,
           "Address":address
           //"Date/Time":Date.now().toString
@@ -112,4 +117,3 @@ res.json("Successfully INserted to Database..")
 });
 
 module.exports = router;
-  

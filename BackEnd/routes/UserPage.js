@@ -31,40 +31,24 @@ router.use(
 //AWS.config.update({key})
 router.use(bodyParser.json());
 
-// 1.1 ********** server test api **************
-router.get("/", (req, res) => res.json('welcome'));
+router.get('/userRout',cors(corsOptions),(req, res) => {
 
-
-//1.2 ************ UI - Feedback api*************
-router.post("/feedbackRoute",cors(corsOptions), async(req, res) => {
-    console.log("reqBody:" + JSON.stringify(req.body));
-    const {
-      fullName,
-      email,
-      mob,
-      suggestions,
-      feedback
-      
-    } = req.body;
-    
-    console.log('fullname : '+JSON.stringify(fullName));
-     //write code for adding new users to database...
-     var params = { 
-      TableName:"Feedback",
-      Item: {  
-          "email": email, 
-          "FullName": fullName,
-          "mobileNo": mob,
-          "feedback":feedback,
-          "suggestions": suggestions
-      }
+var params={
+    TableName:'User'
   };
-
-
-docClient.put(params).promise().then(data =>
-  console.log(data.Attributes)).catch(console.error);
-
-  
-    res.json("Successfully Inserted to Database..")
-  });
-  module.exports = router
+    
+    docClient.scan(params,function(err,data){
+    
+    console.log("response from db: ",JSON.stringify(data))
+    if(err){
+        console.log(err);
+    }
+    else{
+     
+        console.log("sucessful data fetch",data.Item); 
+        var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
+        res.json(object);          
+        }
+      });
+});
+module.exports = router;

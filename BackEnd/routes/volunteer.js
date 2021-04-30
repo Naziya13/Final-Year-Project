@@ -64,106 +64,117 @@ storage: multerS3({
 
 // 1.1 ********** server test api **************
 router.get("/donorRoute", cors(corsOptions),(req, res) => {  
-  var params={
-    TableName:'Donor',
-    projectionExpression:'Addresss,email'
-  
-  };
 
-  docClient.scan(params,function(err,donors_data){
-    console.log("response from db(Donor): ",JSON.stringify(donors_data))
-    if(err){
-      console.log(err);
-    }
-    else{
-      let donors_adress=[];
-      let donors_email=[];
-      var i=0;
-      //console.log("sucessful data fetch",data.Items); 
-      donors_data.Items.forEach((record) => {
-        donors_adress[i]=record.Address;
-        donors_email[i]=record.email;
-        i++;
-        console.log("donors address:"+record.Address)
-      })
-
-   console.log("Donors address"+donors_adress)
-
-    let D_adress=Object.values(donors_adress); 
-    let D_email=Object.values(donors_email);
-    
-    console.log("sucessful data fetch from donors",donors_data.Item); 
- 
-     //volunteer's data  
+//Donors Data
 var params={
-  TableName:'Volunteers',
-  projectionExpression:"Addresss,fullName,email"
+  TableName:'Donor',
+  projectionExpression:'Address,email'
+
 };
+docClient.scan(params,function(err,donors_data){
+console.log("response from db(Donor): ",JSON.stringify(donors_data))
+if(err){
+  console.log(err);
+}
+else{
+  let donor_adress=[];
+  let donor_email=[];
+  var i=0;
+
+  donors_data.Items.forEach((record) => {
+    donor_adress[i]=record.Address;
+    donor_email[i]=record.email;
+    i++;
+    //console.log("donors address:"+record.Address)
+  })
+
+let D_adress=Object.values(donor_adress)
+let D_email=Object.values(donor_email)   
+    console.log("sucessful data fetch from donors",donors_data.Item); 
+
+//volunteer's data
+var params={
+TableName:'Volunteers',
+projectionExpression:"Addresss,fullName,email"
+
+};
+
 docClient.scan(params,function(err,volunteer_data){
-  console.log("response from db(Volunteer): ",JSON.stringify(volunteer_data))
-  if(err){
-    console.log(err);
+console.log("response from db(Volunteer): ",JSON.stringify(volunteer_data))
+if(err){
+console.log(err);
+}
+else{
+let volunteer_adress=[];
+let volunteer_name=[];
+let volunteer_email=[];
+var i=0;
+volunteer_data.Items.forEach((record) => {
+  volunteer_adress[i]=record.Address;
+  volunteer_email[i]=record.email;
+  volunteer_name[i]=record.FullName;
+  i++;
+ // console.log("volunteer adress"+record.Address)
+  
+})
+  console.log("sucessful data fetch from Volunteer",volunteer_data.Item); 
+      
+let V_adress=Object.values(volunteer_adress);
+let V_name=Object.values(volunteer_name);
+ let V_email=Object.values(volunteer_email);
+
+for(var i=0;i<(V_adress).length;i++)
+{
+  for(var j=0;j<(D_adress).length;j++){
+    console.log("v_adress:"+V_adress[i])
+    console.log("v_adress(type):"+typeof(V_adress[i]))
+    console.log("D_adress:"+D_adress[j])
+    console.log("D_adress(type):"+typeof(V_adress[i]))
+      if(V_adress[i] == (D_adress[j]) || (D_adress[j]) === V_adress[i]){
+    console.log("Matched...donor")
+    var params={
+      TableName:'Donor',
+      Key:{
+        "email": D_email[j]
+      },
+      KeyConditionExpression:'Address = :address ',
+
+      ExpressionAttributeValues:{
+        ":address":D_adress[j]
+      },
+
+      //"projectionExpression":"fullName,mobileNo,Address,RequestProduct"
+    }
+    docClient.get(params,function(err,don_data){
+      console.log("response from db(donors(update)): ",JSON.stringify(don_data))
+      if(err){
+        console.log(err);
+     
+      }else{
+        console.log("sucessful data fetch",don_data);
+        var object = { message : ' Successfull fetched donors',statusCode : '200' , statusMessage : 'success', 'data' : don_data};
+        res.json(object);  
+        res.end();
+         
+     }
+      })
+    
   }
   else{
-    let volunteer_adress=[];
-    let volunteer_name=[];
-    let volunteer_email=[];
-    var i=0;
-    volunteer_data.Items.forEach((record) => {
-      volunteer_adress[i]=record.Address;
-      volunteer_email[i]=record.email;
-      volunteer_name[i]=record.FullName;
-      i++;
-      console.log("volunteer adress"+record.Address)
-      
-    })
-    
-    let V_adress=Object.values(volunteer_adress);
-    let V_name=Object.values(volunteer_name);
-    let V_email=Object.values(volunteer_email);
-    
-    for(var i=0;i<(V_adress).length;i++)
-    {
-      for(var j=0;j<(D_adress).length;j++){
-      if(V_adress[i]==D_adress[j]){
-        console.log("Matched...donors")
-        let Name=V_name[i];
-        var params={
-          TableName:'Donor',
-          Key:{
-            "email": D_email[j]
-          },
-          KeyConditionExpression:'Address = :address ',
-    
-          ExpressionAttributeValues:{
-            ":address":D_adress[j]
-          },
-    
-          //"projectionExpression":"fullName,mobileNo,Address,email,OfferProduct"
-        }
-        docClient.get(params,function(err,don_data){
-          console.log("response from db(donors(update)): ",JSON.stringify(don_data))
-          if(err){
-            console.log(err);
-          }else{
-            
-            console.log(Name);
-            don_data.Item.VolunteerName=Name
-            console.log("sucessful data fetch",don_data.Item);
-            var object = { message : ' Successfull fetched donors',statusCode : '200' , statusMessage : 'success', 'data' : don_data};
-            res.json(object);      
-         }
-          })
-      }
-    } 
-    }
+    console.log("err")
   }
-  })
-  }
+} 
+
+}
+}
+})
+}
+
 });
 });
 
-router.get("/requesterRoute", cors(corsOptions),(req, res) => {
+
+router.get("/requesterRoute", cors(corsOptions),(req, res,next) => {
 
 //Requesters Data
   var params={
@@ -172,7 +183,7 @@ router.get("/requesterRoute", cors(corsOptions),(req, res) => {
 
   };
   docClient.scan(params,function(err,requesters_data){
-  console.log("response from db(Requester): ",JSON.stringify(requesters_data))
+  console.log("response from db(Requester)[173]: ",JSON.stringify(requesters_data))
   if(err){
     console.log(err);
   }
@@ -185,22 +196,22 @@ router.get("/requesterRoute", cors(corsOptions),(req, res) => {
       requester_adress[i]=record.Address;
       requester_email[i]=record.email;
       i++;
-      console.log("requesters address:"+record.Address)
+      console.log("requesters address[186]:"+record.Address)
     })
 
   let R_adress=Object.values(requester_adress)
   let R_email=Object.values(requester_email)   
-      console.log("sucessful data fetch from requesters",requesters_data.Item); 
+      console.log("sucessful data fetch from requesters[191]",requesters_data.Item); 
 
 //volunteer's data
 var params={
 TableName:'Volunteers',
-projectionExpression:"Addresss,email"
+projectionExpression:"Addresss,fullName,email"
 
 };
 
 docClient.scan(params,function(err,volunteer_data){
-console.log("response from db(Volunteer): ",JSON.stringify(volunteer_data))
+console.log("response from db(Volunteer)[201]: ",JSON.stringify(volunteer_data))
 if(err){
   console.log(err);
 }
@@ -217,7 +228,7 @@ else{
     console.log("volunteer adress"+record.Address)
     
   })
-    console.log("sucessful data fetch from Volunteer",volunteer_data.Item); 
+    console.log("sucessful data fetch from Volunteer[218]",volunteer_data.Item); 
         
   let V_adress=Object.values(volunteer_adress);
   let V_name=Object.values(volunteer_name);
@@ -226,8 +237,9 @@ else{
   for(var i=0;i<(V_adress).length;i++)
   {
     for(var j=0;j<(R_adress).length;j++){
-    if(V_adress[i]==R_adress[j]){
+    if(V_adress[i] === R_adress[j]){
       console.log("Matched...requester")
+      let Name=V_name[i];
       var params={
         TableName:'requester',
         Key:{
@@ -246,9 +258,13 @@ else{
         if(err){
           console.log(err);
         }else{
+          console.log(Name);
+          req_data.Item.VolunteerName=Name
           console.log("sucessful data fetch",req_data);
-          var object1 = { message : ' Successfull fetched donors',statusCode : '200' , statusMessage : 'success', 'data' : req_data};
-          res.json(object1);     
+          var obj = { message : ' Successfull fetched donors',statusCode : '200' , statusMessage : 'success', 'data' : req_data};
+          res.json(obj); 
+          next();
+             
        }
         })
       

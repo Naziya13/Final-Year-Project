@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr v-for="(row,id) in rows"  v-bind:Key="id">
-                    <td>{{row.id}}</td>
+                    <td>{{id+1}}</td>
                     <td>{{row.email}}</td>
                     <td>{{row.FullName}}</td>
                    <td>{{row.mobileNo}}</td>
@@ -32,7 +32,8 @@ import router from '../router/index'
 export default {
     data() {
         return {
-            rows: [['id','mobileNo','FullName','address','email','RequestProduct']]
+            rows: [['mobileNo','FullName','address','email','RequestProduct']],
+            id:[]
                
         }
     },
@@ -47,7 +48,9 @@ export default {
         .then(function(response){
             for(var i=0;i<(response.data.data.Items).length;i++)
             {   
-                currentObj.rows=response.data.data.Items;   
+                currentObj.rows=response.data.data.Items;  
+                currentObj.id=+i;
+
             }
             
             console.log((response.data.data.Items).length)

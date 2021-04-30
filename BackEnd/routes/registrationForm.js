@@ -60,7 +60,7 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
     console.log('fullname : '+JSON.stringify(fullName));
      //write code for adding new users to database...
      var params = { 
-      TableName:"Admin",
+      TableName:"User",
       Item: {  
           "email": email, 
           "address":address,

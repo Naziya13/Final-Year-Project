@@ -13,6 +13,11 @@
                 <input type="email" class="form-control form-control-sm" v-model="email" required>
             </div>
 
+             <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control form-control-sm" v-model="pass" required/>
+            </div>
+
             <div class="form-group">
                 <label>Mobile Number</label>
                 <input type="tel" class="form-control form-control-sm" v-model="mob" required>
@@ -51,7 +56,8 @@ import router from '../router/index'
                   email : '',
                   mob : '',
                   address:'',
-                  file:''
+                  file:'',
+                  pass:''
   
             }
         },
@@ -59,12 +65,10 @@ import router from '../router/index'
             handelFileUplaod(){
                 this.file=this.$refs.file.files[0];
                 console.log('file data: '+this.file);
-
             },
             formSubmit(e) {
                 e.preventDefault();
                 let currentObj = this;
-
                 //uplaod file
                 let formData=new FormData();
                 
@@ -72,30 +76,26 @@ import router from '../router/index'
                 formData.append('mob',this.mob);
                 formData.append('email',this.email);
                 formData.append('address',this.address);
+                formData.append('pass',this.pass);
                 
                 formData.append('file',this.file);
-
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                    'Content-Type': 'multipart/form-data' }
                 };
-
-
                 post('http://localhost:8082/volunteerRegistration/volunteerRegistrationRoute', formData,config)
                 .then(function (response) {
                     currentObj.output = response.data;
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                    
+                     router.push({ name: "Adminpage"});                    
                 })
                 .catch(function (error) {
                     currentObj.output = error;
                 });
-
                
             }
             
-
             }  
         
     }

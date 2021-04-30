@@ -66,7 +66,6 @@
 
 <script>
 import axios from 'axios'
-
 import router from '../router/index'
 //import { delete } from 'vue/types/umd'
   export default {
@@ -76,7 +75,7 @@ import router from '../router/index'
           ['mobileNo','FullName','address','email','OfferProduct']
           ],
         requester: [
-        ['mobileNo','FullName','Address','RequestProduct','email']   
+        ['mobileNo','FullName','Address','email','RequestProduct']   
         ],
         Volunteer:'',
         file:''
@@ -89,13 +88,10 @@ import router from '../router/index'
           };
           let currentObj=this;
           //donor's
-
         axios.get('http://localhost:8082/Volunteer/donorRoute',config)
         .then(function(response){
-              currentObj.Volunteer=response.data.data.Item.VolunteerName;
-            
-              delete response.data.data.Item.VolunteerName;
-              currentObj.donor=[response.data.data.Item];
+              console.log("Donor")
+          currentObj.donor=[response.data.data.Item];
             
            // console.log(currentObj.donor)
             //console.log((response.data.data.Item).length)
@@ -108,17 +104,18 @@ import router from '../router/index'
             alert("donors address not matched");
             //router.push('homepage')
         })
-
         axios.get('http://localhost:8082/Volunteer/requesterRoute',config)
         .then(function(response){ 
-          
+          currentObj.Volunteer=response.data.data.Item.VolunteerName;
+            
+              delete response.data.data.Item.VolunteerName;
             currentObj.requester=[response.data.data.Item];
           
             //console.log(currentObj.requester)
            //console.log((response.data.data.Item).length)
             console.log(response.data.data.Item)
-            if(response == null || response.statusMessage == "sucess")
-                router.push('volunteer')
+            if(response == null || response == "undefined")
+                router.push({name:"volunteer"})
         })
         .catch(function(error){
             console.log(error)
@@ -131,12 +128,10 @@ import router from '../router/index'
     handelFileUplaod(){
                 this.file=this.$refs.file.files[0];
                 console.log('file data: '+this.file);
-
           },
         formSubmit(e) {
                 e.preventDefault();
                 let currentObj = this;
-
                  let formData=new FormData();
                 
                 formData.append('file',this.file);
@@ -149,7 +144,7 @@ import router from '../router/index'
                     currentObj.output = response.body;
                    // console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                       
+                     router.push({ name: "Thankyou"});                       
                 })
                 .catch(function (error) {
                     currentObj.output = error;

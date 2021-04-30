@@ -5,12 +5,12 @@ Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',
+    path: '/registration',
     name: 'registration',
     component: () => import('../components/Registration.vue')
   },
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     component: () => import('../components/Login.vue')
   },
@@ -73,6 +73,26 @@ Vue.use(VueRouter)
     path: '/volunteerList',
     name: 'volunteerList',
     component: () => import('../components/VolunteerList.vue')
+  },
+  {
+    path:'/feedbacklist',
+    name:'FeedbackList',
+    component:()=>import('../components/feedbackList.vue')
+  },
+  {
+    path:'/Adminpage',
+    name:'Adminpage',
+    component:()=>import('../components/AdminPage.vue')
+  },
+  {
+    path:'/Userpage',
+    name:'Userpage',
+    component:()=>import('../components/Userpage.vue')
+  },
+  {
+    path:'/Thankyou',
+    name:'Thankyou',
+    component:()=>import('../components/ThankYou.vue')
   }
 ]
 

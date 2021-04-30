@@ -71,7 +71,6 @@ import router from '../router/index'
            currentObj.products=[...new Set(items)]
            // console.log(response.data.data)
             console.log(currentObj.products)
-
         })
         .catch(function(error){
             console.log(error)
@@ -83,12 +82,10 @@ import router from '../router/index'
              handelFileUplaod(){
                 this.file=this.$refs.file.files[0];
                 console.log('file data: '+this.file);
-
             },
            formSubmit(e) {
                 e.preventDefault();
                 let currentObj = this;
-
                  let formData=new FormData();
                 
                 formData.append('fullName',this.fullName);
@@ -97,7 +94,6 @@ import router from '../router/index'
                 formData.append('address',this.address);
                 formData.append('selected',this.selected);
                 formData.append('file',this.file);
-
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                   'Content-Type': 'multipart/form-data'}
@@ -107,7 +103,7 @@ import router from '../router/index'
                     currentObj.output = response.body;
                    // console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                       
+                     router.push({ name: "Thankyou"});                       
                 })
                 .catch(function (error) {
                     currentObj.output = error;

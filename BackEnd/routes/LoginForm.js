@@ -52,9 +52,25 @@ router.post("/loginRoute",cors(corsOptions), (req, res) => {
         ":Email":Email
       },
 
-      "projectionExpression":"email,password"
+      "projectionExpression":"email,password,FullName"
 
     };
+    var params={
+      TableName:'Admin',
+     Key:{
+        "email":Email
+      },
+      
+      KeyConditionExpression:'email = :Email ',
+
+      ExpressionAttributeValues:{
+        ":Email":Email
+      },
+
+      "projectionExpression":"email,password,FullName"
+
+    };
+
     if(Email && pass){
      
     docClient.get(params,function(err,data){
@@ -68,18 +84,90 @@ router.post("/loginRoute",cors(corsOptions), (req, res) => {
         if(data.hasOwnProperty("Item") && data.Item.email==Email && data.Item.password==pass)
         {
           console.log("sucessful Login",data.Item); 
-          var object = { message : 'login Successfull',statusCode : '200' , statusMessage : 'success'};
+          var object = { message : 'login Successfull',statusCode : '200' , statusMessage : 'success Admin' ,'data':data };
           res.json(object);          
         }
         else{
           console.log("invalid user")
           //console.log(data.Item);
-          var object = { message : 'Invalid User',statusCode : '403' , statusMessage : 'success'};
-          res.json(object);          
+          var params={
+            TableName:'User',
+           Key:{
+              "email":Email
+            },
+            
+            KeyConditionExpression:'email = :Email ',
+      
+            ExpressionAttributeValues:{
+              ":Email":Email
+            },
+      
+            "projectionExpression":"email,password,FullName"
+      
+          };
+          docClient.get(params,function(err,User_data){
+
+            console.log("response from db: ",JSON.stringify(User_data))
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log("data length : "+User_data);
+              if(User_data.hasOwnProperty("Item") && User_data.Item.email==Email && User_data.Item.password==pass)
+              {
+                console.log("sucessful Login",User_data.Item); 
+                var object = { message : 'login Successfull',statusCode : '201' , statusMessage : 'success User' ,'data':User_data};
+                res.json(object);            
+              }
+              else{
+
+                var params={
+                  TableName:'Volunteers',
+                 Key:{
+                    "email":Email
+                  },
+                  
+                  KeyConditionExpression:'email = :Email ',
+            
+                  ExpressionAttributeValues:{
+                    ":Email":Email
+                  },
+            
+                  "projectionExpression":"email,password,FullName"
+            
+                };
+                docClient.get(params,function(err,Vol_data){
+      
+                  console.log("response from db: ",JSON.stringify(Vol_data))
+                  if(err){
+                    console.log(err);
+                  }
+                  else{
+                    console.log("data length : "+Vol_data);
+                    if(Vol_data.hasOwnProperty("Item") && Vol_data.Item.email==Email && Vol_data.Item.password==pass)
+                    {
+                      console.log("sucessful Login",Vol_data.Item); 
+                      var object = { message : 'login Successfull',statusCode : '202' , statusMessage : 'success Volunteer' ,'data':Vol_data};
+                      res.json(object);
+                                
+                    }
+                  
+                    else{
+                var object = { message : 'Invalid User',statusCode : '403' , statusMessage : 'success' };
+                res.json(object);
+
+              }
+            }
+          })
         }
-      }
+            }
+          })
+            
+        }
+    }
     });
   }
+
   else{
     var object = { message : 'please enter email and password',statusCode : '403' , statusMessage : 'success'};
     res.json(object);

@@ -94,7 +94,7 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
 
       }
   };
-  docClient.put(params).promise().then(data =>
+    docClient.put(params).promise().then(data =>
     console.log(data.Attributes)).catch(console.error);
   
   // s3 upload

@@ -26,6 +26,11 @@
                 <a href="#" class="fa fa-google"></a>
             </div>
 
+             <p class="forgot-password text-center mt-2 mb-2">
+                 Have not account yet ? 
+                <router-link to="/registration">Register</router-link>
+            </p>
+
         </form>
     </div>
 </template>
@@ -55,7 +60,9 @@ import router from '../router/index'
                 e.preventDefault();
                 let currentObj = this;
                 this.submitted=true;
-                
+                localStorage.setItem("Email",this.Email)
+                localStorage.setItem("pass",this.pass)
+                console.log("Email(login)"+this.Email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
                 };
@@ -66,12 +73,21 @@ import router from '../router/index'
 
                 },config)
                   .then(function (response) {
+                
                    currentObj.output=response.data;
                     console.log(response.data);
                     console.log(JSON.stringify(response));
 
-                    if(currentObj.output.statusCode == "200")  
-                      router.push({ name: "homepage"});
+                    if(currentObj.output.statusCode == "201" || currentObj.output.statusMessage=="success User")  
+                      router.push({ name: "Userpage"});
+                    else if(currentObj.output.statusCode == "200" || currentObj.output.statusMessage=="success Admin")
+                    {
+                        router.push({name:"Adminpage"})
+                    }
+                    else if(currentObj.output.statusCode == "202" || currentObj.output.statusMessage=="success Volunteer")
+                    {
+                        router.push({name:"volunteer"})
+                    }
                     else
                     {
                       

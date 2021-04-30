@@ -1,15 +1,15 @@
 <template>
     <div class="vue-tempalte" >
-        <h3 class="p-3 text-center">List Of Donor's</h3>
+        <h3 class="p-3 text-center">List Of Feedback</h3>
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Id</th>
                     <th>Email</th>
                     <th>Name</th>
+                    <th>FeedBack</th>
                     <th>Mobile No.</th>
-                    <th>Address</th>
-                    <th>Offer</th>
+                    <th>Suggestion</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,9 +17,9 @@
                     <td >{{id+1}}</td>
                     <td>{{row.email}}</td>
                     <td>{{row.FullName}}</td>
+                    <td>{{row.feedback}}</td>
                     <td>{{row.mobileNo}}</td>
-                    <td>{{row.Address}}</td>
-                    <td>{{row.OfferProduct}}</td>
+                    <td>{{row.suggestions}}</td>
                 </tr>
             </tbody>
         </table>
@@ -36,7 +36,7 @@ export default {
    // el:"#table",
     data() {
         return {
-            rows: [['mobileNo','FullName','address','email','OfferProduct']],
+            rows: [['email','fullName','feedback','mobile No','suggestions']],
             id:[],
         }
     },
@@ -47,7 +47,7 @@ export default {
           };
           let currentObj=this;
           
-        axios.get('http://localhost:8082/donorlist/adminRoute',config)
+        axios.get('http://localhost:8082/feedbacklist/feedbackRoute',config)
         .then(function(response){
             currentObj.id=1
             for(var i=0;i<(response.data.data.Items).length;i++)
@@ -59,11 +59,11 @@ export default {
             console.log((response.data.data.Items).length)
             console.log(response.data.data.Items)
             if(response == null || response == "undefined")
-                router.push('donorlist')
+                router.push('feedbackList')
         })
         .catch(function(error){
             console.log(error)
-            router.push('homepage')
+            
         })
  
     }

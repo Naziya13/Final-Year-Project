@@ -61,12 +61,10 @@ import router from '../router/index'
             handelFileUplaod(){
                 this.file=this.$refs.file.files[0];
                 console.log('file data: '+this.file);
-
             },
             formSubmit(e) {
                 e.preventDefault();
                 let currentObj = this;
-
                 //uplaod file
                 let formData=new FormData();
                 
@@ -76,28 +74,23 @@ import router from '../router/index'
                 formData.append('address',this.address);
                 formData.append('offer',this.offer);
                 formData.append('file',this.file);
-
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                    'Content-Type': 'multipart/form-data' }
                 };
-
-
                 post('http://localhost:8082/Donor/donorRoute', formData,config)
                 .then(function (response) {
                     currentObj.output = response.data;
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                    
+                     router.push({ name: "Thankyou"});                    
                 })
                 .catch(function (error) {
                     currentObj.output = error;
                 });
-
                
             }
             
-
             }  
         
     }

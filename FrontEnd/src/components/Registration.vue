@@ -90,7 +90,7 @@ import router from '../router/index'
                     currentObj.output = response.data;
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                    
+                     router.push({ name: "login"});                    
                 })
                 .catch(function (error) {
                     currentObj.output = error;
