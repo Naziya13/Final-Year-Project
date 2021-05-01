@@ -73,9 +73,6 @@ var params={
   projectionExpression:'OfferProduct'
 
 }
-  
-  
-
 
 docClient.scan(params,function(err,data){
 
@@ -94,36 +91,65 @@ docClient.scan(params,function(err,data){
       })
 
       console.log(offer)
-      var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : offer};
-      res.json(object);          
+      
+  var params={
+    TableName:"sessionDB"
   }
+
+  docClient.scan(params,function(err,data){
+
+    console.log("response from db: ",JSON.stringify(data))
+    if(err){
+      console.log(err);
+    }
+    else{
+     
+        console.log("sucessful data fetch",data.Item);
+        var params={
+          TableName:"requester",
+          Key:{
+            "email":data.Items.email
+          },
+          }
+        
+          docClient.scan(params,function(err,Don_data){
+
+            console.log("response from db: ",JSON.stringify(Don_data))
+            if(err){
+              console.log(err);
+            }
+            else{ 
+              Don_data.Items.OfferProduct=offer
+             var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : Don_data};
+              res.json(object);
+            }
+          })          
+    }
+  })
   
-});
-
-
+  }
+})
 });
 router.post("/requestRoute",cors(corsOptions),uploads.single('file'), (req, res) => {
   console.log("reqBody:" + JSON.stringify(req.body));
   console.log("reqFile:" + JSON.stringify(req.file));
   const {
-    fullName,
-    email,
-    mob,
     selected,
-    address
+    address,
+    email
+   
   } = req.body;
 
-  console.log('fullname : '+JSON.stringify(fullName));
+ 
    //write code for adding new users to database...
    var params = { 
     TableName:"requester",
-    Item: {  
-        "email": email, 
-        "FullName":fullName,
-        "mobileNo":mob,
-        "Address":address,
-        "RequestProduct":selected
-
+    Items: {  
+      Key:{
+        "email":email
+      },
+        "RequestProduct":selected,
+        "adress":address
     }
 };
 docClient.put(params).promise().then(data =>

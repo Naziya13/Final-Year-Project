@@ -4,22 +4,22 @@
             <h3>Requester</h3>
 
             <div class="form-group">
-                 <label>Full Name</label>
-                <input type="text" class="form-control form-control-sm" v-model="fullName" required>
+                 <label>Full Name:</label>
+               {{fullName}}
             </div>
 
             <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-sm" v-model="email" required>
+                <label>Email address:</label>
+                {{email}}
             </div>
 
             <div class="form-group">
-                <label>Mobile Number</label>
-                <input type="tel" class="form-control form-control-sm" v-model="mob" required>
+                <label>Mobile Number :</label>
+                    {{mobile}}
             </div>
             <div class="form-group">
                 <label>Address</label>
-                <textarea class="form-control" rows="1" id="comment" v-model="address" required></textarea>
+                <textarea class="form-control" rows="1" id="comment" required></textarea>
             </div>
             <fieldset class="form-group">
                 <legend>Request Product</legend>
@@ -42,12 +42,13 @@
 <script>
 import axios from 'axios'
 import router from '../router/index'
+
     export default {
         data() {
             return {
                   fullName: '',
                   email : '',
-                  mob : '',
+                  mobile : '',
                   address:'',
                   selected:"",
                   products:[],
@@ -65,12 +66,20 @@ import router from '../router/index'
             for(var i=0;i<(response.data.data).length;i++)
             {   
                 
-                items=response.data.data
+                items=response.data.data.OfferProduct
                 //console.log(currentObj.products)
             }
            currentObj.products=[...new Set(items)]
            // console.log(response.data.data)
             console.log(currentObj.products)
+            currentObj.fullName=response.data.data.Items[0].name;
+            currentObj.email=response.data.data.Items[0].email;
+            currentObj.mobile=response.data.data.Items[0].phone;
+           
+             if(response.statusCode=="200")
+                router.push("Thankyou")
+
+            
         })
         .catch(function(error){
             console.log(error)
@@ -87,20 +96,20 @@ import router from '../router/index'
                 e.preventDefault();
                 let currentObj = this;
                  let formData=new FormData();
-                
-                formData.append('fullName',this.fullName);
-                formData.append('mob',this.mob);
-                formData.append('email',this.email);
-                formData.append('address',this.address);
                 formData.append('selected',this.selected);
                 formData.append('file',this.file);
+                formData.append('address',this.address);
+                formData.append('email',this.email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                   'Content-Type': 'multipart/form-data'}
                 };
                 axios.post('http://localhost:8082/requester/requestRoute', formData,config)
                 .then(function (response) {
-                    currentObj.output = response.body;
+                    currentObj.output = response.data.selected;
+                    currentObj.output=response.data.address;
+                    currentObj.output=response.data.file;
+                    currentObj.output=response.data.email;
                    // console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
                      router.push({ name: "Thankyou"});                       

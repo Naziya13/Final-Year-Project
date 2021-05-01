@@ -73,30 +73,28 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
     console.log("reqBody:" + JSON.stringify(req.body));
 
     const {
-      fullName,
-      email,
-      mob,
       offer,
-      address
+      address,
+      email
     } = req.body;
  
-    console.log('fullname : '+JSON.stringify(fullName));
+  
     
      //write code for adding new users to database...
      var params = { 
       TableName:"Donor",
-      Item: { 
-          "email": email, 
-          "FullName":fullName,
-          "mobileNo":mob,
-          "Address":address,
-          "OfferProduct":offer
 
+      Item: { 
+        Key:{
+          "email":email
+        },
+          "OfferProduct":offer,
+          "address":address
       }
   };
     docClient.put(params).promise().then(data =>
     console.log(data.Attributes)).catch(console.error);
-  
+
   // s3 upload
 
     const file = req.file;
@@ -106,10 +104,45 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
       console.error(error);
       res.json("file upload failed....")
     }   
-    
-   
-res.json("Successfully INserted to Database..")
+    res.json("successfuly inserted in database...")
 });
 
+router.get('/donorRoute2',cors(corsOptions),(req,res)=>{
+
+  var params={
+    TableName:"sessionDB"
+  }
+
+  docClient.scan(params,function(err,data1){
+
+    console.log("response from db: ",JSON.stringify(data1))
+    if(err){
+      console.log(err);
+    }
+    else{
+     
+        console.log("sucessful data fetch",data1.Item);
+        var params={
+          TableName:"Donor",
+          Key:{
+            "email":data1.Items.email
+          }
+
+        }
+        
+          docClient.scan(params,function(err,data){
+
+            console.log("response from db: ",JSON.stringify(data))
+            if(err){
+              console.log(err);
+            }
+            else{ 
+             var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
+              res.json(object)
+            }
+          })          
+    }
+  })
+})
 module.exports = router;
   

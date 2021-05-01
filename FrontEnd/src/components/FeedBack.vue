@@ -86,7 +86,7 @@ export default {
                 currentObj.output = response.data;
                 console.log(JSON.stringify(response));
                 if(response.statusMessage == 'success');
-                 router.push({ name: "Userpage"});                    
+                 router.push({ name: "/"});                    
             })
             .catch(function (error) {
                 currentObj.output = error;

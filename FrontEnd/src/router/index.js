@@ -85,9 +85,14 @@ Vue.use(VueRouter)
     component:()=>import('../components/AdminPage.vue')
   },
   {
-    path:'/Userpage',
-    name:'Userpage',
-    component:()=>import('../components/Userpage.vue')
+    path:'/Donorpage',
+    name:'Donorpage',
+    component:()=>import('../components/Donorpage.vue')
+  },
+  {
+    path:'/Requesterpage',
+    name:'Requesterpage',
+    component:()=>import('../components/Requesterpage.vue')
   },
   {
     path:'/Thankyou',

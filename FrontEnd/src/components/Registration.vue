@@ -44,6 +44,15 @@
                 <label>Address</label>
                 <textarea class="form-control" rows="1" id="comment" required></textarea>
             </div>
+            <label>Register As</label>
+            <br>
+            <select v-model="selected" required>
+               <option disabled value="">Register As... </option>
+               <option>Donor</option>
+               <option>Requester</option>
+               
+            </select>
+            <br><br>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Register</button>
 
@@ -67,7 +76,8 @@ import router from '../router/index'
                   mob : '',
                   male : '',
                   female : '',
-                  other : ''
+                  other : '',
+                  selected:''
             }
         },
         methods: {
@@ -84,7 +94,8 @@ import router from '../router/index'
                     mob : this.mob,
                     male : this.male,
                     female : this.female,
-                    other : this.other
+                    other : this.other,
+                    selected:this.selected
                 },config)
                 .then(function (response) {
                     currentObj.output = response.data;

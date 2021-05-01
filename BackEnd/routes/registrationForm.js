@@ -43,7 +43,8 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
       male,
       female,
       other,
-      address
+      address,
+      selected
     } = req.body;
   if(male==null)
   {
@@ -58,15 +59,18 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
     var gender='other';
   }
     console.log('fullname : '+JSON.stringify(fullName));
+
+  if(selected=="Donor")
+  {
      //write code for adding new users to database...
      var params = { 
-      TableName:"User",
+      TableName:"Donor",
       Item: {  
           "email": email, 
           "address":address,
           "gender":gender,
           "name": fullName,
-          "phone":mob ,
+          "mobile":mob ,
           "password":pass
       }
   };
@@ -76,6 +80,30 @@ docClient.put(params).promise().then(data =>
 
   
     res.json("Successfully INserted to Database..")
-  });
+ 
+}
+else
+{
+ //write code for adding new users to database...
+ var params = { 
+  TableName:"requester",
+  Item: {  
+      "email": email, 
+      "address":address,
+      "gender":gender,
+      "name": fullName,
+      "phone":mob ,
+      "password":pass
+  }
+};
+
+docClient.put(params).promise().then(data =>
+console.log(data.Attributes)).catch(console.error);
+
+
+res.json("Successfully INserted to Database..")
+}
+
+});
   module.exports = router;
   

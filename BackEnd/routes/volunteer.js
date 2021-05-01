@@ -262,7 +262,7 @@ else{
           req_data.Item.VolunteerName=Name
           console.log("sucessful data fetch",req_data);
           var obj = { message : ' Successfull fetched donors',statusCode : '200' , statusMessage : 'success', data : req_data};
-          res.send(obj);
+          res.send(obj)
        }
         })
       

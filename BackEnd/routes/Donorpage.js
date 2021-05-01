@@ -31,24 +31,62 @@ router.use(
 //AWS.config.update({key})
 router.use(bodyParser.json());
 
-router.get('/userRout',cors(corsOptions),(req, res) => {
+router.get('/donorRoute',cors(corsOptions),(req, res) => {
 
 var params={
-    TableName:'User'
+    TableName:'sessionDB'
   };
     
-    docClient.scan(params,function(err,data){
+    docClient.scan(params,function(err,data1){
     
-    console.log("response from db: ",JSON.stringify(data))
+    console.log("response from db: ",JSON.stringify(data1))
     if(err){
         console.log(err);
     }
     else{
-     
+      var params={
+        TableName:"Donor",
+        Key:{
+          "email":data1.Items.email
+        }
+    }
+    docClient.scan(params,function(err,data){
+        console.log("response from db admin ",JSON.stringify(data))
+        if(err){
+            console.log(err);
+        }
+        else{
         console.log("sucessful data fetch",data.Item); 
         var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
-        res.json(object);          
-        }
+        res.json(object); 
+        }         
+        })
+      }
       });
 });
+
+router.post('/logout',cors(corsOptions),(req,res)=>{
+  console.log("reqBody:" + JSON.stringify(req.body));
+    var {email}=req.body
+  var params={
+    TableName:"sessionDB",
+    Key:{
+        "email":email
+    }
+
+  }
+  docClient.delete(params,function(err,data){
+  
+    if(err)
+    {
+      console.log(err);
+    }
+    else{
+        console.log("deleted...")
+        var object = { message : ' Successfull deleted',statusCode : '200' , statusMessage : 'success'};
+        res.json(object);  
+    }
+  })
+
+})
 module.exports = router;

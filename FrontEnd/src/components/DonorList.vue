@@ -31,8 +31,7 @@ import axios from 'axios'
 
 import router from '../router/index'
 export default {
-  watch: {
-  },
+ 
    // el:"#table",
     data() {
         return {

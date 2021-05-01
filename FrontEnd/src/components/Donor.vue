@@ -4,20 +4,20 @@
             <h3>Donor</h3>
 
             <div class="form-group">
-                 <label>Full Name</label>
-                <input type="text" class="form-control form-control-sm" v-model="fullName" required>
+                 <label>Full Name :</label>
+               {{fullName}}
             </div>
 
             <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-sm" v-model="email" required>
+                <label>Email address :</label>
+                {{email}}
             </div>
 
             <div class="form-group">
-                <label>Mobile Number</label>
-                <input type="tel" class="form-control form-control-sm" v-model="mob" required>
+                <label>Mobile Number :</label>
+               {{mobile}}
             </div>
-            <div class="form-group">
+             <div class="form-group">
                 <label>Address</label>
                 <textarea class="form-control" rows="1" id="comment" v-model="address" required></textarea>
             </div>
@@ -40,6 +40,7 @@
 </template>
 <script>
 import {post} from 'axios'
+import axios from 'axios'
 import router from '../router/index'
     export default {
         mounted() {
@@ -50,12 +51,34 @@ import router from '../router/index'
             return {
                   fullName: '',
                   email : '',
-                  mob : '',
+                  mobile : '',
                   address:'',
                   offer:'',
                   file:''
   
             }
+        },
+        created()
+        {
+            console.log('Component mounted.')
+          let currentObj=this;
+
+           axios.get('http://localhost:8082/Donor/donorRoute2')
+                .then(function(response)
+                {
+                    currentObj.fullName=response.data.data.Items[0].name;
+                    currentObj.email=response.data.data.Items[0].email;
+                    currentObj.mobile=response.data.data.Items[0].mobile;
+                    
+
+                    console.log(response.data.data.Items)
+                    if(response.statusCode=='200')
+                        router.push("donor")
+                })
+                .catch(function (error) {
+                    currentObj.output = error;
+                });
+               
         },
         methods: {
             handelFileUplaod(){
@@ -67,27 +90,26 @@ import router from '../router/index'
                 let currentObj = this;
                 //uplaod file
                 let formData=new FormData();
-                
-                formData.append('fullName',this.fullName);
-                formData.append('mob',this.mob);
-                formData.append('email',this.email);
-                formData.append('address',this.address);
                 formData.append('offer',this.offer);
+                formData.append('address',this.address)
                 formData.append('file',this.file);
+                formData.append('email',this.email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                    'Content-Type': 'multipart/form-data' }
                 };
                 post('http://localhost:8082/Donor/donorRoute', formData,config)
                 .then(function (response) {
-                    currentObj.output = response.data;
+                    currentObj.output = response.data.address;
+                    currentObj.output=response.data.offer;
+                    currentObj.output=response.data.file;
+                    currentObj.output=response.data.email
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
                      router.push({ name: "Thankyou"});                    
                 })
-                .catch(function (error) {
-                    currentObj.output = error;
-                });
+
+               
                
             }
             

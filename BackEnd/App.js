@@ -16,7 +16,9 @@ const volunteerList=require('./routes/VolunteerList');
 const volunteer=require('./routes/volunteer');
 const FeedbackList_NormRoutes=require('./routes/feedbcakList');
 const forgotPass=require('./routes/forgotPassword')
-const UserPage=require('./routes/UserPage')
+const Donorpage=require('./routes/Donorpage')
+const Requesterpage=require('./routes/Requesterpage')
+const Adminpage=require('./routes/Adminpage');
 //create multiple apis.. with different file names
 
 // const fs = require('fs');
@@ -43,7 +45,9 @@ app.use('/volunteerRegistration',volunteerRegistration);
 app.use('/Volunteerlist',volunteerList);
 app.use('/Volunteer',volunteer);
 app.use('/ForgotPass',forgotPass);
-app.use('/UserPage',UserPage)
+app.use('/DonorPage',Donorpage);
+app.use('/Requesterpage',Requesterpage);
+app.use('/Adminpage',Adminpage);
 
 app.use(
   bodyParser.urlencoded({

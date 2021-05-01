@@ -1,8 +1,7 @@
 <template>
     <div class="vue-tempalte">
         <form @submit="formSubmit">
-            <h3>Login</h3>
-
+            <h3>Login</h3>    
             <div class="form-group">
                 <label>Username</label>
                 <input type="email" class="form-control form-control-lg" v-model="Email" required/>
@@ -15,12 +14,18 @@
   
 
             <button type="submit" class="btn btn-dark btn-lg btn-block" onclick="clear()">Login</button>
-            
-
+        
             <p class="forgot-password text-right mt-2 mb-4">
                 <router-link to="/forgot-password">Forgot password ?</router-link>
             </p>
-
+            <label style="margin-left:30% ">Login As</label>
+            <select v-model="selected" style="margin-left:30% " required>
+               <option>Admin</option>
+               <option>Donor</option>
+               <option>Requester</option>
+               <option>Volunteer</option>
+            </select>
+            <br><br>
            <div class="social-icons">
                 <a href="#" class="fa fa-facebook"></a>
                 <a href="#" class="fa fa-google"></a>
@@ -48,6 +53,7 @@ import router from '../router/index'
                 loginInfo:{
                   Email : '',
                   pass : '',
+                  selected:'',
                   submitted:false,
                   
                   
@@ -55,14 +61,12 @@ import router from '../router/index'
             
             }
         },
+        
           methods: {
          formSubmit(e) {
                 e.preventDefault();
                 let currentObj = this;
                 this.submitted=true;
-                localStorage.setItem("Email",this.Email)
-                localStorage.setItem("pass",this.pass)
-                console.log("Email(login)"+this.Email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
                 };
@@ -70,6 +74,7 @@ import router from '../router/index'
                     
                     Email : this.Email,
                     pass : this.pass,
+                    selected:this.selected
 
                 },config)
                   .then(function (response) {
@@ -78,13 +83,18 @@ import router from '../router/index'
                     console.log(response.data);
                     console.log(JSON.stringify(response));
 
-                    if(currentObj.output.statusCode == "201" || currentObj.output.statusMessage=="success User")  
-                      router.push({ name: "Userpage"});
-                    else if(currentObj.output.statusCode == "200" || currentObj.output.statusMessage=="success Admin")
+                    if(currentObj.output.statusCode == '200' || currentObj.output.statusMessage =="success User")  
+                      {console.log("Enter")
+                      router.push({ name: "Adminpage"});}
+                    else if(currentObj.output.statusCode == '201' || currentObj.output.statusMessage=="success donor")
                     {
-                        router.push({name:"Adminpage"})
+                        router.push({name:"Donorpage"})
                     }
-                    else if(currentObj.output.statusCode == "202" || currentObj.output.statusMessage=="success Volunteer")
+                    else if(currentObj.output.statusCode == '202' || currentObj.output.statusMessage=="success requester")
+                    {
+                        router.push({name:"Requesterpage"})
+                    }
+                     else if(currentObj.output.statusCode == '203' || currentObj.output.statusMessage=="success Volunteer")
                     {
                         router.push({name:"volunteer"})
                     }
@@ -95,7 +105,7 @@ import router from '../router/index'
                       this.mounted()
 
                       //alert.reset("wrong Email and Password")
-                      router.push({ name: "login"}).mounted();
+                      router.push({ name: "Login"}).mounted();
                     
                     }
                                          
@@ -110,5 +120,8 @@ import router from '../router/index'
         
     }
 </script>
+<style scoped>
+
+</style>
 
 
