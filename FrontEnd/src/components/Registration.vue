@@ -85,7 +85,7 @@ import router from '../router/index'
                 e.preventDefault();
                 let currentObj = this;
                 var config = {
-                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
+                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'}
                 };
                 axios.post('http://localhost:8082/Register/registerRoute', {
                     fullName: this.fullName,

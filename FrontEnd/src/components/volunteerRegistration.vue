@@ -80,7 +80,7 @@ import router from '../router/index'
                 
                 formData.append('file',this.file);
                 var config = {
-                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
+                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8080',
                    'Content-Type': 'multipart/form-data' }
                 };
                 post('http://localhost:8082/volunteerRegistration/volunteerRegistrationRoute', formData,config)

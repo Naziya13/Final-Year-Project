@@ -42,7 +42,7 @@ import router from '../router/index'
     created() {
 
         var config = {
-          headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
+          headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'}
           };
           let currentObj=this;
           
@@ -66,7 +66,7 @@ import router from '../router/index'
     methods:{
         Logout(){
               var config = {
-          headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
+          headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'}
           };
           
           axios.post('http://localhost:8082/Adminpage/logout',{ 
