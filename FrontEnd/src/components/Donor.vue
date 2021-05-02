@@ -19,7 +19,7 @@
             </div>
              <div class="form-group">
                 <label>Address</label>
-                <textarea class="form-control" rows="1" id="comment" v-model="address" required></textarea>
+                {{address}}
             </div>
              <div class="form-group">
                  <label>Offer</label>
@@ -63,12 +63,13 @@ import router from '../router/index'
             console.log('Component mounted.')
           let currentObj=this;
 
-           axios.get('http://localhost:8082/Donor/donorRoute2')
+           axios.get('http://localhost:8082/donor/donorRoute2')
                 .then(function(response)
                 {
                     currentObj.fullName=response.data.data.Items[0].name;
                     currentObj.email=response.data.data.Items[0].email;
                     currentObj.mobile=response.data.data.Items[0].mobile;
+                    currentObj.address=response.data.data.Items[0].address;
                     
 
                     console.log(response.data.data.Items)
@@ -91,16 +92,16 @@ import router from '../router/index'
                 //uplaod file
                 let formData=new FormData();
                 formData.append('offer',this.offer);
-                formData.append('address',this.address)
+                
                 formData.append('file',this.file);
                 formData.append('email',this.email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
                    'Content-Type': 'multipart/form-data' }
                 };
-                post('http://localhost:8082/Donor/donorRoute', formData,config)
+                post('http://localhost:8082/donor/donorRoute', formData,config)
                 .then(function (response) {
-                    currentObj.output = response.data.address;
+                    
                     currentObj.output=response.data.offer;
                     currentObj.output=response.data.file;
                     currentObj.output=response.data.email

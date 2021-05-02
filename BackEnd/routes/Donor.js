@@ -74,7 +74,7 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
 
     const {
       offer,
-      address,
+      
       email
     } = req.body;
  
@@ -88,10 +88,11 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
         Key:{
           "email":email
         },
-          "OfferProduct":offer,
-          "address":address
-      }
-  };
+        // updateExpression: " set OfferProduct"="offer"
+        //  },
+         // ReturnValues:"Update_New"
+  }
+}
     docClient.put(params).promise().then(data =>
     console.log(data.Attributes)).catch(console.error);
 

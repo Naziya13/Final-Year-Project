@@ -90,6 +90,16 @@ Vue.use(VueRouter)
     component:()=>import('../components/Donorpage.vue')
   },
   {
+    path:'/DonHis',
+    name:'DonHis',
+    component:()=>import('../components/DonHis.vue')
+  },
+  {
+    path:'/ReqHis',
+    name:'ReqHis',
+    component:()=>import('../components/ReqHis.vue')
+  },
+  {
     path:'/Requesterpage',
     name:'Requesterpage',
     component:()=>import('../components/Requesterpage.vue')

@@ -67,4 +67,91 @@ docClient.put(params).promise().then(data =>
   
     res.json("Successfully Inserted to Database..")
   });
+  
+  router.get('/donorRoute2',cors(corsOptions),(req,res)=>{
+
+    var params={
+      TableName:"sessionDB"
+    }
+  
+    docClient.scan(params,function(err,data1){
+  
+      console.log("response from db: ",JSON.stringify(data1))
+      if(err){
+        console.log(err);
+      }
+      else{
+       
+          console.log("sucessful data fetch",data1.Item);
+          if(data1.Item.Type=="Donor"){
+          var params={
+            TableName:"Donor",
+            Key:{
+              "email":data1.Items.email
+            }
+  
+          }
+          
+            docClient.scan(params,function(err,data){
+  
+              console.log("response from db: ",JSON.stringify(data))
+              if(err){
+                console.log(err);
+              }
+              else{ 
+               var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
+                res.json(object)
+              }
+            })
+          }   
+          else if(data1.Items.Type=="Requester")
+          {
+            var params={
+              TableName:"requester",
+              Key:{
+                "email":data1.Items.email
+              }
+    
+            }
+            
+              docClient.scan(params,function(err,data){
+    
+                console.log("response from db: ",JSON.stringify(data))
+                if(err){
+                  console.log(err);
+                }
+                else{ 
+                 var object = { message : ' Successfull fetched',statusCode : '201' , statusMessage : 'success', 'data' : data};
+                  res.json(object)
+                }
+              })
+          }      
+          else if(data1.Items.Type=="Volunteer")
+          {
+            var params={
+              TableName:"Volunteers",
+              Key:{
+                "email":data1.Items.email
+              }
+    
+            }
+            
+              docClient.scan(params,function(err,data){
+    
+                console.log("response from db: ",JSON.stringify(data))
+                if(err){
+                  console.log(err);
+                }
+                else{ 
+                 var object = { message : ' Successfull fetched',statusCode : '202' , statusMessage : 'success', 'data' : data};
+                  res.json(object)
+                }
+              })
+          } 
+          else{
+            console.log("not find...")
+          }
+      }
+    })
+  })
   module.exports = router

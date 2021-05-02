@@ -16,9 +16,9 @@
                 <tr v-for="(row,id) in rows"  v-bind:Key="id">
                     <td>{{id+1}}</td>
                     <td>{{row.email}}</td>
-                    <td>{{row.FullName}}</td>
-                   <td>{{row.mobileNo}}</td>
-                    <td>{{row.Address}}</td>
+                    <td>{{row.name}}</td>
+                   <td>{{row.phone}}</td>
+                    <td>{{row.address}}</td>
                     <td>{{row.RequestProduct}}</td>
                 </tr>
             </tbody>
@@ -32,7 +32,7 @@ import router from '../router/index'
 export default {
     data() {
         return {
-            rows: [['mobileNo','FullName','address','email','RequestProduct']],
+            rows: [['phone','name','address','email','RequestProduct']],
             id:[]
                
         }

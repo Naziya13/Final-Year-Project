@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label>Address</label>
-                <textarea class="form-control" rows="1" id="comment" required></textarea>
+                <textarea class="form-control" rows="1" id="comment" v-model="address" required></textarea>
             </div>
             <label>Register As</label>
             <br>
@@ -74,6 +74,7 @@ import router from '../router/index'
                   email : '',
                   pass : '',
                   mob : '',
+                  address:'',
                   male : '',
                   female : '',
                   other : '',
@@ -94,6 +95,7 @@ import router from '../router/index'
                     mob : this.mob,
                     male : this.male,
                     female : this.female,
+                    address:this.address,
                     other : this.other,
                     selected:this.selected
                 },config)

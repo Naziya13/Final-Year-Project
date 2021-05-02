@@ -1,6 +1,6 @@
 <template>
     <div class="vue-tempalte" >
-        <h3 class="p-3 text-center">List Of Donor's</h3>
+        <h3 class="p-3 text-center">History Donor</h3>
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -46,7 +46,7 @@ export default {
           };
           let currentObj=this;
           
-        axios.get('http://localhost:8082/donorlist/adminRoute',config)
+        axios.get('http://localhost:8082/donorHis/donorRoute',config)
         .then(function(response){
             currentObj.id=1
             for(var i=0;i<(response.data.data.Items).length;i++)

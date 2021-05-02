@@ -71,7 +71,8 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
           "gender":gender,
           "name": fullName,
           "mobile":mob ,
-          "password":pass
+          "password":pass,
+          "OfferProduct":""
       }
   };
 
@@ -92,8 +93,9 @@ else
       "address":address,
       "gender":gender,
       "name": fullName,
-      "phone":mob ,
-      "password":pass
+      "mobile":mob ,
+      "password":pass,
+      "RequestProduct":""
   }
 };
 

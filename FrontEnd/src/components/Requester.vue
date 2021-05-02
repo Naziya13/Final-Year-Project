@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label>Address</label>
-                <textarea class="form-control" rows="1" id="comment" required></textarea>
+               {{address}}
             </div>
             <fieldset class="form-group">
                 <legend>Request Product</legend>
@@ -75,6 +75,7 @@ import router from '../router/index'
             currentObj.fullName=response.data.data.Items[0].name;
             currentObj.email=response.data.data.Items[0].email;
             currentObj.mobile=response.data.data.Items[0].phone;
+            currentObj.address=response.data.data.Items[0].address;
            
              if(response.statusCode=="200")
                 router.push("Thankyou")
@@ -98,7 +99,7 @@ import router from '../router/index'
                  let formData=new FormData();
                 formData.append('selected',this.selected);
                 formData.append('file',this.file);
-                formData.append('address',this.address);
+                
                 formData.append('email',this.email)
                 var config = {
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081',
@@ -107,7 +108,7 @@ import router from '../router/index'
                 axios.post('http://localhost:8082/requester/requestRoute', formData,config)
                 .then(function (response) {
                     currentObj.output = response.data.selected;
-                    currentObj.output=response.data.address;
+                    
                     currentObj.output=response.data.file;
                     currentObj.output=response.data.email;
                    // console.log(JSON.stringify(response));

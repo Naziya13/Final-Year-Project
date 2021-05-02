@@ -19,9 +19,9 @@
         <tbody>
             <tr v-for="(row,id) in donor" v-bind:Key="id">
               
-                <td>{{row.FullName}}</td>
-                <td>{{row.mobileNo}}</td>
-                <td>{{row.Address}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.mobile}}</td>
+                <td>{{row.address}}</td>
                 <td>{{row.OfferProduct}}</td>
             </tr>
         </tbody>
@@ -42,9 +42,9 @@
       <tbody>
             <tr v-for="(row,id) in requester" v-bind:Key="id">
                 
-                <td>{{row.FullName}}</td>
-                <td>{{row.mobileNo}}</td>
-                <td>{{row.Address}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.mobile}}</td>
+                <td>{{row.address}}</td>
                 <td>{{row.RequestProduct}}</td>
             </tr>
       </tbody>
@@ -72,10 +72,10 @@ import router from '../router/index'
     data() {
       return {
         donor: [
-          ['mobileNo','FullName','address','email','OfferProduct']
+          ['mobile','name','address','email','OfferProduct']
           ],
         requester: [
-        ['mobileNo','FullName','Address','email','RequestProduct']   
+        ['mobile','name','address','email','RequestProduct']   
         ],
         Volunteer:'',
         file:''

@@ -3,7 +3,7 @@
         <form>
             <h5 style="margin-left:30%">{{Name}}</h5>
            <p class="forgot-password text-center mb-5">
-            <router-link to="">History</router-link>
+            <router-link to="/DonHis">History</router-link>
         </p>
         <p class="forgot-password text-center mb-5">
             <router-link to="/Donor">Donate Product</router-link>

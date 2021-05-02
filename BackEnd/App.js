@@ -19,6 +19,8 @@ const forgotPass=require('./routes/forgotPassword')
 const Donorpage=require('./routes/Donorpage')
 const Requesterpage=require('./routes/Requesterpage')
 const Adminpage=require('./routes/Adminpage');
+const donorHis=require('./routes/donorHis');
+const reqHis=require('./routes/requesterHis')
 //create multiple apis.. with different file names
 
 // const fs = require('fs');
@@ -48,6 +50,8 @@ app.use('/ForgotPass',forgotPass);
 app.use('/DonorPage',Donorpage);
 app.use('/Requesterpage',Requesterpage);
 app.use('/Adminpage',Adminpage);
+app.use('/donorHis',donorHis);
+app.use('/reqHis',reqHis);
 
 app.use(
   bodyParser.urlencoded({

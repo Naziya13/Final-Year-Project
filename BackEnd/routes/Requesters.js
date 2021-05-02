@@ -135,7 +135,7 @@ router.post("/requestRoute",cors(corsOptions),uploads.single('file'), (req, res)
   console.log("reqFile:" + JSON.stringify(req.file));
   const {
     selected,
-    address,
+    
     email
    
   } = req.body;
@@ -148,8 +148,8 @@ router.post("/requestRoute",cors(corsOptions),uploads.single('file'), (req, res)
       Key:{
         "email":email
       },
-        "RequestProduct":selected,
-        "adress":address
+        "RequestProduct":selected
+      
     }
 };
 docClient.put(params).promise().then(data =>
