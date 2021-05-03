@@ -114,8 +114,6 @@ router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
       let Email = JSON.stringify(E[0])
       Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
 
-
-
       console.log("sucessful data fetch", data1.Item);
 
       if (type[0] == "Donor") {
