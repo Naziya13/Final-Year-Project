@@ -10,6 +10,7 @@
                     <th>Mobile No.</th>
                     <th>Address</th>
                     <th>Offer</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +20,8 @@
                     <td>{{row.name}}</td>
                     <td>{{row.mobile}}</td>
                     <td>{{row.address}}</td>
-                    <td>{{row.OfferProduct}}</td>
+                     <td>{{row.OfferProduct}}</td>
+                  
                 </tr>
             </tbody>
         </table>
@@ -30,6 +32,7 @@
 import axios from 'axios'
 
 import router from '../router/index'
+
 export default {
  
    // el:"#table",
@@ -42,27 +45,32 @@ export default {
     created() {
 
         var config = {
-          headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
+          headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'}
           };
           let currentObj=this;
           
         axios.get('http://localhost:8082/donorHis/donorRoute',config)
         .then(function(response){
             currentObj.id=1
-            for(var i=0;i<(response.data.data.Items).length;i++)
+            delete response.data.data.Item.gender;
+           
+            delete response.data.data.Item.password;
+            for(var i=0;i<(response.data.data.Item).length;i++)
             {   
-                currentObj.rows=response.data.data.Items;
+                currentObj.rows=response.data.data.Item;
+                
                 currentObj.id=+i;
             }
             
-            console.log((response.data.data.Items).length)
-            console.log(response.data.data.Items)
-            if(response == null || response == "undefined")
+            console.log(response.data.data.Item.email)
+            
+            console.log(response.data.data.Item)
+            if(response.statusCode == '200' )
                 router.push('donorlist')
         })
         .catch(function(error){
             console.log(error)
-            router.push('homepage')
+            
         })
  
     }

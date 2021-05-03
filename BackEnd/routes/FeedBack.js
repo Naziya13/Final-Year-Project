@@ -1,14 +1,16 @@
 const router = require("express").Router();
 var cors = require('cors')
 const fs = require("fs");
-var AWS =require('aws-sdk');
-var awsconfig={"region":"ap-south-1",
-"endpoint":"http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'}
+var AWS = require('aws-sdk');
+var awsconfig = {
+  "region": "ap-south-1",
+  "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
+}
 
 AWS.config.update(awsconfig)
-var docClient=new AWS.DynamoDB.DocumentClient();
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
   origin: 'http://localhost:8081',
@@ -36,122 +38,160 @@ router.get("/", (req, res) => res.json('welcome'));
 
 
 //1.2 ************ UI - Feedback api*************
-router.post("/feedbackRoute",cors(corsOptions), async(req, res) => {
-    console.log("reqBody:" + JSON.stringify(req.body));
-    const {
-      fullName,
-      email,
-      mob,
-      suggestions,
-      feedback
-      
-    } = req.body;
-    
-    console.log('fullname : '+JSON.stringify(fullName));
-     //write code for adding new users to database...
-     var params = { 
-      TableName:"Feedback",
-      Item: {  
-          "email": email, 
-          "FullName": fullName,
-          "mobileNo": mob,
-          "feedback":feedback,
-          "suggestions": suggestions
-      }
+router.post("/feedbackRoute", cors(corsOptions), async (req, res) => {
+  console.log("reqBody:" + JSON.stringify(req.body));
+  const {
+    fullname,
+    email,
+    mobile,
+    type,
+    suggestions,
+    feedback
+
+  } = req.body;
+
+  console.log('fullname : ' + JSON.stringify(fullname));
+  //write code for adding new users to database...
+  var params = {
+    TableName: "Feedback",
+    Item: {
+      "email": email,
+      "FullName": fullname,
+      "mobileNo": mobile,
+      "feedback": feedback,
+      "suggestions": suggestions
+    }
   };
 
 
-docClient.put(params).promise().then(data =>
-  console.log(data.Attributes)).catch(console.error);
-
-  
-    res.json("Successfully Inserted to Database..")
-  });
-  
-  router.get('/donorRoute2',cors(corsOptions),(req,res)=>{
-
-    var params={
-      TableName:"sessionDB"
+  docClient.put(params,function(err,data){
+    if(err)
+    {
+      console.log(err)
     }
-  
-    docClient.scan(params,function(err,data1){
-  
-      console.log("response from db: ",JSON.stringify(data1))
-      if(err){
-        console.log(err);
-      }
-      else{
-       
-          console.log("sucessful data fetch",data1.Item);
-          if(data1.Item.Type=="Donor"){
-          var params={
-            TableName:"Donor",
-            Key:{
-              "email":data1.Items.email
-            }
-  
-          }
-          
-            docClient.scan(params,function(err,data){
-  
-              console.log("response from db: ",JSON.stringify(data))
-              if(err){
-                console.log(err);
-              }
-              else{ 
-               var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
-                res.json(object)
-              }
-            })
-          }   
-          else if(data1.Items.Type=="Requester")
-          {
-            var params={
-              TableName:"requester",
-              Key:{
-                "email":data1.Items.email
-              }
-    
-            }
-            
-              docClient.scan(params,function(err,data){
-    
-                console.log("response from db: ",JSON.stringify(data))
-                if(err){
-                  console.log(err);
-                }
-                else{ 
-                 var object = { message : ' Successfull fetched',statusCode : '201' , statusMessage : 'success', 'data' : data};
-                  res.json(object)
-                }
-              })
-          }      
-          else if(data1.Items.Type=="Volunteer")
-          {
-            var params={
-              TableName:"Volunteers",
-              Key:{
-                "email":data1.Items.email
-              }
-    
-            }
-            
-              docClient.scan(params,function(err,data){
-    
-                console.log("response from db: ",JSON.stringify(data))
-                if(err){
-                  console.log(err);
-                }
-                else{ 
-                 var object = { message : ' Successfull fetched',statusCode : '202' , statusMessage : 'success', 'data' : data};
-                  res.json(object)
-                }
-              })
-          } 
-          else{
-            console.log("not find...")
-          }
-      }
-    })
+    else{
+     if(type=="Donor")
+     {
+      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success Donor', 'data': data };
+      res.json(object)
+     }
+     else if(type=="Requester")
+     {
+      var object = { message: ' Successfull fetched', statusCode: '201', statusMessage: 'success Requester', 'data': data };
+      res.json(object)
+     }
+     else{
+      var object = { message: ' Successfull fetched', statusCode: '202', statusMessage: 'success Volunteer', 'data': data };
+      res.json(object)
+     }
+    }
   })
-  module.exports = router
+});
+
+router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
+
+  var params = {
+    TableName: "sessionDB"
+  }
+
+  docClient.scan(params, function (err, data1) {
+
+    console.log("response from db: ", JSON.stringify(data1))
+    if (err) {
+      console.log(err);
+    }
+    else {
+      let type = [];
+      let E=[];
+      var i = 0;
+      //console.log("sucessful data fetch",data.Items); 
+      data1.Items.forEach((record) => {
+        type[i] = record.Type;
+        E[i]=record.email
+        i++;
+        //console.log(record.Type)
+      })
+
+      console.log(type)
+      
+      let Email = JSON.stringify(E[0])
+      Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+     
+     
+
+      console.log("sucessful data fetch", data1.Item);
+ 
+      if(type[0] == "Donor") {
+        console.log("matched..donor")
+        var params = {
+          TableName: "Donor",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db donor: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            data.Item.Type=type[0]
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else if (type[0] === "Requester") {
+        var params = {
+          TableName: "requester",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            data.Item.Type=type[0]
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else if (type[0] == "Volunteer") {
+        var params = {
+          TableName: "Volunteers",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            data.Item.Type=type[0]
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else {
+        console.log("not find...")
+      }
+    }
+  })
+})
+module.exports = router

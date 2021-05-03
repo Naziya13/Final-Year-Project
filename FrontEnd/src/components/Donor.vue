@@ -66,10 +66,10 @@ import router from '../router/index'
            axios.get('http://localhost:8082/donor/donorRoute2')
                 .then(function(response)
                 {
-                    currentObj.fullName=response.data.data.Items[0].name;
-                    currentObj.email=response.data.data.Items[0].email;
-                    currentObj.mobile=response.data.data.Items[0].mobile;
-                    currentObj.address=response.data.data.Items[0].address;
+                    currentObj.fullName=response.data.data.Item.name;
+                    currentObj.email=response.data.data.Item.email;
+                    currentObj.mobile=response.data.data.Item.mobile;
+                    currentObj.address=response.data.data.Item.address;
                     
 
                     console.log(response.data.data.Items)
@@ -92,7 +92,11 @@ import router from '../router/index'
                 //uplaod file
                 let formData=new FormData();
                 formData.append('offer',this.offer);
-                
+                //formData.append('fullName',this.fullName);
+                //formData.append('mobile',this.mobile);
+                //formData.append('address',this.address);
+                //formData.append('pass',this.pass);
+                //formData.append('gender',this.gender);
                 formData.append('file',this.file);
                 formData.append('email',this.email)
                 var config = {

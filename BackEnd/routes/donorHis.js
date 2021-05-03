@@ -44,14 +44,24 @@ router.get("/donorRoute", cors(corsOptions),(req, res) => {
     }
     else{
      
-        console.log("sucessful data fetch",data1.Item); 
+        console.log("sucessful data fetch",data1.Item);
+        let E = [];
+        var i = 0;
+        data1.Items.forEach((record) => {
+          E[i] = record.email;
+          i++;
+          //console.log(record.email)
+        })
+        //console.log("Email:" + E) 
+        let Email=JSON.stringify(E[0])
+        Email=Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
         var params={
             TableName:"Donor",
             Key:{
-                "email":data1.Items.email
+                "email":Email
             }
         }
-        docClient.scan(params,function(err,data)
+        docClient.get(params,function(err,data)
         {
         var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
         res.json(object);          

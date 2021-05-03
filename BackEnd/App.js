@@ -17,6 +17,7 @@ const volunteer=require('./routes/volunteer');
 const FeedbackList_NormRoutes=require('./routes/feedbcakList');
 const forgotPass=require('./routes/forgotPassword')
 const Donorpage=require('./routes/Donorpage')
+const volLastpage=require('./routes/volLastpage')
 const Requesterpage=require('./routes/Requesterpage')
 const Adminpage=require('./routes/Adminpage');
 const donorHis=require('./routes/donorHis');
@@ -52,6 +53,7 @@ app.use('/Requesterpage',Requesterpage);
 app.use('/Adminpage',Adminpage);
 app.use('/donorHis',donorHis);
 app.use('/reqHis',reqHis);
+app.use('/volLast',volLastpage)
 
 app.use(
   bodyParser.urlencoded({

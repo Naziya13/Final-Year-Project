@@ -40,9 +40,9 @@ export default {
         axios.get('http://localhost:8082/Requesterpage/RequestRoute',config)
         .then(function(response){
  console.log(response.data.data.Items)
-            currentObj.Name=response.data.data.Items[0].name
-            currentObj.email=response.data.data.Items[0].email
-            console.log(response.data.data.Items)
+            currentObj.Name=response.data.data.Item.name
+            currentObj.email=response.data.data.Item.email
+            console.log(response.data.data.Item)
             if(response.statusMessage == "success" || response.statusCode == "200")
                 router.push('Requesterpage')
         })

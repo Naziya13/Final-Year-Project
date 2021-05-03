@@ -59,6 +59,7 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
     var gender='other';
   }
     console.log('fullname : '+JSON.stringify(fullName));
+    console.log(typeof(selected))
 
   if(selected=="Donor")
   {
@@ -71,8 +72,8 @@ router.post("/registerRoute",cors(corsOptions), (req, res) => {
           "gender":gender,
           "name": fullName,
           "mobile":mob ,
-          "password":pass,
-          "OfferProduct":""
+          "password":pass
+          
       }
   };
 
@@ -94,8 +95,8 @@ else
       "gender":gender,
       "name": fullName,
       "mobile":mob ,
-      "password":pass,
-      "RequestProduct":""
+      "password":pass
+      
   }
 };
 

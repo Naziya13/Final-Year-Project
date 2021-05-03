@@ -100,6 +100,11 @@ Vue.use(VueRouter)
     component:()=>import('../components/ReqHis.vue')
   },
   {
+    path:'/volLastpage',
+    name:'volLastpage',
+    component:()=>import('../components/volLastpage.vue')
+  },
+  {
     path:'/Requesterpage',
     name:'Requesterpage',
     component:()=>import('../components/Requesterpage.vue')

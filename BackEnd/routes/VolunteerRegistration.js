@@ -90,10 +90,10 @@ router.post("/volunteerRegistrationRoute",cors(corsOptions),uploads.single('file
       TableName:"Volunteers",
       Item: {  
           "email": email, 
-          "FullName":fullName,
+          "name":fullName,
           "password":pass,
-          "mobileNo":mob,
-          "Address":address
+          "mobile":mob,
+          "address":address
           //"Date/Time":Date.now().toString
           
 

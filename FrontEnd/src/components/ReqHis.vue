@@ -17,7 +17,7 @@
                     <td>{{id+1}}</td>
                     <td>{{row.email}}</td>
                     <td>{{row.name}}</td>
-                   <td>{{row.phone}}</td>
+                   <td>{{row.mobile}}</td>
                     <td>{{row.address}}</td>
                     <td>{{row.RequestProduct}}</td>
                 </tr>
@@ -32,7 +32,7 @@ import router from '../router/index'
 export default {
     data() {
         return {
-            rows: [['phone','name','address','email','RequestProduct']],
+            rows: [['mobile','name','address','email','RequestProduct']],
             id:[]
                
         }
@@ -46,21 +46,21 @@ export default {
           
         axios.get('http://localhost:8082/reqHis/reqRoute',config)
         .then(function(response){
-            for(var i=0;i<(response.data.data.Items).length;i++)
+            for(var i=0;i<(response.data.data.Item).length;i++)
             {   
-                currentObj.rows=response.data.data.Items;  
+                currentObj.rows=response.data.data.Item;  
                 currentObj.id=+i;
 
             }
             
-            console.log((response.data.data.Items).length)
-            console.log(response.data.data.Items)
-            if(response == null || response == "undefined")
+           // console.log((response.data.data.Item).length)
+            console.log(response.data.data.Item)
+            if(response.statusCode == '200' )
                 router.push('donorlist')
         })
         .catch(function(error){
             console.log(error)
-            router.push('homepage')
+            
         })
  
     }

@@ -74,7 +74,11 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
 
     const {
       offer,
-      
+      //name,
+      //address,
+     // pass,
+      //gender,
+      //mobile,
       email
     } = req.body;
  
@@ -85,16 +89,29 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
       TableName:"Donor",
 
       Item: { 
-        Key:{
+    Key:{
           "email":email
-        },
-        // updateExpression: " set OfferProduct"="offer"
-        //  },
-         // ReturnValues:"Update_New"
+
+    },
+        //  "1":address,
+         // "gender":gender,
+          //"name": fullName,
+          //"mobile":mob ,
+          //"password":pass,
+        
+        "OfferProduct":offer
   }
 }
-    docClient.put(params).promise().then(data =>
-    console.log(data.Attributes)).catch(console.error);
+   docClient.put(params,function(err,data)
+   {
+     if(err)
+     {
+       console.log(err)
+     }
+     else{
+       res.json("sucessfull inserted...")
+     }
+   })
 
   // s3 upload
 
@@ -105,7 +122,7 @@ router.post("/donorRoute",cors(corsOptions),uploads.single('file'), (req, res) =
       console.error(error);
       res.json("file upload failed....")
     }   
-    res.json("successfuly inserted in database...")
+   // res.json("successfuly inserted in database...")
 });
 
 router.get('/donorRoute2',cors(corsOptions),(req,res)=>{
@@ -123,15 +140,28 @@ router.get('/donorRoute2',cors(corsOptions),(req,res)=>{
     else{
      
         console.log("sucessful data fetch",data1.Item);
+        let E = [];
+        var i = 0;
+        //console.log("sucessful data fetch",data.Items); 
+        data1.Items.forEach((record) => {
+          E[i] = record.email;
+          i++;
+          console.log(record.email)
+        })
+        console.log("Email:" + E)
+
+        let Email=JSON.stringify(E[0])
+        Email=Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+        //console.log(mail)
         var params={
           TableName:"Donor",
           Key:{
-            "email":data1.Items.email
+            "email":Email
           }
 
         }
         
-          docClient.scan(params,function(err,data){
+          docClient.get(params,function(err,data){
 
             console.log("response from db: ",JSON.stringify(data))
             if(err){
