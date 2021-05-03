@@ -1,17 +1,19 @@
 const router = require("express").Router();
 var cors = require('cors')
-var AWS =require('aws-sdk');
-var awsconfig={"region":"ap-south-1",
-"endpoint":"http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'}
+var AWS = require('aws-sdk');
+var awsconfig = {
+  "region": "ap-south-1",
+  "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
+}
 
 
 AWS.config.update(awsconfig)
-var docClient=new AWS.DynamoDB.DocumentClient();
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -30,25 +32,25 @@ router.use(
 router.use(bodyParser.json());
 
 // 1.1 ********** server test api **************
-router.get("/feedbackRoute", cors(corsOptions),(req, res) => {
-  
-  var params={
-    TableName:'Feedback'
+router.get("/feedbackRoute", cors(corsOptions), (req, res) => {
+
+  var params = {
+    TableName: 'Feedback'
   };
 
-  docClient.scan(params,function(err,data){
+  docClient.scan(params, function (err, data) {
 
-    console.log("response from db: ",JSON.stringify(data))
-    if(err){
+    console.log("response from db: ", JSON.stringify(data))
+    if (err) {
       console.log(err);
     }
-    else{
-     
-        console.log("sucessful data fetch",data.Item); 
-        var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : data};
-        res.json(object);          
+    else {
+
+      console.log("sucessful data fetch", data.Item);
+      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+      res.json(object);
     }
-    
+
   });
 
 
@@ -56,4 +58,4 @@ router.get("/feedbackRoute", cors(corsOptions),(req, res) => {
 
 
 
-  module.exports = router;
+module.exports = router;

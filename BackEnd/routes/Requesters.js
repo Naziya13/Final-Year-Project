@@ -1,17 +1,19 @@
 const router = require("express").Router();
 var cors = require('cors')
-var AWS =require('aws-sdk');
-var multer  = require('multer');
+var AWS = require('aws-sdk');
+var multer = require('multer');
 var multerS3 = require('multer-s3');
 
 
-var awsconfig={"region":"ap-south-1",
-"endpoint":"http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'}
+var awsconfig = {
+  "region": "ap-south-1",
+  "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
+}
 
 AWS.config.update(awsconfig)
-var docClient=new AWS.DynamoDB.DocumentClient();
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
   origin: 'http://localhost:8080',
@@ -43,117 +45,119 @@ var storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + Date.now())
   }
 })
- 
-var upload = multer({ storage: storage },{ dest: 'uploads/' });
+
+var upload = multer({ storage: storage }, { dest: 'uploads/' });
 
 
-const s3=new AWS.S3({"region":"ap-south-1",
-"endpoint":"http://s3.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'});
-  
+const s3 = new AWS.S3({
+  "region": "ap-south-1",
+  "endpoint": "http://s3.ap-south-1.amazonaws.com",
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
+});
+
 
 
 //const bucket_name='requesters-bucket';
 var uploads = multer({
-storage: multerS3({
+  storage: multerS3({
     s3: s3,
     bucket: 'requesters-bucket',
     key: function (req, file, cb) {
-        console.log(file);
-        cb(null, file.originalname+ '-' + Date.now()); //use Date.now() for unique file keys
+      console.log(file);
+      cb(null, file.originalname + '-' + Date.now()); //use Date.now() for unique file keys
     }
-})
+  })
 });
 
 // 1.1 ********** Get Offer product api **************
-router.get("/RequestDetails",cors(corsOptions),  (req, res) => {
-var params={
-  TableName:'Donor',
-  projectionExpression:'OfferProduct'
+router.get("/RequestDetails", cors(corsOptions), (req, res) => {
+  var params = {
+    TableName: 'Donor',
+    projectionExpression: 'OfferProduct'
 
-}
-
-docClient.scan(params,function(err,data){
-
-  //console.log("response from db: ",JSON.stringify(data.Items))
-  if(err){
-    console.log(err);
   }
-  else{
-      let offer=[];
-      var i=0;
+
+  docClient.scan(params, function (err, data) {
+
+    //console.log("response from db: ",JSON.stringify(data.Items))
+    if (err) {
+      console.log(err);
+    }
+    else {
+      let offer = [];
+      var i = 0;
       //console.log("sucessful data fetch",data.Items); 
       data.Items.forEach((record) => {
-        offer[i]=record.OfferProduct;
+        offer[i] = record.OfferProduct;
         i++;
         console.log(record.OfferProduct)
       })
 
       console.log(offer)
-      
-  var params={
-    TableName:"sessionDB"
-  }
 
-  docClient.scan(params,function(err,data){
+      var params = {
+        TableName: "sessionDB"
+      }
 
-    console.log("response from db: ",JSON.stringify(data))
-    if(err){
-      console.log(err);
-    }
-    else{
-     
-        console.log("sucessful data fetch",data.Item);
-        var params={
-          TableName:"requester",
-          Key:{
-            "email":data.Items.email
-          },
+      docClient.scan(params, function (err, data) {
+
+        console.log("response from db: ", JSON.stringify(data))
+        if (err) {
+          console.log(err);
+        }
+        else {
+
+          console.log("sucessful data fetch", data.Item);
+          var params = {
+            TableName: "requester",
+            Key: {
+              "email": data.Items.email
+            },
           }
-        
-          docClient.scan(params,function(err,Don_data){
 
-            console.log("response from db: ",JSON.stringify(Don_data))
-            if(err){
+          docClient.scan(params, function (err, Don_data) {
+
+            console.log("response from db: ", JSON.stringify(Don_data))
+            if (err) {
               console.log(err);
             }
-            else{ 
-              Don_data.Items.OfferProduct=offer
-             var object = { message : ' Successfull fetched',statusCode : '200' , statusMessage : 'success', 'data' : Don_data};
+            else {
+              Don_data.Items.OfferProduct = offer
+              var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': Don_data };
               res.json(object);
             }
-          })          
+          })
+        }
+      })
+
     }
   })
-  
-  }
-})
 });
-router.post("/requestRoute",cors(corsOptions),uploads.single('file'), (req, res) => {
+router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, res) => {
   console.log("reqBody:" + JSON.stringify(req.body));
   console.log("reqFile:" + JSON.stringify(req.file));
   const {
     selected,
-    
+
     email
-   
+
   } = req.body;
 
- 
-   //write code for adding new users to database...
-   var params = { 
-    TableName:"requester",
-    Items: {  
-      Key:{
-        "email":email
+
+  //write code for adding new users to database...
+  var params = {
+    TableName: "requester",
+    Items: {
+      Key: {
+        "email": email
       },
-        "RequestProduct":selected
-      
+      "RequestProduct": selected
+
     }
-};
-docClient.put(params).promise().then(data =>
-console.log(data.Attributes)).catch(console.error);
+  };
+  docClient.put(params).promise().then(data =>
+    console.log(data.Attributes)).catch(console.error);
 
   // s3 upload
 
@@ -163,13 +167,13 @@ console.log(data.Attributes)).catch(console.error);
     error.httpStatusCode = 400
     console.error(error);
     res.json("file upload failed....")
-  }   
-  
- 
-res.json("Successfully INserted to Database..")
+  }
+
+
+  res.json("Successfully INserted to Database..")
 });
 
 
 
-  module.exports = router;
-  
+module.exports = router;
+

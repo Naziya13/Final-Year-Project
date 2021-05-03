@@ -60,8 +60,8 @@ router.get('/VolRoute', cors(corsOptions), (req, res) => {
       //console.log(String.valueOf(Email))
       //let e=String.valueOf(Email)
       //console.log("E"+e)
-      let Email=JSON.stringify(E[0])
-      Email=Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+      let Email = JSON.stringify(E[0])
+      Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
       //console.log(mail)
       var params = {
         TableName: "Volunteers",
@@ -77,7 +77,7 @@ router.get('/VolRoute', cors(corsOptions), (req, res) => {
         }
         else {
           console.log("sucessful data fetch", data.Item);
-        
+
           var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
           res.json(object);
         }

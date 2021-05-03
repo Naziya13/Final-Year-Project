@@ -1,7 +1,7 @@
 <template>
   <div class="vue-tempalte">
     <form @submit="formSubmit">
-      <h3>{{type}} Feedback</h3>
+      <h3>{{ type }} Feedback</h3>
 
       <div class="form-group">
         <label>Full Name</label>
@@ -76,7 +76,7 @@ export default {
     return {
       fullname: "",
       email: "",
-      typpe:'',
+      typpe: "",
       mobile: "",
       suggestions: "",
       feedback: "",
@@ -92,7 +92,7 @@ export default {
         currentObj.fullname = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
         currentObj.mobile = response.data.data.Item.mobile;
-        currentObj.type=response.data.data.Item.Type
+        currentObj.type = response.data.data.Item.Type;
 
         console.log(response.data.data.Items);
         if (response.statusCode == "200") router.push("feedback");
@@ -116,7 +116,7 @@ export default {
             fullname: this.fullname,
             email: this.email,
             mobile: this.mobile,
-            type:this.type,
+            type: this.type,
             suggestions: this.suggestions,
             feedback: this.feedback,
           },

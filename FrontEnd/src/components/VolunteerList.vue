@@ -15,9 +15,9 @@
                 <tr v-for="(row,id) in rows"  v-bind:Key="id">
                     <td>{{id+1}}</td>
                     <td>{{row.email}}</td>
-                    <td>{{row.FullName}}</td>
-                    <td>{{row.mobileNo}}</td>
-                    <td>{{row.Address}}</td>
+                    <td>{{row.name}}</td>
+                    <td>{{row.mobile}}</td>
+                    <td>{{row.address}}</td>
                   
                 </tr>
             </tbody>
@@ -33,7 +33,7 @@ export default {
    // el:"#table",
     data() {
         return {
-            rows: [['email','FullName','mobileNo','address']],
+            rows: [['email','name','mobile','address']],
             id:[]
             
         }
@@ -41,7 +41,7 @@ export default {
     created() {
 
         var config = {
-          headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
+          headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'}
           };
           let currentObj=this;
         axios.get('http://localhost:8082/Volunteerlist/volunteerListRoute',config)

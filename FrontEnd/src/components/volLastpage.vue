@@ -1,28 +1,28 @@
 <template>
-    <div class="vue-tempalte">
-          <p>{{name}}</p>
-          <br>
-        <h3>Good Work....Well Done !!!</h3> 
-      
-         <p class="forgot-password text-center mb-3">
-        <a href="#" @click="Logout()">Logout</a>
-      </p>
-    </div>
+  <div class="vue-tempalte">
+    <p>{{ name }}</p>
+    <br />
+    <h3>Good Work....Well Done !!!</h3>
+
+    <p class="forgot-password text-center mb-3">
+      <a href="#" @click="Logout()">Logout</a>
+    </p>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import router from '../router/index'
+import axios from "axios";
+import router from "../router/index";
 
-    export default{
-        data(){
-            return{
-                email:'',
-                name:''
-            }
-        },
-        created(){
-            var config = {
+export default {
+  data() {
+    return {
+      email: "",
+      name: "",
+    };
+  },
+  created() {
+    var config = {
       headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };
     let currentObj = this;
@@ -39,8 +39,8 @@ import router from '../router/index'
       .catch(function (error) {
         console.log(error);
       });
-        },
-        methods: {
+  },
+  methods: {
     Logout() {
       var config = {
         headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
@@ -61,7 +61,7 @@ import router from '../router/index'
             response.statusCode == "200" ||
             response.statusMessage == "success"
           ) {
-           // console.log("enter");
+            // console.log("enter");
             router.push("/");
           }
         })
@@ -70,6 +70,5 @@ import router from '../router/index'
         });
     },
   },
-
-    }
+};
 </script>

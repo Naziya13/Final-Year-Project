@@ -30,7 +30,7 @@ import router from '../router/index'
                 let currentObj = this;
 
                 var config = {
-                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'
+                  headers: {'Access-Control-Allow-Origin': 'http://localhost:8080'
                     }
                 };
                 axios.post('http://localhost:8082/ForgotPass/forgotPassword',{

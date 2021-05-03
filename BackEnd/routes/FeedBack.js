@@ -13,7 +13,7 @@ AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -64,26 +64,23 @@ router.post("/feedbackRoute", cors(corsOptions), async (req, res) => {
   };
 
 
-  docClient.put(params,function(err,data){
-    if(err)
-    {
+  docClient.put(params, function (err, data) {
+    if (err) {
       console.log(err)
     }
-    else{
-     if(type=="Donor")
-     {
-      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success Donor', 'data': data };
-      res.json(object)
-     }
-     else if(type=="Requester")
-     {
-      var object = { message: ' Successfull fetched', statusCode: '201', statusMessage: 'success Requester', 'data': data };
-      res.json(object)
-     }
-     else{
-      var object = { message: ' Successfull fetched', statusCode: '202', statusMessage: 'success Volunteer', 'data': data };
-      res.json(object)
-     }
+    else {
+      if (type == "Donor") {
+        var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success Donor', 'data': data };
+        res.json(object)
+      }
+      else if (type == "Requester") {
+        var object = { message: ' Successfull fetched', statusCode: '201', statusMessage: 'success Requester', 'data': data };
+        res.json(object)
+      }
+      else {
+        var object = { message: ' Successfull fetched', statusCode: '202', statusMessage: 'success Volunteer', 'data': data };
+        res.json(object)
+      }
     }
   })
 });
@@ -102,26 +99,26 @@ router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
     }
     else {
       let type = [];
-      let E=[];
+      let E = [];
       var i = 0;
       //console.log("sucessful data fetch",data.Items); 
       data1.Items.forEach((record) => {
         type[i] = record.Type;
-        E[i]=record.email
+        E[i] = record.email
         i++;
         //console.log(record.Type)
       })
 
       console.log(type)
-      
+
       let Email = JSON.stringify(E[0])
       Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-     
-     
+
+
 
       console.log("sucessful data fetch", data1.Item);
- 
-      if(type[0] == "Donor") {
+
+      if (type[0] == "Donor") {
         console.log("matched..donor")
         var params = {
           TableName: "Donor",
@@ -138,7 +135,7 @@ router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
             console.log(err);
           }
           else {
-            data.Item.Type=type[0]
+            data.Item.Type = type[0]
             var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
             res.json(object)
           }
@@ -160,7 +157,7 @@ router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
             console.log(err);
           }
           else {
-            data.Item.Type=type[0]
+            data.Item.Type = type[0]
             var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
             res.json(object)
           }
@@ -182,7 +179,7 @@ router.get('/feebackRoute2', cors(corsOptions), (req, res) => {
             console.log(err);
           }
           else {
-            data.Item.Type=type[0]
+            data.Item.Type = type[0]
             var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success ', 'data': data };
             res.json(object)
           }

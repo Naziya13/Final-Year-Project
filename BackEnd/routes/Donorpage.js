@@ -13,7 +13,7 @@ AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -60,8 +60,8 @@ router.get('/donorRoute', cors(corsOptions), (req, res) => {
       //console.log(String.valueOf(Email))
       //let e=String.valueOf(Email)
       //console.log("E"+e)
-      let Email=JSON.stringify(E[0])
-      Email=Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+      let Email = JSON.stringify(E[0])
+      Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
       //console.log(mail)
       var params = {
         TableName: "Donor",
@@ -77,7 +77,7 @@ router.get('/donorRoute', cors(corsOptions), (req, res) => {
         }
         else {
           console.log("sucessful data fetch", data.Item);
-        
+
           var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
           res.json(object);
         }
