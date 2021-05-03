@@ -7,7 +7,7 @@ var multerS3 = require('multer-s3');
 
 var awsconfig = {
   "region": "ap-south-1",
-  "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+  "endpoint": '",
   "accessKeyId": '',
   "secretAccessKey": ''
 }
