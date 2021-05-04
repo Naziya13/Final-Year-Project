@@ -7,7 +7,7 @@ var multerS3 = require('multer-s3');
 
 var awsconfig = {
   "region": "ap-south-1",
-  "endpoint": '",
+  "endpoint": '',
   "accessKeyId": '',
   "secretAccessKey": ''
 }
