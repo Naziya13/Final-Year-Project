@@ -50,7 +50,6 @@ export default {
       .then(function (response) {
         currentObj.id = 1;
         delete response.data.data.Item.gender;
-
         delete response.data.data.Item.password;
         for (var i = 0; i < response.data.data.Item.length; i++) {
           currentObj.rows = response.data.data.Item;

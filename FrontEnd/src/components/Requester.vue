@@ -52,6 +52,7 @@
 <script>
 import axios from "axios";
 import router from "../router/index";
+//import { delete } from 'vue/types/umd';
 
 export default {
   data() {
@@ -72,21 +73,22 @@ export default {
     axios
       .get("http://localhost:8082/requester/RequestDetails")
       .then(function (response) {
-        console.log(response.data.data.length);
+        console.log(response.data.data.OfferProduct.length);
         let items = [];
-        for (var i = 0; i < response.data.data.length; i++) {
+        for (var i = 0; i < response.data.data.OfferProduct.length; i++) {
           items = response.data.data.OfferProduct;
-          //console.log(currentObj.products)
         }
         currentObj.products = [...new Set(items)];
-        // console.log(response.data.data)
+        // console.log(items)
+        console.log(typeof response.data.data.OfferProduct[0]);
         console.log(currentObj.products);
-        currentObj.fullName = response.data.data.Items[0].name;
-        currentObj.email = response.data.data.Items[0].email;
-        currentObj.mobile = response.data.data.Items[0].phone;
-        currentObj.address = response.data.data.Items[0].address;
-
-        if (response.statusCode == "200") router.push("Thankyou");
+        delete response.data.data.Item.RequestProduct;
+        currentObj.fullName = response.data.data.Item.name;
+        currentObj.email = response.data.data.Item.email;
+        currentObj.mobile = response.data.data.Item.mobile;
+        currentObj.address = response.data.data.Item.address;
+        console.log(response.data.data);
+        if (response.statusCode == "200") router.push("Requester");
       })
       .catch(function (error) {
         console.log(error);
@@ -120,7 +122,7 @@ export default {
           currentObj.output = response.data.file;
           currentObj.output = response.data.email;
           // console.log(JSON.stringify(response));
-          if (response.statusMessage == "success");
+          if (response.statusMessage == "success" || response.statusCode=='200');
           router.push({ name: "Thankyou" });
         })
         .catch(function (error) {

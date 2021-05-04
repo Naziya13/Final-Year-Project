@@ -8,8 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
 }
 
 AWS.config.update(awsconfig)
@@ -50,8 +50,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
 });
 
 
@@ -91,27 +91,25 @@ router.post("/donorRoute", cors(corsOptions), uploads.single('file'), (req, res)
   //write code for adding new users to database...
   var params = {
     TableName: "Donor",
+    Key: {
+      "email": email
 
-    Item: {
-      Key: {
-        "email": email
-
-      },
-      //  "1":address,
-      // "gender":gender,
-      //"name": fullName,
-      //"mobile":mob ,
-      //"password":pass,
-
-      "OfferProduct": offer
+    },
+    UpdateExpression: "set OfferProduct=:offer",
+    ExpressionAttributeValues: {
+      ":offer": offer
     }
+
+
+
   }
-  docClient.put(params, function (err, data) {
+  docClient.update(params, function (err, data) {
     if (err) {
       console.log(err)
     }
     else {
-      res.json("sucessfull inserted...")
+      var object = { message: ' Successfull', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
     }
   })
 
@@ -122,9 +120,12 @@ router.post("/donorRoute", cors(corsOptions), uploads.single('file'), (req, res)
     const error = new Error('Please choose files')
     error.httpStatusCode = 400
     console.error(error);
-    res.json("file upload failed....")
+    console.log("file upload failed....")
   }
-  // res.json("successfuly inserted in database...")
+  else {
+    res.json("successfuly inserted in database...")
+  }
+
 });
 
 router.get('/donorRoute2', cors(corsOptions), (req, res) => {

@@ -8,8 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
 }
 
 
@@ -49,8 +49,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
+  "secretAccessKey": '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'
 });
 
 
@@ -68,46 +68,47 @@ var uploads = multer({
 
 // 1.1 ********** server test api **************
 router.get("/donorRoute", cors(corsOptions), (req, res) => {
-   //Donors Data
-   var params = {
+  //Donors Data
+  var params = {
     TableName: 'Donor',
-    projectionExpression: 'address,email,name,mobile'
-   }
+    projectionExpression: 'address,email,name,mobile,OfferProduct'
+  }
 
-   docClient.scan(params, function (err, donors_data) {
+  docClient.scan(params, function (err, donors_data) {
     console.log("response from db(Donor): ", JSON.stringify(donors_data))
     if (err) {
       console.log(err);
     }
-    else{
-      
-        let donor_adress = [];
-        let donor_email = [];
-        let donor_name=[];
-        let donor_mobile=[]
-        
-        var i = 0;
-        donors_data.Items.forEach((record) => {
-          donor_adress[i] = record.address;
-          donor_email[i] = record.email;
-          donor_name[i]=record.name;
-          donor_mobile[i]=record.mobile;
-          i++;
-          //console.log("donors address:"+record.Address)
-        })
+    else {
 
-        //sessionDb data
+      let donor_adress = [];
+      let donor_email = [];
+      let donor_name = [];
+      let donor_mobile = [];
+      let donor_product=[];
 
-      var params={
-        TableName:"sessionDB"
-        
+      var i = 0;
+      donors_data.Items.forEach((record) => {
+        donor_adress[i] = record.address;
+        donor_email[i] = record.email;
+        donor_name[i] = record.name;
+        donor_mobile[i] = record.mobile;
+        donor_product[i]=record.OfferProduct
+        i++;
+        //console.log("donors address:"+record.Address)
+      })
+
+      //sessionDb data
+
+      var params = {
+        TableName: "sessionDB"
+
       }
-      docClient.scan(params,function(err,session_data)
-      {
-        if(err){
+      docClient.scan(params, function (err, session_data) {
+        if (err) {
           console.log(err)
         }
-        else{
+        else {
           let E = [];
           var i = 0;
           //console.log("sucessful data fetch",data.Items); 
@@ -117,152 +118,183 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
             //console.log(record.email)
           })
           console.log("Email:" + E)
-    
+
           let Email = JSON.stringify(E[0])
           Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-        }
 
-         //volunteer's data
-      var params = {
-        TableName: 'Volunteers',
-        Key:{
-          "email":Email
-        },
-        projectionExpression: "Addresss,fullName,email"
 
-      };
-      docClient.get(params, function (err, volunteer_data) {
-        console.log("response from db(Volunteer): ", JSON.stringify(volunteer_data))
-        if (err) {
-          console.log(err);
-        }
-        else{
-          let volunteer_adress = [];
-          let volunteer_name = [];
-          let volunteer_email = [];
-          var i = 0;
-          volunteer_data.Items.forEach((record) => {
-            volunteer_adress[i] = record.address;
-            volunteer_email[i] = record.email;
-            volunteer_name[i] = record.name;
-            i++;
+          //volunteer's data
+          var params = {
+            TableName: 'Volunteers',
+            Key: {
+              "email": Email
+            },
+            projectionExpression: "addresss,name,email"
 
-          })
-
-          for (var j = 0; j < (Object.values(donor_adress)).length; j++) {
-            if (Object.values(volunteer_adress[0]) == (Object.values(donor_adress[j]))) {
-              console.log("Matched...donor")
+          };
+          docClient.get(params, function (err, volunteer_data) {
+            console.log("response from db(Volunteer of donor): ", JSON.stringify(volunteer_data))
+            if (err) {
+              console.log(err);
             }
-          }
-        }
-      
-      })
-        
-      })
-    }
-})
-});
+            else {
+              var data;
+              for (var j = 0; j < (Object.values(donor_adress)).length; j++) {
+                donor_adress[j]=JSON.stringify(donor_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
+                if (volunteer_data.Item.address === (donor_adress[j]))
+                 {
+                  console.log("Matched...donor")
+                  data={
+                    Item:{
+                      name:donor_name[j],
+                      email:donor_email[j],
+                      mobile:donor_mobile[j],
+                      address:donor_adress[j],
+                      OfferProduct:donor_product[j]
+                    }
+                }
+              }
 
+            }
+            var object = { message: ' Successfull ftech donor', statusCode: '200', statusMessage: 'success donor', 'data': data };
+            res.json(object);
+          }
+
+        })
+      }
+    })
+  }
+})
+})
 
 //Requester Router
 router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
-var params = {
-  TableName: 'requester',
-  projectionExpression: 'address,email,name,mobile'
- }
-
- docClient.scan(params, function (err, reqs_data) {
-  console.log("response from db(Donor): ", JSON.stringify(reqs_data))
-  if (err) {
-    console.log(err);
+  var params = {
+    TableName: 'requester',
+    projectionExpression: 'address,email,name,mobile,RequestProduct'
   }
-  else{
-    
+
+  docClient.scan(params, function (err, reqs_data) {
+    console.log("response from db(requester): ", JSON.stringify(reqs_data))
+    if (err) {
+      console.log(err);
+    }
+    else {
+
       let req_adress = [];
-      let re_email = [];
-      let req_name=[];
-      let req_mobile=[]
-      
+      let req_email = [];
+      let req_name = [];
+      let req_mobile = [];
+      let req_product=[]
+
       var i = 0;
       reqs_data.Items.forEach((record) => {
         req_adress[i] = record.address;
         req_email[i] = record.email;
-        req_name[i]=record.name;
-        req_mobile[i]=record.mobile;
+        req_name[i] = record.name;
+        req_mobile[i] = record.mobile;
+        req_product[i]=record.RequestProduct;
         i++;
         //console.log("donors address:"+record.Address)
       })
 
       //sessionDb data
 
-    var params={
-      TableName:"sessionDB"
-      
-    }
-    docClient.scan(params,function(err,session_data)
-    {
-      if(err){
-        console.log(err)
+      var params = {
+        TableName: "sessionDB"
+
       }
-      else{
-        let E = [];
-        var i = 0;
-        //console.log("sucessful data fetch",data.Items); 
-        session_data.Items.forEach((record) => {
-          E[i] = record.email;
-          i++;
-          //console.log(record.email)
-        })
-        console.log("Email:" + E)
-  
-        let Email = JSON.stringify(E[0])
-        Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-      }
-
-       //volunteer's data
-    var params = {
-      TableName: 'Volunteers',
-      Key:{
-        "email":Email
-      },
-      projectionExpression: "Addresss,fullName,email"
-
-    };
-    docClient.get(params, function (err, volunteer_data) {
-      console.log("response from db(Volunteer): ", JSON.stringify(volunteer_data))
-      if (err) {
-        console.log(err);
-      }
-      else{
-        let volunteer_adress = [];
-        let volunteer_name = [];
-        let volunteer_email = [];
-        var i = 0;
-        volunteer_data.Items.forEach((record) => {
-          volunteer_adress[i] = record.address;
-          volunteer_email[i] = record.email;
-          volunteer_name[i] = record.name;
-          i++;
-
-        })
-
-        for (var j = 0; j < (Object.values(req_adress)).length; j++) {
-          if (Object.values(volunteer_adress[0]) === (Object.values(req_adress[j]))) {
-            console.log("Matched...requesters")
-          }
+      docClient.scan(params, function (err, session_data) {
+        if (err) {
+          console.log(err)
         }
-      }
-    
-    })
-      
-    })
-  }
-})
+        else {
+          let E = [];
+          var i = 0;
+          //console.log("sucessful data fetch",data.Items); 
+          session_data.Items.forEach((record) => {
+            E[i] = record.email;
+            i++;
+            //console.log(record.email)
+          })
+          console.log("Email:" + E)
+
+          let Email = JSON.stringify(E[0])
+          Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+
+
+          //volunteer's data
+          var params = {
+            TableName: 'Volunteers',
+            Key: {
+              "email": Email
+            },
+            projectionExpression: "addresss,name,email"
+
+          };
+          docClient.get(params, function (err, volunteer_data) {
+            console.log("response from db(Volunteer): ", JSON.stringify(volunteer_data))
+            if (err) {
+              console.log(err);
+            }
+            else {
+              
+              var data;
+              for (var j = 0; j < (Object.values(req_adress)).length; j++) {
+                req_adress[j]=JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
+                if (volunteer_data.Item.address === (req_adress[j])) {
+                  console.log("Matched...requesters")
+                  data={
+                    Item:{
+                      name:req_name[j],
+                      email:req_email[j],
+                      mobile:req_mobile[j],
+                      address:req_adress[j],
+                      RequestProduct:req_product[j],
+                      volunteerName:volunteer_data.Item.name,
+                      volunteerEmail:volunteer_data.Item.email
+                    }
+                  }
+                }
+              }
+              var object = { message: ' Successfull fetch requester', statusCode: '201', statusMessage: 'success requester', 'data': data };
+              res.json(object);
+            }
+
+          })
+        }
+      })
+    }
+  })
 })
 
 //File uplaod rout
 router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req, res) => {
   console.log("reqFile:" + JSON.stringify(req.file));
+  console.log("reqBody:"+JSON.stringify(req.body));
+
+  var {work,email}=req.body;
+
+  var params={
+    TableName:"Volunteers",
+    Key: {
+      "email": email
+    },
+    UpdateExpression:"set Work_Status =:st",
+    ExpressionAttributeValues:{
+      ":st":work
+    
+
+  }
+}
+  docClient.update(params,function(err,data){
+    if(err)
+      console.log(err)
+      else{
+        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+        res.json(object);
+      }
+  })
 
   // s3 upload
 
@@ -271,10 +303,13 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
     const error = new Error('Please choose files')
     error.httpStatusCode = 400
     console.error(error);
-    res.json("file upload failed....")
+    console.log("file upload failed....")
   }
-
-  res.json("Successfully INserted to S3..")
+else{
+  var object = { message: ' Successfull store', statusCode: '201', statusMessage: 'success' };
+      res.json(object);
+}
+  
 
 
 })
