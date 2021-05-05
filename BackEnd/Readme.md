@@ -1,1 +1,2 @@
-to run nodemon App.js
+to run the backend, 
+npm run dev
