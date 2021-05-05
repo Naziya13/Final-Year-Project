@@ -49,8 +49,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": 'AKIATSPZDOCGFXKK7QHM',
-  "secretAccessKey": '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'
+  "accessKeyId": '',
+  "secretAccessKey": ''
 });
 
 
