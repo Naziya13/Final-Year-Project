@@ -7,7 +7,7 @@ var awsconfig = {
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
   "accessKeyId": '',
   "secretAccessKey": ''
-
+}
 AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
