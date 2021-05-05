@@ -190,13 +190,8 @@
     "stream-to-array": "^2.3.0",
     "stream-to-promise": "^2.2.0",
     "streamsearch": "^0.1.2",
-<<<<<<< HEAD
     "string-width": "^4.2.2",
     "string_decoder": "^0.10.31",
-=======
-    "string_decoder": "^0.10.31",
-    "string-width": "^4.2.2",
->>>>>>> a20e2dacd8c0d2b20f6870032d07ae214e88c995
     "strip-ansi": "^6.0.0",
     "strip-json-comments": "^2.0.1",
     "supports-color": "^5.5.0",
