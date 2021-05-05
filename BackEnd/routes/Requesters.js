@@ -8,8 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-  "secretAccessKey":'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'
+    "accessKeyId": '',
+  "secretAccessKey": ''
 }
 
 AWS.config.update(awsconfig)
@@ -52,8 +52,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-  "secretAccessKey":'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'
+    "accessKeyId": '',
+  "secretAccessKey": ''
 });
 
 
