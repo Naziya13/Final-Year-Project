@@ -86,7 +86,7 @@ export default {
   },
   created() {
     var config = {
-      headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
+      headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };
     let currentObj = this;
     //donor's
@@ -140,7 +140,7 @@ export default {
       formData.append("file", this.file);
       var config = {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:8080",
+          "Access-Control-Allow-Origin": "http://localhost:8081",
           "Content-Type": "multipart/form-data",
         },
       };

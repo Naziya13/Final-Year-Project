@@ -42,7 +42,7 @@ export default {
 
   created() {
     var config = {
-      headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
+      headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };
     let currentObj = this;
 
@@ -65,7 +65,7 @@ export default {
   methods: {
     Logout() {
       var config = {
-        headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
+        headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
       };
 
       axios

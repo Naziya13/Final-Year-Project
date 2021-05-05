@@ -108,7 +108,7 @@ export default {
       formData.append("email", this.email);
       var config = {
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:8080",
+          "Access-Control-Allow-Origin": "http://localhost:8081",
           "Content-Type": "multipart/form-data",
         },
       };
