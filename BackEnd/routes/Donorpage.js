@@ -49,17 +49,13 @@ router.get('/donorRoute', cors(corsOptions), (req, res) => {
     else {
       let E = [];
       var i = 0;
-      //console.log("sucessful data fetch",data.Items); 
+       
       data1.Items.forEach((record) => {
         E[i] = record.email;
         i++;
         console.log(record.email)
       })
       console.log("Email:" + E)
-
-      //console.log(String.valueOf(Email))
-      //let e=String.valueOf(Email)
-      //console.log("E"+e)
       let Email = JSON.stringify(E[0])
       Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
       //console.log(mail)

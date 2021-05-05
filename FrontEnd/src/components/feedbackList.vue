@@ -16,9 +16,9 @@
         <tr v-for="(row, id) in rows" v-bind:Key="id">
           <td>{{ id + 1 }}</td>
           <td>{{ row.email }}</td>
-          <td>{{ row.name }}</td>
+          <td>{{ row.FullName }}</td>
           <td>{{ row.feedback }}</td>
-          <td>{{ row.mobile }}</td>
+          <td>{{ row.mobileNo }}</td>
           <td>{{ row.suggestions }}</td>
         </tr>
       </tbody>
@@ -35,7 +35,7 @@ export default {
   // el:"#table",
   data() {
     return {
-      rows: [["email", "name", "feedback", "mobile", "suggestions"]],
+      rows: [["email", "FullName", "feedback", "mobileNo", "suggestions"]],
       id: [],
     };
   },

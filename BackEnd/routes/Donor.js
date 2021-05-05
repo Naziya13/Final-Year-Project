@@ -91,27 +91,25 @@ router.post("/donorRoute", cors(corsOptions), uploads.single('file'), (req, res)
   //write code for adding new users to database...
   var params = {
     TableName: "Donor",
+    Key: {
+      "email": email
 
-    Item: {
-      Key: {
-        "email": email
-
-      },
-      //  "1":address,
-      // "gender":gender,
-      //"name": fullName,
-      //"mobile":mob ,
-      //"password":pass,
-
-      "OfferProduct": offer
+    },
+    UpdateExpression: "set OfferProduct=:offer",
+    ExpressionAttributeValues: {
+      ":offer": offer
     }
+
+
+
   }
-  docClient.put(params, function (err, data) {
+  docClient.update(params, function (err, data) {
     if (err) {
       console.log(err)
     }
     else {
-      res.json("sucessfull inserted...")
+      var object = { message: ' Successfull', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
     }
   })
 
@@ -122,9 +120,12 @@ router.post("/donorRoute", cors(corsOptions), uploads.single('file'), (req, res)
     const error = new Error('Please choose files')
     error.httpStatusCode = 400
     console.error(error);
-    res.json("file upload failed....")
+    console.log("file upload failed....")
   }
-  // res.json("successfuly inserted in database...")
+  else {
+    res.json("successfuly inserted in database...")
+  }
+
 });
 
 router.get('/donorRoute2', cors(corsOptions), (req, res) => {

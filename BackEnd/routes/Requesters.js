@@ -109,22 +109,34 @@ router.get("/RequestDetails", cors(corsOptions), (req, res) => {
         else {
 
           console.log("sucessful data fetch", data.Item);
+          let E = [];
+          var i = 0;
+           
+          data.Items.forEach((record) => {
+            E[i] = record.email;
+            i++;
+            console.log(record.email)
+          })
+          console.log("Email:" + E)
+          let Email = JSON.stringify(E[0])
+          Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+
           var params = {
             TableName: "requester",
             Key: {
-              "email": data.Items.email
+              "email": Email
             },
           }
 
-          docClient.scan(params, function (err, Don_data) {
+          docClient.get(params, function (err, req_data) {
 
-            console.log("response from db: ", JSON.stringify(Don_data))
+            console.log("response from db: ", JSON.stringify(req_data))
             if (err) {
               console.log(err);
             }
             else {
-              Don_data.Items.OfferProduct = offer
-              var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': Don_data };
+              req_data.OfferProduct = offer
+              var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': req_data };
               res.json(object);
             }
           })
@@ -148,16 +160,28 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
   //write code for adding new users to database...
   var params = {
     TableName: "requester",
-    Items: {
       Key: {
         "email": email
       },
-      "RequestProduct": selected
+      UpdateExpression:"set RequestProduct=:request",
+      ExpressionAttributeValues:{
+        ":request":selected
+      
+      
 
     }
   };
-  docClient.put(params).promise().then(data =>
-    console.log(data.Attributes)).catch(console.error);
+  docClient.update(params,function(err,data){
+    if(err)
+    {
+      console.log(err)
+    }
+    else{
+      var object = { message: ' Successfull', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
+    }
+    
+  })
 
   // s3 upload
 
@@ -166,11 +190,14 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
     const error = new Error('Please choose files')
     error.httpStatusCode = 400
     console.error(error);
-    res.json("file upload failed....")
+    console.log("file upload failed....")
+  }
+  else{
+    res.json("Successfully INserted to Database..")
   }
 
 
-  res.json("Successfully INserted to Database..")
+  
 });
 
 

@@ -16,9 +16,9 @@
           </thead>
           <tbody>
             <tr v-for="(row, id) in donor" v-bind:Key="id">
-              <td>{{ row.FullName }}</td>
-              <td>{{ row.mobileNo }}</td>
-              <td>{{ row.Address }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.mobile }}</td>
+              <td>{{ row.address }}</td>
               <td>{{ row.OfferProduct }}</td>
             </tr>
           </tbody>
@@ -37,9 +37,9 @@
           </thead>
           <tbody>
             <tr v-for="(row, id) in requester" v-bind:Key="id">
-              <td>{{ row.FullName }}</td>
-              <td>{{ row.mobileNo }}</td>
-              <td>{{ row.Address }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.mobile }}</td>
+              <td>{{ row.address }}</td>
               <td>{{ row.RequestProduct }}</td>
             </tr>
           </tbody>
@@ -76,12 +76,14 @@ import router from "../router/index";
 export default {
   data() {
     return {
-      donor: [["mobileNo", "FullName", "address", "email", "OfferProduct"]],
+      donor: [["mobile", "name", "address", "email", "OfferProduct"]],
       requester: [
-        ["mobileNo", "FullName", "Address", "email", "RequestProduct"],
+        ["mobile", "name", "address", "email", "RequestProduct"],
       ],
       Volunteer: "",
       file: "",
+      work:"completed",
+      email:''
     };
   },
   created() {
@@ -99,7 +101,7 @@ export default {
         // console.log(currentObj.donor)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
-        if (response == null || response == "undefined")
+        if (response.statusCode=='200')
           router.push("volunteer");
       })
       .catch(function (error) {
@@ -110,15 +112,17 @@ export default {
     axios
       .get("http://localhost:8082/Volunteer/requesterRoute", config)
       .then(function (response) {
-        currentObj.Volunteer = response.data.data.Item.VolunteerName;
+        currentObj.Volunteer = response.data.data.Item.volunteerName;
+        currentObj.email=response.data.data.Item.volunteerEmail;
 
-        delete response.data.data.Item.VolunteerName;
+        delete response.data.data.Item.volunteerName;
+        delete response.data.data.Item.volunteerEmail;
         currentObj.requester = [response.data.data.Item];
 
         //console.log(currentObj.requester)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
-        if (response == null || response == "undefined")
+        if (response.statusCode== '201' )
           router.push({ name: "volunteer" });
       })
       .catch(function (error) {
@@ -136,7 +140,8 @@ export default {
       e.preventDefault();
       let currentObj = this;
       let formData = new FormData();
-
+      formData.append("email",this.email)
+      formData.append('work',this.work)
       formData.append("file", this.file);
       var config = {
         headers: {
@@ -153,7 +158,7 @@ export default {
         .then(function (response) {
           currentObj.output = response.body;
           // console.log(JSON.stringify(response));
-          if (response.statusMessage == "success");
+          if (response.statusCode == '200'||response.statusCode=='201');
           router.push({ name: "Thankyou" });
         })
         .catch(function (error) {

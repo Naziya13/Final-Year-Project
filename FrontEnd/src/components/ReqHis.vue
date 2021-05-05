@@ -29,6 +29,7 @@
 <script>
 import axios from "axios";
 import router from "../router/index";
+//import { delete } from 'vue/types/umd';
 export default {
   data() {
     return {
@@ -45,12 +46,16 @@ export default {
     axios
       .get("http://localhost:8082/reqHis/reqRoute", config)
       .then(function (response) {
+        delete response.data.data.Item.password;
+        delete response.data.data.Item.gender;
+        
+         console.log((response.data.data.Item).length)
         for (var i = 0; i < response.data.data.Item.length; i++) {
           currentObj.rows = response.data.data.Item;
           currentObj.id = +i;
         }
 
-        // console.log((response.data.data.Item).length)
+       
         console.log(response.data.data.Item);
         if (response.statusCode == "200") router.push("donorlist");
       })

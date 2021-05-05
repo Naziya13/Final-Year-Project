@@ -95,11 +95,6 @@ export default {
       //uplaod file
       let formData = new FormData();
       formData.append("offer", this.offer);
-      //formData.append('fullName',this.fullName);
-      //formData.append('mobile',this.mobile);
-      //formData.append('address',this.address);
-      //formData.append('pass',this.pass);
-      //formData.append('gender',this.gender);
       formData.append("file", this.file);
       formData.append("email", this.email);
       var config = {
@@ -114,7 +109,7 @@ export default {
           currentObj.output = response.data.file;
           currentObj.output = response.data.email;
           console.log(JSON.stringify(response));
-          if (response.statusMessage == "success");
+          if (response.statusMessage == "success" || response.statusCode=='200');
           router.push({ name: "Thankyou" });
         }
       );

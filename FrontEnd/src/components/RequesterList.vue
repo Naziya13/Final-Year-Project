@@ -17,7 +17,7 @@
           <td>{{ id + 1 }}</td>
           <td>{{ row.email }}</td>
           <td>{{ row.name }}</td>
-          <td>{{ row.phone }}</td>
+          <td>{{ row.mobile }}</td>
           <td>{{ row.address }}</td>
           <td>{{ row.RequestProduct }}</td>
         </tr>
@@ -32,7 +32,7 @@ import router from "../router/index";
 export default {
   data() {
     return {
-      rows: [["phone", "name", "address", "email", "RequestProduct"]],
+      rows: [["mobile", "name", "address", "email", "RequestProduct"]],
       id: [],
     };
   },
