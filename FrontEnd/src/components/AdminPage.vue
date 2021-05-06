@@ -50,10 +50,10 @@ export default {
       .get("http://localhost:8082/Adminpage/AdminRoute", config)
       .then(function (response) {
         console.log("Enter in admin");
-        console.log(response.data.data.Items);
-        currentObj.Name = response.data.data.Items[0].name;
+        console.log(response.data.data.Item);
+        currentObj.Name = response.data.data.Item.name;
         console.log(currentObj.Name);
-        currentObj.email = response.data.data.Items[0].email;
+        currentObj.email = response.data.data.Item.email;
 
         if (response == null || response == "undefined")
           router.push("Adminpage");

@@ -10,6 +10,8 @@
           <th>Mobile No</th>
           <th>Address</th>
           <th>Request</th>
+          <th>Date&Time</th>
+          <th>Work_Status</th>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +22,8 @@
           <td>{{ row.mobile }}</td>
           <td>{{ row.address }}</td>
           <td>{{ row.RequestProduct }}</td>
+          <td>{{row.Date_Time}}</td>
+          <td>{{row.Work_Status}}</td>
         </tr>
       </tbody>
     </table>
@@ -32,7 +36,7 @@ import router from "../router/index";
 export default {
   data() {
     return {
-      rows: [["mobile", "name", "address", "email", "RequestProduct"]],
+      rows: [["mobile", "name", "address", "email", "RequestProduct","Date_Time","Work_Status"]],
       id: [],
     };
   },
@@ -57,7 +61,7 @@ export default {
       })
       .catch(function (error) {
         console.log(error);
-        router.push("homepage");
+        //router.push("homepage");
       });
   },
 };

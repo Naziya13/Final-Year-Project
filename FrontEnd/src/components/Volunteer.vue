@@ -98,11 +98,16 @@ export default {
       .get("http://localhost:8082/Volunteer/donorRoute", config)
       .then(function (response) {
         console.log("Donor");
+         currentObj.Volunteer = response.data.data.Item.volunteerName;
+        currentObj.email=response.data.data.Item.volunteerEmail;
+        
+        delete response.data.data.Item.volunteerName;
+        delete response.data.data.Item.volunteerEmail;
         currentObj.donor = [response.data.data.Item];
         currentObj.D_email=response.data.data.Item.email;
         // console.log(currentObj.donor)
         //console.log((response.data.data.Item).length)
-        console.log(response.data.data.Item);
+        console.log(response.data.data.Item.email);
         if (response.statusCode=='200')
           router.push("volunteer");
       })
@@ -141,6 +146,7 @@ export default {
     formSubmit(e) {
       e.preventDefault();
       let currentObj = this;
+      
       let formData = new FormData();
       formData.append("email",this.email)
       //formData.append('work',this.work);

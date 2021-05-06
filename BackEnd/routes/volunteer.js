@@ -8,8 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ' '
+"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
+"secretAccessKey":'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'
 }
 
 
@@ -49,8 +49,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ' '
+"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
+"secretAccessKey":'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'
 });
 
 
@@ -141,7 +141,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
               var data;
               for (var j = 0; j < (Object.values(donor_adress)).length; j++) {
                 donor_adress[j] = JSON.stringify(donor_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
-                if (volunteer_data.Item.address === (donor_adress[j])) {
+                if (volunteer_data.Item.address === (donor_adress[j]) && donor_product[j]!="none") {
                   console.log("Matched...donor")
                   data = {
                     Item: {
@@ -149,7 +149,9 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
                       email: donor_email[j],
                       mobile: donor_mobile[j],
                       address: donor_adress[j],
-                      OfferProduct: donor_product[j]
+                      OfferProduct: donor_product[j],
+                      volunteerName: volunteer_data.Item.name,
+                      volunteerEmail: volunteer_data.Item.email
                     }
                   }
                 }
@@ -241,7 +243,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
               var data;
               for (var j = 0; j < (Object.values(req_adress)).length; j++) {
                 req_adress[j] = JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
-                if (volunteer_data.Item.address === (req_adress[j])) {
+                if (volunteer_data.Item.address === (req_adress[j]) && req_product[j]!="none") {
                   console.log("Matched...requesters")
                   data = {
                     Item: {
@@ -272,7 +274,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
   console.log("reqFile:" + JSON.stringify(req.file));
   console.log("reqBody:" + JSON.stringify(req.body));
 
-  var { email, D_email, R_email } = req.body;
+  var { email, D_mail, R_email } = req.body;
 
   var params = {
     TableName: "Volunteers",
@@ -294,34 +296,35 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
       res.json(object);
     }
   })
+  console.log(D_mail)
   //Donor
   var params = {
     TableName: "Donor",
     Key: {
-      "email": D_email
+      "email":D_mail
     },
-    UpdateExpression: "set Work_status =:st",
+    UpdateExpression: "set Work_status =:sta",
     ExpressionAttributeValues: {
-      ":st": "Completed"
+      ":sta": "Completed"
 
 
     }
   }
-  docClient.update(params, function (err, data) {
+  docClient.update(params, function (err, data1) {
     if (err)
       console.log(err)
     else {
-      var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
-      res.json(object);
+      console.log("sucess donor")
+
     }
   })
   //Requester
   var params = {
     TableName: "requester",
     Key: {
-      "email": D_email
+      "email": R_email
     },
-    UpdateExpression: "set Work_status =:st",
+    UpdateExpression: "set Work_Status =:st",
     ExpressionAttributeValues: {
       ":st": "Completed"
 
@@ -331,8 +334,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
     if (err)
       console.log(err)
     else {
-      var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
-      res.json(object);
+      console.log("sucess requester")
     }
   })
   // s3 upload
