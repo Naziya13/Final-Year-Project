@@ -8,8 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'
+  "accessKeyId": '',
+  "secretAccessKey": ' '
 }
 
 AWS.config.update(awsconfig)
@@ -52,8 +52,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'
+  "accessKeyId": '',
+  "secretAccessKey": ' '
 });
 
 
@@ -89,10 +89,10 @@ router.get("/RequestDetails", cors(corsOptions), (req, res) => {
       var i = 0;
       //console.log("sucessful data fetch",data.Items); 
       data.Items.forEach((record) => {
-        if(record.OfferProduct!="none"){
-        offer[i] = record.OfferProduct;
-        i++;
-        console.log(record.OfferProduct)
+        if (record.OfferProduct != "none") {
+          offer[i] = record.OfferProduct;
+          i++;
+          console.log(record.OfferProduct)
         }
       })
 
@@ -113,7 +113,7 @@ router.get("/RequestDetails", cors(corsOptions), (req, res) => {
           console.log("sucessful data fetch", data.Item);
           let E = [];
           var i = 0;
-           
+
           data.Items.forEach((record) => {
             E[i] = record.email;
             i++;
@@ -162,27 +162,26 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
   //write code for adding new users to database...
   var params = {
     TableName: "requester",
-      Key: {
-        "email": email
-      },
-      UpdateExpression:"set RequestProduct=:request",
-      ExpressionAttributeValues:{
-        ":request":selected
-      
-      
+    Key: {
+      "email": email
+    },
+    UpdateExpression: "set RequestProduct=:request",
+    ExpressionAttributeValues: {
+      ":request": selected
+
+
 
     }
   };
-  docClient.update(params,function(err,data){
-    if(err)
-    {
+  docClient.update(params, function (err, data) {
+    if (err) {
       console.log(err)
     }
-    else{
+    else {
       var object = { message: ' Successfull', statusCode: '200', statusMessage: 'success' };
       res.json(object);
     }
-    
+
   })
 
   // s3 upload
@@ -194,12 +193,12 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
     console.error(error);
     console.log("file upload failed....")
   }
-  else{
+  else {
     res.json("Successfully INserted to Database..")
   }
 
 
-  
+
 });
 
 

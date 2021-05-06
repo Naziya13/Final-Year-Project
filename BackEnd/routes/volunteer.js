@@ -8,8 +8,9 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'}
+  "accessKeyId": '',
+  "secretAccessKey": ' '
+}
 
 
 AWS.config.update(awsconfig)
@@ -48,8 +49,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
-"secretAccessKey":'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'
+  "accessKeyId": '',
+  "secretAccessKey": ' '
 });
 
 
@@ -84,7 +85,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
       let donor_email = [];
       let donor_name = [];
       let donor_mobile = [];
-      let donor_product=[];
+      let donor_product = [];
 
       var i = 0;
       donors_data.Items.forEach((record) => {
@@ -92,7 +93,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
         donor_email[i] = record.email;
         donor_name[i] = record.name;
         donor_mobile[i] = record.mobile;
-        donor_product[i]=record.OfferProduct
+        donor_product[i] = record.OfferProduct
         i++;
         //console.log("donors address:"+record.Address)
       })
@@ -139,32 +140,31 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
             else {
               var data;
               for (var j = 0; j < (Object.values(donor_adress)).length; j++) {
-                donor_adress[j]=JSON.stringify(donor_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
-                if (volunteer_data.Item.address === (donor_adress[j]))
-                 {
+                donor_adress[j] = JSON.stringify(donor_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
+                if (volunteer_data.Item.address === (donor_adress[j])) {
                   console.log("Matched...donor")
-                  data={
-                    Item:{
-                      name:donor_name[j],
-                      email:donor_email[j],
-                      mobile:donor_mobile[j],
-                      address:donor_adress[j],
-                      OfferProduct:donor_product[j]
+                  data = {
+                    Item: {
+                      name: donor_name[j],
+                      email: donor_email[j],
+                      mobile: donor_mobile[j],
+                      address: donor_adress[j],
+                      OfferProduct: donor_product[j]
                     }
+                  }
                 }
+
+
               }
-             
-
+              var object = { message: ' Successfull ftech donor', statusCode: '200', statusMessage: 'success donor', 'data': data };
+              res.json(object);
             }
-            var object = { message: ' Successfull ftech donor', statusCode: '200', statusMessage: 'success donor', 'data': data };
-            res.json(object);
-          }
 
-        })
-      }
-    })
-  }
-})
+          })
+        }
+      })
+    }
+  })
 })
 
 //Requester Router
@@ -185,7 +185,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
       let req_email = [];
       let req_name = [];
       let req_mobile = [];
-      let req_product=[]
+      let req_product = []
 
       var i = 0;
       reqs_data.Items.forEach((record) => {
@@ -193,7 +193,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
         req_email[i] = record.email;
         req_name[i] = record.name;
         req_mobile[i] = record.mobile;
-        req_product[i]=record.RequestProduct;
+        req_product[i] = record.RequestProduct;
         i++;
         //console.log("donors address:"+record.Address)
       })
@@ -237,21 +237,21 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
               console.log(err);
             }
             else {
-              
+
               var data;
               for (var j = 0; j < (Object.values(req_adress)).length; j++) {
-                req_adress[j]=JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
+                req_adress[j] = JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
                 if (volunteer_data.Item.address === (req_adress[j])) {
                   console.log("Matched...requesters")
-                  data={
-                    Item:{
-                      name:req_name[j],
-                      email:req_email[j],
-                      mobile:req_mobile[j],
-                      address:req_adress[j],
-                      RequestProduct:req_product[j],
-                      volunteerName:volunteer_data.Item.name,
-                      volunteerEmail:volunteer_data.Item.email
+                  data = {
+                    Item: {
+                      name: req_name[j],
+                      email: req_email[j],
+                      mobile: req_mobile[j],
+                      address: req_adress[j],
+                      RequestProduct: req_product[j],
+                      volunteerName: volunteer_data.Item.name,
+                      volunteerEmail: volunteer_data.Item.email
                     }
                   }
                 }
@@ -270,70 +270,70 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
 //File uplaod rout
 router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req, res) => {
   console.log("reqFile:" + JSON.stringify(req.file));
-  console.log("reqBody:"+JSON.stringify(req.body));
+  console.log("reqBody:" + JSON.stringify(req.body));
 
-  var {email,D_email,R_email}=req.body;
+  var { email, D_email, R_email } = req.body;
 
-  var params={
-    TableName:"Volunteers",
+  var params = {
+    TableName: "Volunteers",
     Key: {
       "email": email
     },
-    UpdateExpression:"set Work_Status =:st",
-    ExpressionAttributeValues:{
-      ":st":"Completed"
-    
+    UpdateExpression: "set Work_Status =:st",
+    ExpressionAttributeValues: {
+      ":st": "Completed"
 
+
+    }
   }
-}
-  docClient.update(params,function(err,data){
-    if(err)
+  docClient.update(params, function (err, data) {
+    if (err)
       console.log(err)
-      else{
-        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
-        res.json(object);
-      }
+    else {
+      var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
+    }
   })
-//Donor
-  var params={
-    TableName:"Donor",
+  //Donor
+  var params = {
+    TableName: "Donor",
     Key: {
       "email": D_email
     },
-    UpdateExpression:"set Work_status =:st",
-    ExpressionAttributeValues:{
-      ":st":"Completed"
-    
+    UpdateExpression: "set Work_status =:st",
+    ExpressionAttributeValues: {
+      ":st": "Completed"
 
+
+    }
   }
-}
-  docClient.update(params,function(err,data){
-    if(err)
+  docClient.update(params, function (err, data) {
+    if (err)
       console.log(err)
-      else{
-        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
-        res.json(object);
-      }
+    else {
+      var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
+    }
   })
-//Requester
-  var params={
-    TableName:"requester",
+  //Requester
+  var params = {
+    TableName: "requester",
     Key: {
       "email": D_email
     },
-    UpdateExpression:"set Work_status =:st",
-    ExpressionAttributeValues:{
-      ":st":"Completed"    
+    UpdateExpression: "set Work_status =:st",
+    ExpressionAttributeValues: {
+      ":st": "Completed"
 
+    }
   }
-}
-docClient.update(params,function(err,data){
-    if(err)
+  docClient.update(params, function (err, data) {
+    if (err)
       console.log(err)
-      else{
-        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
-        res.json(object);
-      }
+    else {
+      var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+      res.json(object);
+    }
   })
   // s3 upload
 
@@ -344,10 +344,10 @@ docClient.update(params,function(err,data){
     console.error(error);
     console.log("file upload failed....")
   }
-else{
-  var object = { message: ' Successfull store', statusCode: '201', statusMessage: 'success' };
-      res.json(object);
-}
+  else {
+    var object = { message: ' Successfull store', statusCode: '201', statusMessage: 'success' };
+    res.json(object);
+  }
 
 })
 
