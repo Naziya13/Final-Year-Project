@@ -48,6 +48,7 @@ export default {
       .get("http://localhost:8082/donorlist/adminRoute", config)
       .then(function (response) {
         currentObj.id = 1;
+        //console.log(typeof(response.data.data.Items))
         for (var i = 0; i < response.data.data.Items.length; i++) {
           currentObj.rows = response.data.data.Items;
           currentObj.id = +i;

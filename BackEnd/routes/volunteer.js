@@ -8,9 +8,8 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
-}
+"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
+"secretAccessKey":'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'}
 
 
 AWS.config.update(awsconfig)
@@ -49,8 +48,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+"accessKeyId":'AKIATSPZDOCGFXKK7QHM',
+"secretAccessKey":'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'
 });
 
 
@@ -154,6 +153,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
                     }
                 }
               }
+             
 
             }
             var object = { message: ' Successfull ftech donor', statusCode: '200', statusMessage: 'success donor', 'data': data };
@@ -222,7 +222,6 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
           let Email = JSON.stringify(E[0])
           Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
 
-
           //volunteer's data
           var params = {
             TableName: 'Volunteers',
@@ -273,7 +272,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
   console.log("reqFile:" + JSON.stringify(req.file));
   console.log("reqBody:"+JSON.stringify(req.body));
 
-  var {work,email}=req.body;
+  var {email,D_email,R_email}=req.body;
 
   var params={
     TableName:"Volunteers",
@@ -282,7 +281,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
     },
     UpdateExpression:"set Work_Status =:st",
     ExpressionAttributeValues:{
-      ":st":work
+      ":st":"Completed"
     
 
   }
@@ -295,7 +294,47 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
         res.json(object);
       }
   })
+//Donor
+  var params={
+    TableName:"Donor",
+    Key: {
+      "email": D_email
+    },
+    UpdateExpression:"set Work_status =:st",
+    ExpressionAttributeValues:{
+      ":st":"Completed"
+    
 
+  }
+}
+  docClient.update(params,function(err,data){
+    if(err)
+      console.log(err)
+      else{
+        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+        res.json(object);
+      }
+  })
+//Requester
+  var params={
+    TableName:"requester",
+    Key: {
+      "email": D_email
+    },
+    UpdateExpression:"set Work_status =:st",
+    ExpressionAttributeValues:{
+      ":st":"Completed"    
+
+  }
+}
+docClient.update(params,function(err,data){
+    if(err)
+      console.log(err)
+      else{
+        var object = { message: ' Successfull store', statusCode: '200', statusMessage: 'success' };
+        res.json(object);
+      }
+  })
   // s3 upload
 
   const file = req.file;
@@ -309,10 +348,7 @@ else{
   var object = { message: ' Successfull store', statusCode: '201', statusMessage: 'success' };
       res.json(object);
 }
-  
-
 
 })
-
 
 module.exports = router;

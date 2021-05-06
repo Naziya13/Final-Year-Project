@@ -51,15 +51,17 @@ export default {
         currentObj.id = 1;
         delete response.data.data.Item.gender;
         delete response.data.data.Item.password;
-        for (var i = 0; i < response.data.data.Item.length; i++) {
-          currentObj.rows = response.data.data.Item;
+        console.log((Object.keys(response.data.data)).length)
+        var n=(Object.keys(response.data.data)).length
+        for (var i = 0; i <n ; i++) {
+          currentObj.rows = [response.data.data.Item];
 
           currentObj.id = +i;
         }
 
         console.log(response.data.data.Item.email);
 
-        console.log(response.data.data.Item);
+        console.log(response.data.data);
         if (response.statusCode == "200") router.push("donorlist");
       })
       .catch(function (error) {

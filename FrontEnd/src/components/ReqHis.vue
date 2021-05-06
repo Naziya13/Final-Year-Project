@@ -48,10 +48,10 @@ export default {
       .then(function (response) {
         delete response.data.data.Item.password;
         delete response.data.data.Item.gender;
-        
+        var n=(Object.keys(response.data.data)).length
          console.log((response.data.data.Item).length)
-        for (var i = 0; i < response.data.data.Item.length; i++) {
-          currentObj.rows = response.data.data.Item;
+        for (var i = 0; i < n; i++) {
+          currentObj.rows = [response.data.data.Item];
           currentObj.id = +i;
         }
 

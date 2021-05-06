@@ -82,8 +82,10 @@ export default {
       ],
       Volunteer: "",
       file: "",
-      work:"completed",
-      email:''
+     
+      email:'',
+      D_email:'',
+      R_email:''
     };
   },
   created() {
@@ -97,7 +99,7 @@ export default {
       .then(function (response) {
         console.log("Donor");
         currentObj.donor = [response.data.data.Item];
-
+        currentObj.D_email=response.data.data.Item.email;
         // console.log(currentObj.donor)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
@@ -118,7 +120,7 @@ export default {
         delete response.data.data.Item.volunteerName;
         delete response.data.data.Item.volunteerEmail;
         currentObj.requester = [response.data.data.Item];
-
+         currentObj.R_email=response.data.data.Item.email;
         //console.log(currentObj.requester)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
@@ -141,7 +143,9 @@ export default {
       let currentObj = this;
       let formData = new FormData();
       formData.append("email",this.email)
-      formData.append('work',this.work)
+      //formData.append('work',this.work);
+      formData.append("D_mail",this.D_email);
+      formData.append("R_email",this.R_email)
       formData.append("file", this.file);
       var config = {
         headers: {
