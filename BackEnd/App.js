@@ -47,7 +47,7 @@ app.use('/feedbacklist',FeedbackList_NormRoutes)
 app.use('/volunteerRegistration',volunteerRegistration);
 app.use('/Volunteerlist',volunteerList);
 app.use('/Volunteer',volunteer);
-app.use('/ForgotPass',forgotPass);
+//app.use('/ForgotPass',forgotPass);
 app.use('/DonorPage',Donorpage);
 app.use('/Requesterpage',Requesterpage);
 app.use('/Adminpage',Adminpage);
