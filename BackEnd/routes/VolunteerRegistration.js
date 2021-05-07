@@ -99,8 +99,8 @@ router.post("/volunteerRegistrationRoute", cors(corsOptions), uploads.single('fi
       "password": pass,
       "mobile": mob,
       "Volunteer_Id":V_id,
-      "address": address,
-      "Work_Status":"not completed"
+      "address": address
+      //"Work_Status":"not completed"
       //"Date/Time":Date.now().toString
 
 

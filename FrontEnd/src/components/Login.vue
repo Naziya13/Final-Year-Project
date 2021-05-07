@@ -21,7 +21,14 @@
           required
         />
       </div>
-
+      <label>Login As:</label>
+      <select v-model="selected" style="margin-left:3%" required>
+        <option>Admin</option>
+        <option>Donor</option>
+        <option>Requester</option>
+        <option>Volunteer</option>
+      </select>
+      <br /><br />
       <button
         type="submit"
         class="btn btn-dark btn-lg btn-block"
@@ -33,14 +40,8 @@
       <p class="forgot-password text-right mt-2 mb-4">
         <router-link to="/forgot-password">Forgot password ?</router-link>
       </p>
-      <label style="margin-left: 30%">Login As</label>
-      <select v-model="selected" style="margin-left: 30%" required>
-        <option>Admin</option>
-        <option>Donor</option>
-        <option>Requester</option>
-        <option>Volunteer</option>
-      </select>
-      <br /><br />
+
+      
       <div class="social-icons">
         <a href="#" class="fa fa-facebook"></a>
         <a href="#" class="fa fa-google"></a>

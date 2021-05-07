@@ -82,10 +82,12 @@ export default {
       ],
       Volunteer: "",
       file: "",
-     
+      D_add:'',
+      R_add:'',
       email:'',
       D_email:'',
-      R_email:''
+      R_email:'',
+      V_id:''
     };
   },
   created() {
@@ -100,11 +102,14 @@ export default {
         console.log("Donor");
          currentObj.Volunteer = response.data.data.Item.volunteerName;
         currentObj.email=response.data.data.Item.volunteerEmail;
-        
+        currentObj.V_id=response.data.data.Item.Volunteer_Id;
+       
+        delete response.data.data.Item.Volunteer_Id;
         delete response.data.data.Item.volunteerName;
         delete response.data.data.Item.volunteerEmail;
         currentObj.donor = [response.data.data.Item];
         currentObj.D_email=response.data.data.Item.email;
+        currentObj.D_add=response.data.data.Item.address;
         // console.log(currentObj.donor)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item.email);
@@ -121,11 +126,14 @@ export default {
       .then(function (response) {
         currentObj.Volunteer = response.data.data.Item.volunteerName;
         currentObj.email=response.data.data.Item.volunteerEmail;
+        currentObj.V_id=response.data.data.Item.Volunteer_Id
 
+        delete response.data.data.Item.Volunteer_Id;
         delete response.data.data.Item.volunteerName;
         delete response.data.data.Item.volunteerEmail;
         currentObj.requester = [response.data.data.Item];
          currentObj.R_email=response.data.data.Item.email;
+         currentObj.R_add=response.data.data.Item.address;
         //console.log(currentObj.requester)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
@@ -148,10 +156,13 @@ export default {
       let currentObj = this;
       
       let formData = new FormData();
-      formData.append("email",this.email)
-      //formData.append('work',this.work);
+      formData.append("Volunteer",this.Volunteer);
+      formData.append("email",this.email);
+      formData.append("V_id",this.V_id);
+      formData.append('D_add',this.D_add);
       formData.append("D_mail",this.D_email);
-      formData.append("R_email",this.R_email)
+      formData.append("R_email",this.R_email);
+      formData.append("R_add",this.R_add);
       formData.append("file", this.file);
       var config = {
         headers: {

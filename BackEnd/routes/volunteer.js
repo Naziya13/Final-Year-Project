@@ -129,7 +129,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
             Key: {
               "email": Email
             },
-            projectionExpression: "addresss,name,email"
+            projectionExpression: "addresss,name,email,Volunteer_Id"
 
           };
           docClient.get(params, function (err, volunteer_data) {
@@ -151,7 +151,8 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
                       address: donor_adress[j],
                       OfferProduct: donor_product[j],
                       volunteerName: volunteer_data.Item.name,
-                      volunteerEmail: volunteer_data.Item.email
+                      volunteerEmail: volunteer_data.Item.email,
+                      Volunteer_Id:volunteer_data.Item.Volunteer_Id
                     }
                   }
                 }
@@ -173,6 +174,13 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
 router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
   var params = {
     TableName: 'requester',
+    //FilterExpression:"contains(#date,:date)",
+    //ExpressionAttributeNames:{
+      //"#date":"DatTime"
+    //},
+    //ExpressionAttributeValues:{
+      //":date":	"2021-05"
+    //}
     projectionExpression: 'address,email,name,mobile,RequestProduct'
   }
 
@@ -230,7 +238,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
             Key: {
               "email": Email
             },
-            projectionExpression: "addresss,name,email"
+            projectionExpression: "addresss,name,email,Volunteer_Id"
 
           };
           docClient.get(params, function (err, volunteer_data) {
@@ -253,9 +261,13 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
                       address: req_adress[j],
                       RequestProduct: req_product[j],
                       volunteerName: volunteer_data.Item.name,
-                      volunteerEmail: volunteer_data.Item.email
+                      volunteerEmail: volunteer_data.Item.email,
+                      Volunteer_Id:volunteer_data.Item.Volunteer_Id
                     }
                   }
+                }
+                else{
+ 
                 }
               }
               var object = { message: ' Successfull fetch requester', statusCode: '201', statusMessage: 'success requester', 'data': data };
@@ -274,21 +286,30 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
   console.log("reqFile:" + JSON.stringify(req.file));
   console.log("reqBody:" + JSON.stringify(req.body));
 
-  var { email, D_mail, R_email } = req.body;
+  var { email,Volunteer, D_mail, R_email,V_id,D_add,R_add } = req.body;
+
+  let date_ob = new Date()
+
+  let date = ("0" + date_ob.getDate()).slice(-2);
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  let year = date_ob.getUTCFullYear();
 
   var params = {
-    TableName: "Volunteers",
-    Key: {
-      "email": email
-    },
-    UpdateExpression: "set Work_Status =:st",
-    ExpressionAttributeValues: {
-      ":st": "Completed"
-
-
+    TableName: "Daily_Transaction",
+    Item:{
+        "email":email,
+        "volunteer_Name":Volunteer,
+        "volunteer_Id":V_id,
+        "source":D_add,
+        "Destination":R_add,
+        "date":year + "-" + month + "-" + date ,
+        "Work_Status":"Completed"
     }
+
+
+    
   }
-  docClient.update(params, function (err, data) {
+  docClient.put(params, function (err, data) {
     if (err)
       console.log(err)
     else {

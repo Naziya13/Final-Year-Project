@@ -15,13 +15,15 @@ const volunteerRegistration=require('./routes/VolunteerRegistration');
 const volunteerList=require('./routes/VolunteerList');
 const volunteer=require('./routes/volunteer');
 const FeedbackList_NormRoutes=require('./routes/feedbcakList');
-const forgotPass=require('./routes/forgotPassword')
+//const forgotPass=require('./routes/forgotPassword')
+const ResetPass=require('./routes/ResetPass');
 const Donorpage=require('./routes/Donorpage')
 const volLastpage=require('./routes/volLastpage')
 const Requesterpage=require('./routes/Requesterpage')
 const Adminpage=require('./routes/Adminpage');
 const donorHis=require('./routes/donorHis');
-const reqHis=require('./routes/requesterHis')
+const reqHis=require('./routes/requesterHis');
+const D_transc=require('./routes/dailyTrasaction');
 //create multiple apis.. with different file names
 
 // const fs = require('fs');
@@ -30,10 +32,6 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 
 app.use("/routes", express.static("routes"));
-
-
-// create the connection to database
-
 
 
 app.use('/Register', register_NormRoutes);
@@ -48,12 +46,14 @@ app.use('/volunteerRegistration',volunteerRegistration);
 app.use('/Volunteerlist',volunteerList);
 app.use('/Volunteer',volunteer);
 //app.use('/ForgotPass',forgotPass);
+app.use('/ResetPass',ResetPass)
 app.use('/DonorPage',Donorpage);
 app.use('/Requesterpage',Requesterpage);
 app.use('/Adminpage',Adminpage);
 app.use('/donorHis',donorHis);
 app.use('/reqHis',reqHis);
-app.use('/volLast',volLastpage)
+app.use('/volLast',volLastpage);
+app.use('/dailyTransc',D_transc);
 
 app.use(
   bodyParser.urlencoded({

@@ -1,6 +1,7 @@
 /*const router = require("express").Router();
 var cors = require('cors')
 var AWS = require('aws-sdk');
+var fs=require('fs')
 
 
 var awsconfig = {
@@ -33,13 +34,9 @@ router.use(bodyParser.json());
 router.post('/forgotPassword', cors(corsOptions), (req, res) => {
   console.log("reqBody:" + JSON.stringify(req.body));
 
-  const user = req.body.email;
+  const {email,selected} = req.body;
 
-  const expirePasswordTokens = async (user) => {
-    if (!user) throw new Error("user is required");
-
-
-  }
-
+    sessionStorage.setItem("email",email);
+    sessionStorage.setItem("selected",selected);
 })
 module.exports = router;*/

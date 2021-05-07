@@ -7,6 +7,14 @@
                 <label>Email address</label>
                 <input type="email" class="form-control form-control-lg" v-model="email" />
             </div>
+            you are:
+      <select v-model="selected" style="margin-left:3%" required>
+        <option>Admin</option>
+        <option>Donor</option>
+        <option>Requester</option>
+        <option>Volunteer</option>
+      </select>
+      <br /><br />
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Reset password</button>
 
@@ -14,14 +22,15 @@
     </div>
 </template>
 
-<script>
+<script>/*
 import axios from 'axios'
 import router from '../router/index'
 
     export default {
         data() {
             return {
-                email:''
+                email:'',
+                selected:''
             }
         },
         methods:{
@@ -34,13 +43,14 @@ import router from '../router/index'
                     }
                 };
                 axios.post('http://localhost:8082/ForgotPass/forgotPassword',{
-                    email:this.email
+                    email:this.email,
+                    selected:this.selected
                 },config)
                 .then(function(response){
                     currentObj.output=response.data;
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                    
+                     router.push({ name: "resetpass"});                    
                 })
                 .catch(function (error) {
                     currentObj.output = error;
@@ -50,5 +60,5 @@ import router from '../router/index'
              }
 
         }
-    }
+    }*/
 </script>
