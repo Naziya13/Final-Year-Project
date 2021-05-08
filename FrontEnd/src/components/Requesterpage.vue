@@ -1,15 +1,24 @@
 <template>
   <div class="vue-tempalte">
     <form>
-      <h5 style="margin-left: 30%">{{ Name }}</h5>
-      <p class="forgot-password text-center mb-5">
-        <router-link to="/ReqHis">History</router-link>
-      </p>
-      <p class="forgot-password text-center mb-5">
-        <router-link to="/Requester">Request Product</router-link>
-      </p>
+<div class="social-icons mt-3 mb-5">
+            <i class="fa fa-user-circle mb-3"></i>
+            <h4>{{Name}}</h4>
+      </div> 
 
-      <p class="forgot-password text-center mb-5">
+      <p class="forgot-password text-center mb-1">
+        <router-link to="/profile">View Profile</router-link>
+      </p>
+      <hr style="background-color:black;">
+      <p class="forgot-password text-center mb-1">
+        <router-link to="/ReqHis">My History</router-link>
+      </p>
+      <hr style="background-color:black;">
+      <p class="forgot-password text-center mb-1">
+        <router-link to="/requester">Request Product</router-link>
+      </p>
+      <hr style="background-color:black;">
+      <p class="forgot-password text-center mb-1">
         <a href="#" @click="Logout()">Logout</a>
       </p>
     </form>

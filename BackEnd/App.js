@@ -23,7 +23,9 @@ const Requesterpage=require('./routes/Requesterpage')
 const Adminpage=require('./routes/Adminpage');
 const donorHis=require('./routes/donorHis');
 const reqHis=require('./routes/requesterHis');
+const profile=require('./routes/profile');
 const D_transc=require('./routes/dailyTrasaction');
+const thankyou=require('./routes/Thankyou')
 //create multiple apis.. with different file names
 
 // const fs = require('fs');
@@ -54,6 +56,8 @@ app.use('/donorHis',donorHis);
 app.use('/reqHis',reqHis);
 app.use('/volLast',volLastpage);
 app.use('/dailyTransc',D_transc);
+app.use('/profile',profile)
+app.use('/ThankYou',thankyou)
 
 app.use(
   bodyParser.urlencoded({

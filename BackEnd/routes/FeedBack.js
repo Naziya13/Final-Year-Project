@@ -59,7 +59,8 @@ router.post("/feedbackRoute", cors(corsOptions), async (req, res) => {
       "FullName": fullname,
       "mobileNo": mobile,
       "feedback": feedback,
-      "suggestions": suggestions
+      "suggestions": suggestions,
+      "Type":type
     }
   };
 

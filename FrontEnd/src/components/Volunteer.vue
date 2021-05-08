@@ -1,7 +1,20 @@
 <template>
   <div class="vue-tempalte">
-    <h3 class="text-left">{{ Volunteer }}</h3>
-    <p class="text-center">Work Assigned to me...</p>
+<div class="profile">
+          <div class="row">
+            <div class="col-md-6 text-right">
+                <i class="fa fa-user-circle mb-3"></i>                  
+            </div>
+            <div class="col-md-6 mt-4">
+                  <h4>Name</h4>
+                  <h6 class="forgot-password text-left mt-1 mb-3">
+                      <router-link to="/profile">View Profile</router-link>
+                  </h6>
+            </div>
+          </div>
+    </div>
+
+    <h5 class="text-center mt-3">Work Assigned to me...</h5>
     <div class="row">
       <div class="col-md-6">
         <h4 class="text-center">Donor</h4>

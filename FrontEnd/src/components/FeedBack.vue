@@ -5,17 +5,31 @@
 
       <div class="form-group">
         <label>Full Name</label>
-        {{ fullname }}
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="fullname"
+          disabled
+        />
       </div>
-
       <div class="form-group">
-        <label>Email address</label>
-        {{ email }}
+        <label>Email Address</label>
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="email"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label>Mobile Number</label>
-        {{ mobile }}
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="mobile"
+          disabled
+        />
       </div>
       <p class="text-center">Tell Us How You R eally Feel?</p>
 
@@ -76,7 +90,7 @@ export default {
     return {
       fullname: "",
       email: "",
-      typpe: "",
+      type: "",
       mobile: "",
       suggestions: "",
       feedback: "",

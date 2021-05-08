@@ -11,8 +11,8 @@
           v-model="email"
         />
       </div>
-      you are:
-      <select v-model="selected" style="margin-left: 3%" required>
+      <label>Reset_Password As</label>
+      <select v-model="selected"  required>
         <option>Admin</option>
         <option>Donor</option>
         <option>Requester</option>

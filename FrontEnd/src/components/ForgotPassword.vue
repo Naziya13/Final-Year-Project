@@ -1,22 +1,15 @@
 <template>
     <div class="vue-tempalte">
-        <form @submit="formSubmit">
+        <form >
             <h3>Forgot Password</h3>
 
             <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" v-model="email" />
+                <input type="email" class="form-control form-control-lg" />
             </div>
-            you are:
-      <select v-model="selected" style="margin-left:3%" required>
-        <option>Admin</option>
-        <option>Donor</option>
-        <option>Requester</option>
-        <option>Volunteer</option>
-      </select>
-      <br /><br />
+           
 
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Reset password</button>
+            <button  class="btn btn-dark btn-lg btn-block" to="/resetpass">Reset password</button>
 
         </form>
     </div>

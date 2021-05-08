@@ -1,12 +1,12 @@
 <template>
   <div class="vue-tempalte">
-    <form @submit="formSubmit">
+     <form @submit="formSubmit">
       <h3>Login</h3>
       <div class="form-group">
         <label>Username</label>
         <input
           type="email"
-          class="form-control form-control-lg"
+          class="form-control form-control-sm"
           v-model="Email"
           required
         />
@@ -16,19 +16,19 @@
         <label>Password</label>
         <input
           type="password"
-          class="form-control form-control-lg"
+          class="form-control form-control-sm"
           v-model="pass"
           required
         />
       </div>
-      <label>Login As:</label>
-      <select v-model="selected" style="margin-left:3%" required>
-        <option>Admin</option>
+
+      <label>Login As</label>
+      <div class="select mb-4">
+      <select v-model="selected" required>
         <option>Donor</option>
         <option>Requester</option>
-        <option>Volunteer</option>
       </select>
-      <br /><br />
+      </div>
       <button
         type="submit"
         class="btn btn-dark btn-lg btn-block"
@@ -37,21 +37,20 @@
         Login
       </button>
 
-      <p class="forgot-password text-right mt-2 mb-4">
+      <p class="forgot-password text-right mt-1 mb-4">
         <router-link to="/forgot-password">Forgot password ?</router-link>
       </p>
-
       
       <div class="social-icons">
         <a href="#" class="fa fa-facebook"></a>
-        <a href="#" class="fa fa-google"></a>
+        <a href="#" class="fa fa-google ml-4"></a>
       </div>
-
-      <p class="forgot-password text-center mt-2 mb-2">
+     
+      <p class="forgot-password text-center mt-2 ">
         Have not account yet ?
         <router-link to="/registration">Register</router-link>
       </p>
-    </form>
+     </form>
   </div>
 </template>
 

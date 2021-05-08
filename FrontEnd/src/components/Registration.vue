@@ -89,13 +89,13 @@
         ></textarea>
       </div>
       <label>Register As</label>
-      <br />
+     
       <select v-model="selected" required>
-        <option disabled value="">Register As...</option>
+        <option disabled value=""></option>
         <option>Donor</option>
         <option>Requester</option>
       </select>
-      <br /><br />
+   
 
       <button type="submit" class="btn btn-dark btn-lg btn-block">
         Register
