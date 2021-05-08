@@ -4,22 +4,42 @@
       <h3>Requester</h3>
 
       <div class="form-group">
-        <label>Full Name:</label>
-        {{ fullName }}
+        <label>Full Name</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="fullName"
+          disabled
+        />
       </div>
 
       <div class="form-group">
-        <label>Email address:</label>
-        {{ email }}
+        <label>Email Address</label>
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="email"
+          disabled
+        />
       </div>
 
       <div class="form-group">
-        <label>Mobile Number :</label>
-        {{ mobile }}
+        <label>Mobile Number</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="mobile"
+          disabled
+        />
       </div>
       <div class="form-group">
         <label>Address</label>
-        {{ address }}
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="address"
+          disabled
+        />
       </div>
       <fieldset class="form-group">
         <legend>Request Product</legend>
@@ -122,7 +142,10 @@ export default {
           currentObj.output = response.data.file;
           currentObj.output = response.data.email;
           // console.log(JSON.stringify(response));
-          if (response.statusMessage == "success" || response.statusCode=='200');
+          if (
+            response.statusMessage == "success" ||
+            response.statusCode == "200"
+          );
           router.push({ name: "Thankyou" });
         })
         .catch(function (error) {
@@ -142,4 +165,4 @@ html,
   width: 100%;
   height: 103%;
 }
-</style>
+</style>c
