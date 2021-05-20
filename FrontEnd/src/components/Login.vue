@@ -63,6 +63,7 @@ export default {
   mounted() {
     console.log("Component mounted.");
     document.getElementById("Button").disabled = true;
+
   },
   data() {
     return {
