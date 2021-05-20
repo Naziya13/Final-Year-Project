@@ -74,7 +74,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/Adminpage/AdminRoute", config)
+      .get("http://localhost:8082/Adminpage/AdminRoute", config)
       .then(function (response) {
         console.log("Enter in admin");
         console.log(response.data.data.Item);
@@ -97,7 +97,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8081/Adminpage/logout",
+          "http://localhost:8082/Adminpage/logout",
           {
             email: this.email,
           },

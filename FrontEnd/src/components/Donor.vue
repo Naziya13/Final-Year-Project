@@ -90,7 +90,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/donor/donorRoute2")
+      .get("http://localhost:8082/donor/donorRoute2")
       .then(function (response) {
         currentObj.fullName = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -123,7 +123,7 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      post("http://localhost:8081/donor/donorRoute", formData, config).then(
+      post("http://localhost:8082/donor/donorRoute", formData, config).then(
         function (response) {
           currentObj.output = response.data.offer;
           currentObj.output = response.data.file;

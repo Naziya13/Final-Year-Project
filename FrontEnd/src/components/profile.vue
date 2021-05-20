@@ -77,7 +77,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/profile/profileRoute")
+      .get("http://localhost:8082/profile/profileRoute")
       .then(function (response) {
         currentObj.fullName = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;

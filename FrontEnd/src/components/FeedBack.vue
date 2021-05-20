@@ -101,7 +101,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/feedback/feebackRoute2")
+      .get("http://localhost:8082/feedback/feebackRoute2")
       .then(function (response) {
         currentObj.fullname = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -125,7 +125,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8081/feedback/feedbackRoute",
+          "http://localhost:8082/feedback/feedbackRoute",
           {
             fullname: this.fullname,
             email: this.email,

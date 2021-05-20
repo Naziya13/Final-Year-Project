@@ -44,7 +44,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/reqHis/reqRoute", config)
+      .get("http://localhost:8082/reqHis/reqRoute", config)
       .then(function (response) {
         delete response.data.data.Item.password;
         delete response.data.data.Item.gender;

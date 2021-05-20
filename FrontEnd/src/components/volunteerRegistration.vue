@@ -124,7 +124,7 @@ export default {
         },
       };
       post(
-        "http://localhost:8081/volunteerRegistration/volunteerRegistrationRoute",
+        "http://localhost:8082/volunteerRegistration/volunteerRegistrationRoute",
         formData,
         config
       )

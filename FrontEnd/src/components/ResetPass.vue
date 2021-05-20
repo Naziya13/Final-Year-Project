@@ -68,7 +68,7 @@ export default {
       if (this.pass == this.Cpass) {
         axios
           .post(
-            "http://localhost:8081/ResetPass/ResetPassword",
+            "http://localhost:8082/ResetPass/ResetPassword",
             {
               Cpass: this.Cpass,
               email:this.email,

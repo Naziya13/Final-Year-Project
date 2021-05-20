@@ -49,17 +49,17 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/donorlist/adminRoute", config)
+      .get("http://localhost:8082/donorlist/adminRoute", config)
       .then(function (response) {
         currentObj.id = 1;
         //console.log(typeof(response.data.data.Items))
-        for (var i = 0; i < response.data.data.Items.length; i++) {
-          currentObj.rows = response.data.data.Items;
+        for (var i = 0; i < response.data.data.length; i++) {
+          currentObj.rows = response.data.data;
           currentObj.id = +i;
         }
 
-        console.log(response.data.data.Items.length);
-        console.log(response.data.data.Items);
+        console.log(response.data.data.length);
+        console.log(response.data.data);
         if (response == null || response == "undefined")
           router.push("donorlist");
       })
@@ -81,6 +81,6 @@ html,
   height: 100%;
 }
 .inner-block {
-  width: 800px;
+  width: 900px;
 }
 </style>

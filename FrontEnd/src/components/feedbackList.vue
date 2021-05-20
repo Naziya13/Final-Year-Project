@@ -48,7 +48,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/feedbacklist/feedbackRoute", config)
+      .get("http://localhost:8082/feedbacklist/feedbackRoute", config)
       .then(function (response) {
         currentObj.id = 1;
         for (var i = 0; i < response.data.data.Items.length; i++) {

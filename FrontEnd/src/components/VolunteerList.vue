@@ -46,7 +46,7 @@ export default {
           headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'}
           };
           let currentObj=this;
-        axios.get('http://localhost:8081/Volunteerlist/volunteerListRoute',config)
+        axios.get('http://localhost:8082/Volunteerlist/volunteerListRoute',config)
         .then(function(response){
             for(var i=0;i<(response.data.data.Items).length;i++)
             {   

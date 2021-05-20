@@ -56,7 +56,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/dailyTransc/TranscRoute", config)
+      .get("http://localhost:8082/dailyTransc/TranscRoute", config)
       .then(function (response) {
         currentObj.id = 1;
         //console.log(typeof(response.data.data.Item.length))

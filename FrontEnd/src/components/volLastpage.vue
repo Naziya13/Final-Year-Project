@@ -32,7 +32,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/volLast/VolRoute", config)
+      .get("http://localhost:8082/volLast/VolRoute", config)
       .then(function (response) {
         currentObj.name = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -52,7 +52,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8081/volLast/logout",
+          "http://localhost:8082/volLast/logout",
           {
             email: this.email,
           },

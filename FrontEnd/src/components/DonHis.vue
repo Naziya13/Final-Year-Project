@@ -46,7 +46,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/donorHis/donorRoute", config)
+      .get("http://localhost:8082/donorHis/donorRoute", config)
       .then(function (response) {
         currentObj.id = 1;
         delete response.data.data.Item.gender;

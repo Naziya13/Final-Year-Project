@@ -63,10 +63,6 @@ export default {
   mounted() {
     console.log("Component mounted.");
     document.getElementById("Button").disabled = true;
-    function preventBack(){window.history.forward();}
-    setTimeout("preventBack()", 0);
-    window.onunload=function(){null};
-    preventBack()
   },
   data() {
     return {
@@ -89,7 +85,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8081/Login/loginRoute",
+          "http://localhost:8082/Login/loginRoute",
           {
             Email: this.Email,
             pass: this.pass,

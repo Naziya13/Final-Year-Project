@@ -91,7 +91,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/requester/RequestDetails")
+      .get("http://localhost:8082/requester/RequestDetails")
       .then(function (response) {
         console.log(response.data.data.OfferProduct.length);
         let items = [];
@@ -135,7 +135,7 @@ export default {
         },
       };
       axios
-        .post("http://localhost:8081/requester/requestRoute", formData, config)
+        .post("http://localhost:8082/requester/requestRoute", formData, config)
         .then(function (response) {
           currentObj.output = response.data.selected;
 

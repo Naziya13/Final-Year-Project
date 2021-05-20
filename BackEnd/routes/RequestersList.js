@@ -43,9 +43,10 @@ router.get("/adminReq_Route", cors(corsOptions), (req, res) => {
       console.log(err);
     }
     else {
-
+      const sortedActivities = data.Items.sort((a, b) => new Date (b.Date_Time) - new Date (a.Date_Time))
+      console.log("updated...",sortedActivities);
       console.log("sucessful data fetch", data.Item);
-      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': sortedActivities };
       res.json(object);
     }
 

@@ -133,7 +133,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8081/Register/registerRoute",
+          "http://localhost:8082/Register/registerRoute",
           {
             fullName: this.fullName,
             email: this.email,

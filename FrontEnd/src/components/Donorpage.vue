@@ -44,7 +44,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/Donorpage/donorRoute", config)
+      .get("http://localhost:8082/Donorpage/donorRoute", config)
       .then(function (response) {
         currentObj.Name = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -64,7 +64,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8081/Donorpage/logout",
+          "http://localhost:8082/Donorpage/logout",
           {
             email: this.email,
           },

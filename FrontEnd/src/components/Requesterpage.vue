@@ -44,7 +44,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8081/Requesterpage/RequestRoute", config)
+      .get("http://localhost:8082/Requesterpage/RequestRoute", config)
       .then(function (response) {
         console.log(response.data.data.Items);
         currentObj.Name = response.data.data.Item.name;
@@ -65,7 +65,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8081/Requesterpage/logout",
+          "http://localhost:8082/Requesterpage/logout",
 
           { email: this.email },
           config
