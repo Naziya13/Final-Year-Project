@@ -89,9 +89,11 @@ router.get("/RequestDetails", cors(corsOptions), (req, res) => {
       var i = 0;
       //console.log("sucessful data fetch",data.Items); 
       data.Items.forEach((record) => {
-        offer[i] = record.OfferProduct;
-        i++;
-        console.log(record.OfferProduct)
+        if (record.OfferProduct != "none") {
+          offer[i] = record.OfferProduct;
+          i++;
+          console.log(record.OfferProduct)
+        }
       })
 
       console.log(offer)
@@ -111,7 +113,7 @@ router.get("/RequestDetails", cors(corsOptions), (req, res) => {
           console.log("sucessful data fetch", data.Item);
           let E = [];
           var i = 0;
-           
+
           data.Items.forEach((record) => {
             E[i] = record.email;
             i++;
@@ -160,27 +162,26 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
   //write code for adding new users to database...
   var params = {
     TableName: "requester",
-      Key: {
-        "email": email
-      },
-      UpdateExpression:"set RequestProduct=:request",
-      ExpressionAttributeValues:{
-        ":request":selected
-      
-      
+    Key: {
+      "email": email
+    },
+    UpdateExpression: "set RequestProduct=:request",
+    ExpressionAttributeValues: {
+      ":request": selected
+
+
 
     }
   };
-  docClient.update(params,function(err,data){
-    if(err)
-    {
+  docClient.update(params, function (err, data) {
+    if (err) {
       console.log(err)
     }
-    else{
+    else {
       var object = { message: ' Successfull', statusCode: '200', statusMessage: 'success' };
       res.json(object);
     }
-    
+
   })
 
   // s3 upload
@@ -192,12 +193,12 @@ router.post("/requestRoute", cors(corsOptions), uploads.single('file'), (req, re
     console.error(error);
     console.log("file upload failed....")
   }
-  else{
+  else {
     res.json("Successfully INserted to Database..")
   }
 
 
-  
+
 });
 
 

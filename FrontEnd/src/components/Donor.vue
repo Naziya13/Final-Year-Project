@@ -3,23 +3,43 @@
     <form @submit="formSubmit">
       <h3>Donor</h3>
 
-      <div class="form-group">
-        <label>Full Name :</label>
-        {{ fullName }}
+        <div class="form-group">
+        <label>Full Name</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="fullName"
+          disabled
+        />
       </div>
 
       <div class="form-group">
-        <label>Email address :</label>
-        {{ email }}
+        <label>Email Address</label>
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="email"
+          disabled
+        />
       </div>
 
-      <div class="form-group">
-        <label>Mobile Number :</label>
-        {{ mobile }}
+       <div class="form-group">
+        <label>Mobile Number</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="mobile"
+          disabled
+        />
       </div>
       <div class="form-group">
         <label>Address</label>
-        {{ address }}
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="address"
+          disabled
+        />
       </div>
       <div class="form-group">
         <label>Offer</label>
@@ -70,7 +90,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8082/donor/donorRoute2")
+      .get("http://localhost:8081/donor/donorRoute2")
       .then(function (response) {
         currentObj.fullName = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -103,7 +123,7 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      post("http://localhost:8082/donor/donorRoute", formData, config).then(
+      post("http://localhost:8081/donor/donorRoute", formData, config).then(
         function (response) {
           currentObj.output = response.data.offer;
           currentObj.output = response.data.file;

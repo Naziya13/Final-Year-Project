@@ -1,27 +1,29 @@
 <template>
     <div class="vue-tempalte">
-        <form @submit="formSubmit">
+        <form >
             <h3>Forgot Password</h3>
 
             <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" v-model="email" />
+                <input type="email" class="form-control form-control-lg" />
             </div>
+           
 
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Reset password</button>
+            <button  class="btn btn-dark btn-lg btn-block" to="/resetpass">Reset password</button>
 
         </form>
     </div>
 </template>
 
-<script>
+<script>/*
 import axios from 'axios'
 import router from '../router/index'
 
     export default {
         data() {
             return {
-                email:''
+                email:'',
+                selected:''
             }
         },
         methods:{
@@ -33,14 +35,15 @@ import router from '../router/index'
                   headers: {'Access-Control-Allow-Origin': 'http://localhost:8081'
                     }
                 };
-                axios.post('http://localhost:8082/ForgotPass/forgotPassword',{
-                    email:this.email
+                axios.post('http://localhost:8081/ForgotPass/forgotPassword',{
+                    email:this.email,
+                    selected:this.selected
                 },config)
                 .then(function(response){
                     currentObj.output=response.data;
                     console.log(JSON.stringify(response));
                     if(response.statusMessage == 'success');
-                     router.push({ name: "homepage"});                    
+                     router.push({ name: "resetpass"});                    
                 })
                 .catch(function (error) {
                     currentObj.output = error;
@@ -50,5 +53,5 @@ import router from '../router/index'
              }
 
         }
-    }
+    }*/
 </script>

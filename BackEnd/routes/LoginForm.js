@@ -42,6 +42,7 @@ router.post("/loginRoute", cors(corsOptions), (req, res) => {
     pass,
     selected
   } = req.body;
+
   console.log("Type of email:" + typeof (Email))
   console.log(Email)
   function SessionDb(email, password, type) {
@@ -105,9 +106,10 @@ router.post("/loginRoute", cors(corsOptions), (req, res) => {
   }
   else if (selected == "Donor") {
     var params = {
-      TableName: 'Donor',
+      TableName: "Donor",
       Key: {
-        "email": Email
+        "email": Email,
+
       },
 
       KeyConditionExpression: 'email = :Email ',

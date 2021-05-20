@@ -8,12 +8,11 @@ var awsconfig = {
   "secretAccessKey": '2PwyKrB1Db8QDPlWs/hkTfkc5539RQ0dmrQ6qOCz'
 }
 
-
 AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8082',
+  origin: 'http://localhost:8081',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -27,8 +26,6 @@ router.use(
   })
 );
 
-//const { key } = require("../config/key");
-//AWS.config.update({key})
 router.use(bodyParser.json());
 
 // 1.1 ********** server test api **************
@@ -46,16 +43,17 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
     }
     else {
 
-      console.log("sucessful data fetch", data1.Item);
+      console.log("sucessful data fetch", data1.Items);
       let E = [];
       var i = 0;
       data1.Items.forEach((record) => {
         E[i] = record.email;
         i++;
-        //console.log(record.email)
+
       })
-      //console.log("Email:" + E) 
+
       let Email = JSON.stringify(E[0])
+      // console.log(data1.Items.email[0])
       Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
       var params = {
         TableName: "Donor",
@@ -64,15 +62,13 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
         }
       }
       docClient.get(params, function (err, data) {
+        console.log(data)
         var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
         res.json(object);
       })
     }
   });
 
-
 });
-
-
 
 module.exports = router;

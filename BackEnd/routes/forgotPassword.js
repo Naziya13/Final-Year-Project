@@ -1,15 +1,18 @@
-const router = require("express").Router();
+/*const router = require("express").Router();
 var cors = require('cors')
-var AWS =require('aws-sdk');
+var AWS = require('aws-sdk');
+var fs=require('fs')
 
 
-var awsconfig={"region":"ap-south-1",
-"endpoint":"http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'AKIATSPZDOCGCYECV3G7',
-"secretAccessKey": '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'}
+var awsconfig = {
+  "region": "ap-south-1",
+  "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+"accessKeyId":'',
+"secretAccessKey":''
+}
 
 AWS.config.update(awsconfig)
-var docClient=new AWS.DynamoDB.DocumentClient();
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
   origin: 'http://localhost:8081',
@@ -28,16 +31,12 @@ router.use(
 
 router.use(bodyParser.json());
 
-router.post('/forgotPassword',cors(corsOptions),(req,res)=>{
-    console.log("reqBody:" + JSON.stringify(req.body));
-    
-    const user=req.body.email;
+router.post('/forgotPassword', cors(corsOptions), (req, res) => {
+  console.log("reqBody:" + JSON.stringify(req.body));
 
-    const expirePasswordTokens=async(user)=>{
-        if(!user) throw new Error ("user is required");
+  const {email,selected} = req.body;
 
-        
-    }
-
+    sessionStorage.setItem("email",email);
+    sessionStorage.setItem("selected",selected);
 })
-module.exports=router;
+module.exports = router;*/

@@ -5,17 +5,31 @@
 
       <div class="form-group">
         <label>Full Name</label>
-        {{ fullname }}
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="fullname"
+          disabled
+        />
       </div>
-
       <div class="form-group">
-        <label>Email address</label>
-        {{ email }}
+        <label>Email Address</label>
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="email"
+          disabled
+        />
       </div>
 
       <div class="form-group">
         <label>Mobile Number</label>
-        {{ mobile }}
+        <input
+          type="email"
+          class="form-control form-control-sm"
+          v-model="mobile"
+          disabled
+        />
       </div>
       <p class="text-center">Tell Us How You R eally Feel?</p>
 
@@ -76,7 +90,7 @@ export default {
     return {
       fullname: "",
       email: "",
-      typpe: "",
+      type: "",
       mobile: "",
       suggestions: "",
       feedback: "",
@@ -87,7 +101,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8082/feedback/feebackRoute2")
+      .get("http://localhost:8081/feedback/feebackRoute2")
       .then(function (response) {
         currentObj.fullname = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -111,7 +125,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8082/feedback/feedbackRoute",
+          "http://localhost:8081/feedback/feedbackRoute",
           {
             fullname: this.fullname,
             email: this.email,

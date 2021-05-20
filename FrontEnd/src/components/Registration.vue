@@ -89,13 +89,13 @@
         ></textarea>
       </div>
       <label>Register As</label>
-      <br />
+     
       <select v-model="selected" required>
-        <option disabled value="">Register As...</option>
+        <option disabled value=""></option>
         <option>Donor</option>
         <option>Requester</option>
       </select>
-      <br /><br />
+   
 
       <button type="submit" class="btn btn-dark btn-lg btn-block">
         Register
@@ -133,7 +133,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8082/Register/registerRoute",
+          "http://localhost:8081/Register/registerRoute",
           {
             fullName: this.fullName,
             email: this.email,

@@ -22,7 +22,16 @@
           required
         />
       </div>
-
+       <div class="form-group">
+        <label>Volunteer's ID</label>
+        (v.1 format)
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="V_id"
+          required
+        />
+       </div>
       <div class="form-group">
         <label>Password</label>
         <input
@@ -86,6 +95,7 @@ export default {
       address: "",
       file: "",
       pass: "",
+      V_id:''
     };
   },
   methods: {
@@ -104,7 +114,7 @@ export default {
       formData.append("email", this.email);
       formData.append("address", this.address);
       formData.append("pass", this.pass);
-
+      formData.append("V_id",this.V_id);
       formData.append("file", this.file);
       var config = {
         headers: {
@@ -113,7 +123,7 @@ export default {
         },
       };
       post(
-        "http://localhost:8082/volunteerRegistration/volunteerRegistrationRoute",
+        "http://localhost:8081/volunteerRegistration/volunteerRegistrationRoute",
         formData,
         config
       )

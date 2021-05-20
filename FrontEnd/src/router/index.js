@@ -113,6 +113,11 @@ Vue.use(VueRouter)
     path:'/Thankyou',
     name:'Thankyou',
     component:()=>import('../components/ThankYou.vue')
+  },
+  {
+    path:'/profile',
+    name:'profile',
+    component:()=>import('../components/profile.vue')
   }
 ]
 

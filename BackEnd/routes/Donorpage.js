@@ -49,7 +49,7 @@ router.get('/donorRoute', cors(corsOptions), (req, res) => {
     else {
       let E = [];
       var i = 0;
-       
+
       data1.Items.forEach((record) => {
         E[i] = record.email;
         i++;

@@ -10,6 +10,8 @@
           <th>Mobile No.</th>
           <th>Address</th>
           <th>Offer</th>
+          <th>Date&Time</th>
+          <th>Work_Status</th>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +22,8 @@
           <td>{{ row.mobile }}</td>
           <td>{{ row.address }}</td>
           <td>{{ row.OfferProduct }}</td>
+          <td>{{row.Date_Time}}</td>
+          <td>{{row.Work_status}}</td>
         </tr>
       </tbody>
     </table>
@@ -34,7 +38,7 @@ export default {
   // el:"#table",
   data() {
     return {
-      rows: [["mobile", "name", "address", "email", "OfferProduct"]],
+      rows: [["mobile", "name", "address", "email", "OfferProduct","Work_status"]],
       id: [],
     };
   },
@@ -45,9 +49,10 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8082/donorlist/adminRoute", config)
+      .get("http://localhost:8081/donorlist/adminRoute", config)
       .then(function (response) {
         currentObj.id = 1;
+        //console.log(typeof(response.data.data.Items))
         for (var i = 0; i < response.data.data.Items.length; i++) {
           currentObj.rows = response.data.data.Items;
           currentObj.id = +i;
@@ -60,7 +65,7 @@ export default {
       })
       .catch(function (error) {
         console.log(error);
-        router.push("homepage");
+        //router.push("homepage");
       });
   },
 };

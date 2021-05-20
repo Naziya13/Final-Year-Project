@@ -84,7 +84,8 @@ router.post("/volunteerRegistrationRoute", cors(corsOptions), uploads.single('fi
     email,
     mob,
     address,
-    pass
+    pass,
+    V_id
   } = req.body;
 
   console.log('fullname : ' + JSON.stringify(fullName));
@@ -97,7 +98,9 @@ router.post("/volunteerRegistrationRoute", cors(corsOptions), uploads.single('fi
       "name": fullName,
       "password": pass,
       "mobile": mob,
+      "Volunteer_Id":V_id,
       "address": address
+      //"Work_Status":"not completed"
       //"Date/Time":Date.now().toString
 
 

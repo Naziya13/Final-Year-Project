@@ -1,7 +1,20 @@
 <template>
   <div class="vue-tempalte">
-    <h3 class="text-left">{{ Volunteer }}</h3>
-    <p class="text-center">Work Assigned to me...</p>
+<div class="profile">
+          <div class="row">
+            <div class="col-md-6 text-right">
+                <i class="fa fa-user-circle mb-3"></i>                  
+            </div>
+            <div class="col-md-6 mt-4">
+                  <h4>Name</h4>
+                  <h6 class="forgot-password text-left mt-1 mb-3">
+                      <router-link to="/profile">View Profile</router-link>
+                  </h6>
+            </div>
+          </div>
+    </div>
+
+    <h5 class="text-center mt-3">Work Assigned to me...</h5>
     <div class="row">
       <div class="col-md-6">
         <h4 class="text-center">Donor</h4>
@@ -82,25 +95,37 @@ export default {
       ],
       Volunteer: "",
       file: "",
-      work:"completed",
-      email:''
+      D_add:'',
+      R_add:'',
+      email:'',
+      D_email:'',
+      R_email:'',
+      V_id:''
     };
   },
   created() {
     var config = {
-      headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
+      headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };
     let currentObj = this;
     //donor's
     axios
-      .get("http://localhost:8082/Volunteer/donorRoute", config)
+      .get("http://localhost:8081/Volunteer/donorRoute", config)
       .then(function (response) {
         console.log("Donor");
+         currentObj.Volunteer = response.data.data.Item.volunteerName;
+        currentObj.email=response.data.data.Item.volunteerEmail;
+        currentObj.V_id=response.data.data.Item.Volunteer_Id;
+       
+        delete response.data.data.Item.Volunteer_Id;
+        delete response.data.data.Item.volunteerName;
+        delete response.data.data.Item.volunteerEmail;
         currentObj.donor = [response.data.data.Item];
-
+        currentObj.D_email=response.data.data.Item.email;
+        currentObj.D_add=response.data.data.Item.address;
         // console.log(currentObj.donor)
         //console.log((response.data.data.Item).length)
-        console.log(response.data.data.Item);
+        console.log(response.data.data.Item.email);
         if (response.statusCode=='200')
           router.push("volunteer");
       })
@@ -110,15 +135,18 @@ export default {
         //router.push('homepage')
       });
     axios
-      .get("http://localhost:8082/Volunteer/requesterRoute", config)
+      .get("http://localhost:8081/Volunteer/requesterRoute", config)
       .then(function (response) {
         currentObj.Volunteer = response.data.data.Item.volunteerName;
         currentObj.email=response.data.data.Item.volunteerEmail;
+        currentObj.V_id=response.data.data.Item.Volunteer_Id
 
+        delete response.data.data.Item.Volunteer_Id;
         delete response.data.data.Item.volunteerName;
         delete response.data.data.Item.volunteerEmail;
         currentObj.requester = [response.data.data.Item];
-
+         currentObj.R_email=response.data.data.Item.email;
+         currentObj.R_add=response.data.data.Item.address;
         //console.log(currentObj.requester)
         //console.log((response.data.data.Item).length)
         console.log(response.data.data.Item);
@@ -139,9 +167,15 @@ export default {
     formSubmit(e) {
       e.preventDefault();
       let currentObj = this;
+      
       let formData = new FormData();
-      formData.append("email",this.email)
-      formData.append('work',this.work)
+      formData.append("Volunteer",this.Volunteer);
+      formData.append("email",this.email);
+      formData.append("V_id",this.V_id);
+      formData.append('D_add',this.D_add);
+      formData.append("D_mail",this.D_email);
+      formData.append("R_email",this.R_email);
+      formData.append("R_add",this.R_add);
       formData.append("file", this.file);
       var config = {
         headers: {
@@ -151,7 +185,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8082/Volunteer/FileUploadRoute",
+          "http://localhost:8081/Volunteer/FileUploadRoute",
           formData,
           config
         )

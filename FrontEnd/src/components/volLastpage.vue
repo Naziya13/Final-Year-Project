@@ -1,11 +1,15 @@
 <template>
-  <div class="vue-tempalte">
+ <div class="vue-tempalte">
+    <div class="social-icons">
+            <i class="fa fa-thumbs-up"></i>
+    </div> 
+
     <p>{{ name }}</p>
     <br />
     <h3>Good Work....Well Done !!!</h3>
 
-    <p class="forgot-password text-center mb-3">
-      <a href="#" @click="Logout()">Logout</a>
+    <p class="forgot-password text-center mt-5 mb-3">
+      <button type="submit" @click="Logout()" class="btn btn-dark btn-lg btn-block">logout</button>
     </p>
   </div>
 </template>
@@ -28,7 +32,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8082/volLast/VolRoute", config)
+      .get("http://localhost:8081/volLast/VolRoute", config)
       .then(function (response) {
         currentObj.name = response.data.data.Item.name;
         currentObj.email = response.data.data.Item.email;
@@ -48,7 +52,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8082/volLast/logout",
+          "http://localhost:8081/volLast/logout",
           {
             email: this.email,
           },

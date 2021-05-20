@@ -9,6 +9,7 @@
           <th>Name</th>
           <th>FeedBack</th>
           <th>Mobile No.</th>
+          <th>Type</th>
           <th>Suggestion</th>
         </tr>
       </thead>
@@ -19,6 +20,7 @@
           <td>{{ row.FullName }}</td>
           <td>{{ row.feedback }}</td>
           <td>{{ row.mobileNo }}</td>
+          <td>{{row.Type}}</td>
           <td>{{ row.suggestions }}</td>
         </tr>
       </tbody>
@@ -35,7 +37,7 @@ export default {
   // el:"#table",
   data() {
     return {
-      rows: [["email", "FullName", "feedback", "mobileNo", "suggestions"]],
+      rows: [["email", "FullName", "feedback", "mobileNo", "Type","suggestions"]],
       id: [],
     };
   },
@@ -46,7 +48,7 @@ export default {
     let currentObj = this;
 
     axios
-      .get("http://localhost:8082/feedbacklist/feedbackRoute", config)
+      .get("http://localhost:8081/feedbacklist/feedbackRoute", config)
       .then(function (response) {
         currentObj.id = 1;
         for (var i = 0; i < response.data.data.Items.length; i++) {

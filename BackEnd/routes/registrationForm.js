@@ -7,7 +7,6 @@ var awsconfig = {
   "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
   "secretAccessKey": '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'
 }
-
 AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -60,8 +59,49 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
   console.log('fullname : ' + JSON.stringify(fullName));
   console.log(typeof (selected))
 
+  let date_ob = new Date()
+
+  let date = ("0" + date_ob.getDate()).slice(-2);
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  let year = date_ob.getUTCFullYear();
+  let hr = date_ob.getHours();
+  let min = date_ob.getMinutes();
+  let sec = date_ob.getSeconds();
+
+
   if (selected == "Donor") {
-    //write code for adding new users to database...
+    /*
+        var params = {
+          TableName: "Donor"
+    
+        }
+        docClient.scan(params, function (err, data) {
+          if (err) {
+            console.log(err)
+          }
+          else {
+            console.log("sucessfully fetch donors" + JSON.stringify(data))
+            let E = [];
+            var i = 0;
+            //console.log("sucessful data fetch",data.Items); 
+            data.Items.forEach((record) => {
+              E[i] = record.email;
+              i++;
+              console.log(record.email)
+            })
+            for (var i = 0; i < E.length; i++) {
+              if (email == E[i]) {
+                console.log("Failed...")
+              }
+              else {
+                //write code for adding new users to database...
+              
+              }
+            }
+    
+          }
+        })*/
+
     var params = {
       TableName: "Donor",
       Item: {
@@ -70,7 +110,11 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
         "gender": gender,
         "name": fullName,
         "mobile": mob,
-        "password": pass
+        "password": pass,
+        "Work_status": "Not completed",
+        "OfferProduct": "none",
+        "Date_Time": year + "-" + month + "-" + date + " " + hr + ":" + min + ":" + sec
+
 
       }
     };
@@ -80,9 +124,37 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
 
 
     res.json("Successfully INserted to Database..")
-
   }
   else {
+    /*
+        var params = {
+          TableName: "requester"
+    
+        }
+        docClient.scan(params, function (err, data) {
+          if (err) {
+            console.log(err)
+          }
+          else {
+            console.log("sucessfully fetch donors" + JSON.stringify(data))
+            let E = [];
+            var i = 0;
+            //console.log("sucessful data fetch",data.Items); 
+            data.Items.forEach((record) => {
+              E[i] = record.email;
+              i++;
+              console.log(record.email)
+            })
+            for (var i = 0; i < E.length; i++) {
+              if (email == E[i]) {
+                console.log("Failed...")
+              }
+              else {
+               
+              }
+            }
+          }
+        })*/
     //write code for adding new users to database...
     var params = {
       TableName: "requester",
@@ -92,7 +164,10 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
         "gender": gender,
         "name": fullName,
         "mobile": mob,
-        "password": pass
+        "password": pass,
+        "RequestProduct": "none",
+        "Work_status": "Not completed",
+        "Date_Time": year + "-" + month + "-" + date + " " + hr + ":" + min + ":" + sec
 
       }
     };
@@ -102,6 +177,7 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
 
 
     res.json("Successfully INserted to Database..")
+
   }
 
 });

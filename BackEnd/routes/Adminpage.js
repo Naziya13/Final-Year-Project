@@ -47,11 +47,25 @@ router.get('/AdminRoute', cors(corsOptions), (req, res) => {
       console.log(err);
     }
     else {
+      let E = [];
+      var i = 0;
 
+      data1.Items.forEach((record) => {
+        E[i] = record.email;
+        i++;
+        console.log(record.email)
+      })
+      console.log("Email:" + E)
+      let Email = JSON.stringify(E[0])
+      Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+    
       var params = {
-        TableName: "Admin"
+        TableName: "Admin",
+        Key:{
+          "email":Email
+        }
       }
-      docClient.scan(params, function (err, data) {
+      docClient.get(params, function (err, data) {
         console.log("response from db admin ", JSON.stringify(data))
         if (err) {
           console.log(err);
