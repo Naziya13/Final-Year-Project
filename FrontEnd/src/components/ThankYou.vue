@@ -1,25 +1,35 @@
 <template>
   <div class="vue-tempalte">
     <div class="social-icons mt-3 mb-4">
-            <i class="fa fa-check-circle"></i>
-      </div> 
+      <i class="fa fa-check-circle"></i>
+    </div>
 
-      <h3 style="padding-bottom:15px">Thank You {{name}} !!!</h3>
-      <p class="forgot-password text-center" style="padding-bottom:25px">
-            Your submission has been received.</p>
-      
-      <hr style="background-color:blue;">
-      
-      <div class="main">
-          <h6>Please Give Us Your Feedback</h6>
-           <router-link style="text-decoration: none;" to="/logout">
-           <button type=submit  @click.prevent="Logout()" class="btn btn-dark btn-x mt-2">No Thanks</button>
-           </router-link> 
+    <h3 style="padding-bottom: 15px">Thank You {{ name }} !!!</h3>
+    <p class="forgot-password text-center" style="padding-bottom: 25px">
+      Your submission has been received.
+    </p>
 
-           <router-link style="text-decoration: none; padding-left:70px;" to="/feedback">
-           <button type="submit" class="btn btn-dark btn-x mt-2">Feedback</button>
-           </router-link> 
-      </div>
+    <hr style="background-color: blue" />
+
+    <div class="main">
+      <h6>Please Give Us Your Feedback</h6>
+      <router-link style="text-decoration: none" to="">
+        <button
+          type="submit"
+          @click.prevent="goto()"
+          class="btn btn-dark btn-x mt-2"
+        >
+          No Thanks
+        </button>
+      </router-link>
+
+      <router-link
+        style="text-decoration: none; padding-left: 70px"
+        to="/feedback"
+      >
+        <button type="submit" class="btn btn-dark btn-x mt-2">Feedback</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -54,35 +64,46 @@ export default {
       });
   },
   methods: {
-    Logout() {
+    goto() {
+      let currentObj = this;
       var config = {
         headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
       };
-
       axios
         .post(
-          "http://localhost:8082/ThankYou/logout",
+          "http://localhost:8082/ThankYou/goto",
           {
             email: this.email,
           },
           config
         )
-        .then((response) => {
-          console.log("Logout");
-          router.push("/");
+        .then(function (response) {
+          currentObj.output = response.data;
+          console.log(JSON.stringify(response));
           if (
-            response.statusCode == "200" ||
-            response.statusMessage == "success"
+            currentObj.output.statusCode == "200" ||
+            currentObj.output.statusMessage == "success Donor"
           ) {
-            // console.log("enter");
-            router.push("/");
+            console.log("Enter");
+            router.push({ name: "Donorpage" });
+          } else if (
+            currentObj.output.statusCode == "201" ||
+            currentObj.output.statusMessage == "success Requester"
+          ) {
+            router.push({ name: "Requesterpage" });
+          } else if (
+            currentObj.output.statusCode == "202" ||
+            currentObj.output.statusMessage == "success Volunteer"
+          ) {
+            router.push({ name: "volLastpage" });
+          } else {
+            alert("cant fetch");
           }
         })
         .catch(function (error) {
-          console.log(error);
+          currentObj.output = error;
         });
     },
   },
 };
-
 </script>

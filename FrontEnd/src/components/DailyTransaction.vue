@@ -49,6 +49,7 @@ export default {
     }
   },
   created() {
+     document.getElementById("Button").disabled = false;
     var config = {
       headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
     };
@@ -58,15 +59,24 @@ export default {
       .get("http://localhost:8082/dailyTransc/TranscRoute", config)
       .then(function (response) {
         currentObj.id = 1;
-        //console.log(typeof(response.data.data.Items))
-        for (var i = 0; i < response.data.data.Items.length; i++) {
-          currentObj.rows = response.data.data.Items;
+        //console.log(typeof(response.data.data.Item.length))
+         var n=(Object.keys(response.data.data)).length
+         console.log(n)
+        for (var i = 0; i < n; i++) {
+          currentObj.rows = [response.data.data.Item];
           currentObj.id = +i;
+          console.log(i)
         }
 
-        console.log(response.data.data.Items.length);
-        console.log(response.data.data.Items);
-        if (response.statusCode == "200") router.push("dailytransaction");
+       // console.log(response.data.data.Item.length);
+        console.log(response.data.data.Item);
+        if(response.statusCode == '200 ' || response.statusMessage == 'success') 
+        {
+          router.push("dailytransaction")
+          }
+     
+          
+        
       })
       .catch(function (error) {
         console.log(error);

@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-tempalte">
+  <div class="vue-tempalte">   
     <div class="profile">
       <div class="row">
         <div class="col-md-6 text-right">
@@ -67,6 +67,7 @@ export default {
   },
 
   created() {
+     document.getElementById("Button").disabled = true;
     var config = {
       headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
     };

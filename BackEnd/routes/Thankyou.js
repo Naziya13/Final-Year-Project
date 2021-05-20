@@ -132,27 +132,58 @@ router.get('/ThankRoute', cors(corsOptions), (req, res) => {
     });
 });
 
-router.post('/logout', cors(corsOptions), (req, res) => {
+router.post('/goto', cors(corsOptions), (req, res) => {
     console.log("reqBody:" + JSON.stringify(req.body));
-    var { email } = req.body
+   // var { email } = req.body
     var params = {
         TableName: "sessionDB",
         Key: {
-            "email": email
+            "email": req.body.email
         }
 
     }
-    docClient.delete(params, function (err, data) {
+    docClient.scan(params, function (err, data1) {
 
+
+        console.log("response from db: ", JSON.stringify(data1))
         if (err) {
             console.log(err);
         }
         else {
-            console.log("deleted...")
-            var object = { message: ' Successfull deleted', statusCode: '200', statusMessage: 'success' };
-            res.json(object);
+            let E = [];
+            let type = []
+            var i = 0;
+            console.log("sucessful data fetch",data1.Item); 
+            data1.Items.forEach((record)=> {
+                E[i] = record.email;
+                type[i] = record.Type
+                i++;
+                console.log(record.email)
+            })
+            console.log("Email:" + E)
+
+            //console.log(String.valueOf(Email))
+            //let e=String.valueOf(Email)
+            //console.log("E"+e)
+            let Email = JSON.stringify(E[0])
+            Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+            if(type[0]=="Donor")
+            {
+                var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success Donor' };
+                res.json(object);
+            }
+            else if(type[0]=="Requester")
+            {
+                var object = { message: ' Successfull fetched', statusCode: '201', statusMessage: 'success Requester' };
+                res.json(object);
+            }
+            else{
+                var object = { message: ' Successfull fetched', statusCode: '202', statusMessage: 'success Volunteer' };
+                res.json(object);
+            }
         }
     })
+    
 
 })
 module.exports = router;
