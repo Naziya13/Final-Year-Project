@@ -38,6 +38,7 @@ router.get("/adminRoute", cors(corsOptions), (req, res) => {
     TableName: 'Donor'
   };
 
+  
   docClient.scan(params, function (err, data) {
 
     console.log("response from db: ", JSON.stringify(data))

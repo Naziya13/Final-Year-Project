@@ -104,6 +104,7 @@ export default {
     };
   },
   created() {
+     document.getElementById("Button").disabled = true;
     var config = {
       headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };
@@ -132,6 +133,7 @@ export default {
       .catch(function (error) {
         console.log(error);
         alert("donors address not matched");
+        router.push("Thankyou")
         //router.push('homepage')
       });
     axios
@@ -156,7 +158,7 @@ export default {
       .catch(function (error) {
         console.log(error);
         alert("requesters address not matched");
-        //router.push('homepage')
+        router.push('Thankyou')
       });
   },
   methods: {

@@ -8,6 +8,7 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+
   "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
   "secretAccessKey": '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'
 }
@@ -49,8 +50,13 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
+<<<<<<< HEAD
   "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
   "secretAccessKey": '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'
+=======
+  "accessKeyId": '',
+  "secretAccessKey": ''
+>>>>>>> fd963092d08c86ca39178813e58b9cc89223c5dd
 });
 
 
@@ -141,7 +147,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
               var data;
               for (var j = 0; j < (Object.values(donor_adress)).length; j++) {
                 donor_adress[j] = JSON.stringify(donor_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
-                if (volunteer_data.Item.address === (donor_adress[j]) && donor_product[j]!="none") {
+                if (volunteer_data.Item.address === (donor_adress[j]) && donor_product[j] != "none") {
                   console.log("Matched...donor")
                   data = {
                     Item: {
@@ -152,11 +158,10 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
                       OfferProduct: donor_product[j],
                       volunteerName: volunteer_data.Item.name,
                       volunteerEmail: volunteer_data.Item.email,
-                      Volunteer_Id:volunteer_data.Item.Volunteer_Id
+                      Volunteer_Id: volunteer_data.Item.Volunteer_Id
                     }
                   }
                 }
-
 
               }
               var object = { message: ' Successfull ftech donor', statusCode: '200', statusMessage: 'success donor', 'data': data };
@@ -176,10 +181,10 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
     TableName: 'requester',
     //FilterExpression:"contains(#date,:date)",
     //ExpressionAttributeNames:{
-      //"#date":"DatTime"
+    //"#date":"DatTime"
     //},
     //ExpressionAttributeValues:{
-      //":date":	"2021-05"
+    //":date":	"2021-05"
     //}
     projectionExpression: 'address,email,name,mobile,RequestProduct'
   }
@@ -251,7 +256,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
               var data;
               for (var j = 0; j < (Object.values(req_adress)).length; j++) {
                 req_adress[j] = JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
-                if (volunteer_data.Item.address === (req_adress[j]) && req_product[j]!="none") {
+                if (volunteer_data.Item.address === (req_adress[j]) && req_product[j] != "none") {
                   console.log("Matched...requesters")
                   data = {
                     Item: {
@@ -262,13 +267,11 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
                       RequestProduct: req_product[j],
                       volunteerName: volunteer_data.Item.name,
                       volunteerEmail: volunteer_data.Item.email,
-                      Volunteer_Id:volunteer_data.Item.Volunteer_Id
+                      Volunteer_Id: volunteer_data.Item.Volunteer_Id
                     }
                   }
                 }
-                else{
- 
-                }
+
               }
               var object = { message: ' Successfull fetch requester', statusCode: '201', statusMessage: 'success requester', 'data': data };
               res.json(object);
@@ -286,7 +289,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
   console.log("reqFile:" + JSON.stringify(req.file));
   console.log("reqBody:" + JSON.stringify(req.body));
 
-  var { email,Volunteer, D_mail, R_email,V_id,D_add,R_add } = req.body;
+  var { email, Volunteer, D_mail, R_email, V_id, D_add, R_add } = req.body;
 
   let date_ob = new Date()
 
@@ -296,18 +299,18 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
 
   var params = {
     TableName: "Daily_Transaction",
-    Item:{
-        "email":email,
-        "volunteer_Name":Volunteer,
-        "volunteer_Id":V_id,
-        "source":D_add,
-        "Destination":R_add,
-        "date":year + "-" + month + "-" + date ,
-        "Work_Status":"Completed"
+    Item: {
+      "email": email,
+      "volunteer_Name": Volunteer,
+      "volunteer_Id": V_id,
+      "source": D_add,
+      "Destination": R_add,
+      "date": year + "-" + month + "-" + date,
+      "Work_Status": "Completed"
     }
 
 
-    
+
   }
   docClient.put(params, function (err, data) {
     if (err)
@@ -322,7 +325,7 @@ router.post("/FileUploadRoute", cors(corsOptions), uploads.single('file'), (req,
   var params = {
     TableName: "Donor",
     Key: {
-      "email":D_mail
+      "email": D_mail
     },
     UpdateExpression: "set Work_status =:sta",
     ExpressionAttributeValues: {

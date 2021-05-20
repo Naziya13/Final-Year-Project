@@ -37,6 +37,7 @@ export default {
     };
   },
   created() {
+     document.getElementById("Button").disabled = true;
     var config = {
       headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
     };

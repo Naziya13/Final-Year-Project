@@ -25,8 +25,10 @@
       <label>Login As</label>
       <div class="select mb-4">
       <select v-model="selected" required>
+        <option>Admin</option>
         <option>Donor</option>
         <option>Requester</option>
+        <option>Volunteer</option>
       </select>
       </div>
       <button
@@ -60,6 +62,11 @@ import router from "../router/index";
 export default {
   mounted() {
     console.log("Component mounted.");
+    document.getElementById("Button").disabled = true;
+    function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+    preventBack()
   },
   data() {
     return {
@@ -132,6 +139,7 @@ export default {
 };
 </script>
 <style scoped>
+
 </style>
 
 

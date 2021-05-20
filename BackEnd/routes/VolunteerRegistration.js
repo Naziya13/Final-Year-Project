@@ -69,7 +69,6 @@ var uploads = multer({
 });
 
 // 1.1 ********** server test api **************
-router.get("/", (req, res) => res.json('welcome'));
 
 //1.2 ************ UI - Donor's api*************
 router.post("/volunteerRegistrationRoute", cors(corsOptions), uploads.single('file'), (req, res) => {
