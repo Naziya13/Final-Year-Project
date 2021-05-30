@@ -16,7 +16,7 @@ AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8082',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -240,7 +240,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
             }
             else {
               var data;
-              for (var j = 1; j <= (Object.values(req_adress)).length - 1; j++) {
+              for (var j = 0; j < (Object.values(req_adress)).length ; j++) {
                 req_adress[j] = JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
                 if (volunteer_data.Item.address === (req_adress[j]) && req_product[j] != "none") {
                   console.log("Matched...requesters")

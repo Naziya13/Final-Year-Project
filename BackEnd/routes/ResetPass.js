@@ -14,7 +14,7 @@ AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-    origin: 'http://localhost:8081',
+    origin: 'http://localhost:8082',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
