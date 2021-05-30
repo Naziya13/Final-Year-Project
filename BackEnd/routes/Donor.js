@@ -8,15 +8,20 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+<<<<<<< HEAD
  "accessKeyId":'',
 "secretAccessKey":''
+=======
+  "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
+  "secretAccessKey": '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'
+>>>>>>> 8fcd2400d6c59a92628b504924f2548d00d2e2d8
 }
 
 AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:8081',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -50,8 +55,13 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
+<<<<<<< HEAD
  "accessKeyId":'',
 "secretAccessKey":''
+=======
+  "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
+  "secretAccessKey": '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'
+>>>>>>> 8fcd2400d6c59a92628b504924f2548d00d2e2d8
 });
 
 

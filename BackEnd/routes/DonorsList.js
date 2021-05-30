@@ -4,8 +4,13 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
+<<<<<<< HEAD
  "accessKeyId":'',
 "secretAccessKey":''
+=======
+  "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
+  "secretAccessKey": '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'
+>>>>>>> 8fcd2400d6c59a92628b504924f2548d00d2e2d8
 }
 
 
@@ -13,7 +18,7 @@ AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:8081',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -38,6 +43,7 @@ router.get("/adminRoute", cors(corsOptions), (req, res) => {
     TableName: 'Donor'
   };
 
+  
   docClient.scan(params, function (err, data) {
 
     console.log("response from db: ", JSON.stringify(data))
@@ -45,10 +51,19 @@ router.get("/adminRoute", cors(corsOptions), (req, res) => {
       console.log(err);
     }
     else {
+<<<<<<< HEAD
       const sortedActivities = data.Items.sort((a, b) => new Date(b.Date_Time) - new Date(a.Date_Time))
       console.log("updated...", sortedActivities);
       console.log("sucessful data fetch", data.Items);
       // console.log("sucessful data fetch", data.Items);
+=======
+       
+      const sortedActivities = data.Items.sort((a, b) => new Date (b.Date_Time) - new Date (a.Date_Time))
+      console.log("updated...",sortedActivities);
+      console.log("sucessful data fetch", data.Items);
+
+
+>>>>>>> 8fcd2400d6c59a92628b504924f2548d00d2e2d8
       var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': sortedActivities };
       res.json(object);
     }
