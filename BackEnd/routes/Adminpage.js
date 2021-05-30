@@ -5,7 +5,7 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 
@@ -58,11 +58,11 @@ router.get('/AdminRoute', cors(corsOptions), (req, res) => {
       console.log("Email:" + E)
       let Email = JSON.stringify(E[0])
       Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-    
+
       var params = {
         TableName: "Admin",
-        Key:{
-          "email":Email
+        Key: {
+          "email": Email
         }
       }
       docClient.get(params, function (err, data) {

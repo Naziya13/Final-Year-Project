@@ -5,8 +5,8 @@ var AWS = require('aws-sdk');
 var awsconfig = {
     "region": "ap-south-1",
     "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-    "accessKeyId": '',
-    "secretAccessKey": ''
+    "accessKeyId": 'AKIA25SDQSDGHID7RQHH',
+    "secretAccessKey": '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'
 }
 
 AWS.config.update(awsconfig)
@@ -134,7 +134,7 @@ router.get('/ThankRoute', cors(corsOptions), (req, res) => {
 
 router.post('/goto', cors(corsOptions), (req, res) => {
     console.log("reqBody:" + JSON.stringify(req.body));
-   // var { email } = req.body
+    // var { email } = req.body
     var params = {
         TableName: "sessionDB",
         Key: {
@@ -153,8 +153,8 @@ router.post('/goto', cors(corsOptions), (req, res) => {
             let E = [];
             let type = []
             var i = 0;
-            console.log("sucessful data fetch",data1.Item); 
-            data1.Items.forEach((record)=> {
+            console.log("sucessful data fetch", data1.Item);
+            data1.Items.forEach((record) => {
                 E[i] = record.email;
                 type[i] = record.Type
                 i++;
@@ -167,23 +167,21 @@ router.post('/goto', cors(corsOptions), (req, res) => {
             //console.log("E"+e)
             let Email = JSON.stringify(E[0])
             Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-            if(type[0]=="Donor")
-            {
+            if (type[0] == "Donor") {
                 var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success Donor' };
                 res.json(object);
             }
-            else if(type[0]=="Requester")
-            {
+            else if (type[0] == "Requester") {
                 var object = { message: ' Successfull fetched', statusCode: '201', statusMessage: 'success Requester' };
                 res.json(object);
             }
-            else{
+            else {
                 var object = { message: ' Successfull fetched', statusCode: '202', statusMessage: 'success Volunteer' };
                 res.json(object);
             }
         }
     })
-    
+
 
 })
 module.exports = router;

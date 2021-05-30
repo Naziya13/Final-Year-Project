@@ -6,7 +6,7 @@
                 <i class="fa fa-user-circle mb-3"></i>                  
             </div>
             <div class="col-md-6 mt-4">
-                  <h4>Name</h4>
+                  <h4>{{Volunteer}}</h4>
                   <h6 class="forgot-password text-left mt-1 mb-3">
                       <router-link to="/profile">View Profile</router-link>
                   </h6>
@@ -133,7 +133,7 @@ export default {
       .catch(function (error) {
         console.log(error);
         alert("donors address not matched");
-        router.push("Thankyou")
+        //router.push("Thankyou")
         //router.push('homepage')
       });
     axios
@@ -158,7 +158,7 @@ export default {
       .catch(function (error) {
         console.log(error);
         alert("requesters address not matched");
-        router.push('Thankyou')
+        //router.push('Thankyou')
       });
   },
   methods: {

@@ -4,12 +4,11 @@ var AWS = require('aws-sdk');
 var fs = require('fs');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
-
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+ "accessKeyId":'',
+"secretAccessKey":''
 }
 
 
@@ -49,8 +48,8 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-  "accessKeyId": '',
-  "secretAccessKey": ''
+ "accessKeyId":'',
+"secretAccessKey":''
 });
 
 
@@ -58,7 +57,7 @@ const s3 = new AWS.S3({
 var uploads = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'volunteerfeedback',
+    bucket: 'volunteer-feedback',
     key: function (req, file, cb) {
       console.log(file);
       cb(null, file.originalname + '-' + Date.now()); //use Date.now() for unique file keys
@@ -173,13 +172,7 @@ router.get("/donorRoute", cors(corsOptions), (req, res) => {
 router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
   var params = {
     TableName: 'requester',
-    //FilterExpression:"contains(#date,:date)",
-    //ExpressionAttributeNames:{
-    //"#date":"DatTime"
-    //},
-    //ExpressionAttributeValues:{
-    //":date":	"2021-05"
-    //}
+
     projectionExpression: 'address,email,name,mobile,RequestProduct'
   }
 
@@ -204,7 +197,7 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
         req_mobile[i] = record.mobile;
         req_product[i] = record.RequestProduct;
         i++;
-        //console.log("donors address:"+record.Address)
+        console.log("requesters address:" + record.address)
       })
 
       //sessionDb data
@@ -246,9 +239,8 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
               console.log(err);
             }
             else {
-
               var data;
-              for (var j = 0; j < (Object.values(req_adress)).length; j++) {
+              for (var j = 1; j <= (Object.values(req_adress)).length - 1; j++) {
                 req_adress[j] = JSON.stringify(req_adress[j]).replace(/^["'](.+(?=["']$))["']$/, '$1');
                 if (volunteer_data.Item.address === (req_adress[j]) && req_product[j] != "none") {
                   console.log("Matched...requesters")
@@ -264,9 +256,45 @@ router.get("/requesterRoute", cors(corsOptions), (req, res, next) => {
                       Volunteer_Id: volunteer_data.Item.Volunteer_Id
                     }
                   }
+                  //break;
                 }
-
+                /*
+                              
+                              else
+                              {
+                                if(req_product[j+1]!="none"){
+                                data = {
+                                  Item: {
+                                    name: req_name[j+1],
+                                    email: req_email[j+1],
+                                    mobile: req_mobile[j+1],
+                                    address: req_adress[j+1],
+                                    RequestProduct: req_product[j+1],
+                                    volunteerName: volunteer_data.Item.name,
+                                    volunteerEmail: volunteer_data.Item.email,
+                                    Volunteer_Id: volunteer_data.Item.Volunteer_Id
+                                  }
+                                }
+                                break;
+                              } 
+                            else{
+                              data = {
+                                Item: {
+                                  name: "none",
+                                  email: "none",
+                                  mobile: "none",
+                                  address: "none",
+                                  RequestProduct: "none",
+                                  volunteerName: volunteer_data.Item.name,
+                                  volunteerEmail: volunteer_data.Item.email,
+                                  Volunteer_Id: volunteer_data.Item.Volunteer_Id
+                                }
+                              }
+                            }
+                            break;
+                          }*/
               }
+
               var object = { message: ' Successfull fetch requester', statusCode: '201', statusMessage: 'success requester', 'data': data };
               res.json(object);
             }

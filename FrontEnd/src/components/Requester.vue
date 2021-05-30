@@ -126,6 +126,7 @@ export default {
       let formData = new FormData();
       formData.append("selected", this.selected);
       formData.append("file", this.file);
+      
 
       formData.append("email", this.email);
       var config = {

@@ -4,7 +4,7 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 
@@ -43,9 +43,10 @@ router.get("/adminReq_Route", cors(corsOptions), (req, res) => {
       console.log(err);
     }
     else {
-
-      console.log("sucessful data fetch", data.Item);
-      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+      const sortedActivities = data.Items.sort((a, b) => new Date(b.Date_Time) - new Date(a.Date_Time))
+      console.log("updated...", sortedActivities);
+      console.log("sucessful data fetch", data.Items);
+      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': sortedActivities };
       res.json(object);
     }
 

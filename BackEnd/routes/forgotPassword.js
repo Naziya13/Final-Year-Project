@@ -7,8 +7,8 @@ var fs=require('fs')
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
-"secretAccessKey":''
+"accessKeyId":'AKIA25SDQSDGHID7RQHH',
+"secretAccessKey":'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'
 }
 
 AWS.config.update(awsconfig)

@@ -8,7 +8,7 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 
@@ -50,7 +50,7 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 });
 
@@ -60,7 +60,7 @@ const s3 = new AWS.S3({
 var uploads = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'donors-bucket',
+    bucket: 'donorbucket',
     key: function (req, file, cb) {
       console.log(file);
       cb(null, file.originalname + '-' + Date.now()); //use Date.now() for unique file keys

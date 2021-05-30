@@ -4,7 +4,7 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 AWS.config.update(awsconfig)
@@ -70,37 +70,6 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
 
 
   if (selected == "Donor") {
-    /*
-        var params = {
-          TableName: "Donor"
-    
-        }
-        docClient.scan(params, function (err, data) {
-          if (err) {
-            console.log(err)
-          }
-          else {
-            console.log("sucessfully fetch donors" + JSON.stringify(data))
-            let E = [];
-            var i = 0;
-            //console.log("sucessful data fetch",data.Items); 
-            data.Items.forEach((record) => {
-              E[i] = record.email;
-              i++;
-              console.log(record.email)
-            })
-            for (var i = 0; i < E.length; i++) {
-              if (email == E[i]) {
-                console.log("Failed...")
-              }
-              else {
-                //write code for adding new users to database...
-              
-              }
-            }
-    
-          }
-        })*/
 
     var params = {
       TableName: "Donor",
@@ -126,35 +95,6 @@ router.post("/registerRoute", cors(corsOptions), (req, res) => {
     res.json("Successfully INserted to Database..")
   }
   else {
-    /*
-        var params = {
-          TableName: "requester"
-    
-        }
-        docClient.scan(params, function (err, data) {
-          if (err) {
-            console.log(err)
-          }
-          else {
-            console.log("sucessfully fetch donors" + JSON.stringify(data))
-            let E = [];
-            var i = 0;
-            //console.log("sucessful data fetch",data.Items); 
-            data.Items.forEach((record) => {
-              E[i] = record.email;
-              i++;
-              console.log(record.email)
-            })
-            for (var i = 0; i < E.length; i++) {
-              if (email == E[i]) {
-                console.log("Failed...")
-              }
-              else {
-               
-              }
-            }
-          }
-        })*/
     //write code for adding new users to database...
     var params = {
       TableName: "requester",

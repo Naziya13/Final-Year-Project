@@ -6,7 +6,7 @@
           <i class="fa fa-user-circle mb-3"></i>
         </div>
         <div class="col-md-6 mt-4">
-          <h4>{{Name}}</h4>
+          <h4>{{FullName}}</h4>
           <h6 class="forgot-password text-left mt-1 mb-3">
             <router-link to="/profile">View Profile</router-link>
           </h6>
@@ -61,7 +61,7 @@ import router from "../router/index";
 export default {
   data() {
     return {
-      Name: "",
+      FullName: "",
       email: "",
     };
   },
@@ -78,8 +78,8 @@ export default {
       .then(function (response) {
         console.log("Enter in admin");
         console.log(response.data.data.Item);
-        currentObj.Name = response.data.data.Item.name;
-        console.log(currentObj.Name);
+        currentObj.FullName = response.data.data.Item.name;
+        console.log(currentObj.FullName);
         currentObj.email = response.data.data.Item.email;
 
         if (response == null || response == "undefined")

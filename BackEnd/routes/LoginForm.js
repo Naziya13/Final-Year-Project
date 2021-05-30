@@ -4,7 +4,7 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 

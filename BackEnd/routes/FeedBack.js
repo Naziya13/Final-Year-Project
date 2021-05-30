@@ -5,7 +5,7 @@ var AWS = require('aws-sdk');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 
@@ -60,7 +60,7 @@ router.post("/feedbackRoute", cors(corsOptions), async (req, res) => {
       "mobileNo": mobile,
       "feedback": feedback,
       "suggestions": suggestions,
-      "Type":type
+      "Type": type
     }
   };
 

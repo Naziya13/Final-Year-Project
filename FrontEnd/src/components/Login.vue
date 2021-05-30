@@ -85,7 +85,7 @@ export default {
       let currentObj = this;
       this.submitted = true;
       var config = {
-        headers: { "Access-Control-Allow-Origin": "http://localhost:8081" },
+        headers: { "Access-Control-Allow-Origin": "http://localhost:8080" },
       };
       axios
         .post(

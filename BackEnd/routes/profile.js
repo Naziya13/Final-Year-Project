@@ -8,7 +8,7 @@ var multerS3 = require('multer-s3');
 var awsconfig = {
   "region": "ap-south-1",
   "endpoint": "http://dynamodb.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 }
 
@@ -50,7 +50,7 @@ var upload = multer({ storage: storage }, { dest: 'uploads/' });
 const s3 = new AWS.S3({
   "region": "ap-south-1",
   "endpoint": "http://s3.ap-south-1.amazonaws.com",
-"accessKeyId":'',
+ "accessKeyId":'',
 "secretAccessKey":''
 });
 
@@ -131,126 +131,123 @@ router.post("/donorRoute", cors(corsOptions), uploads.single('file'), (req, res)
 router.get('/profileRoute', cors(corsOptions), (req, res) => {
 
 
-    var params = {
-        TableName: "sessionDB"
-      }
-    
-      docClient.scan(params, function (err, data1) {
-    
-        console.log("response from db: ", JSON.stringify(data1))
-        if (err) {
-          console.log(err);
-        }
-        else {
-    
-          console.log("sucessful data fetch", data1.Item);
-          let E = [];
-          let type=[]
-          var i = 0;
-          //console.log("sucessful data fetch",data.Items); 
-          data1.Items.forEach((record) => {
-            E[i] = record.email;
-            type[i]=record.Type
-            i++;
-            console.log(record.email)
-          })
-          console.log("Email:" + E)
-    
-          let Email = JSON.stringify(E[0])
-          //let Type=JSON.stringify(T[0])
-          Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
-         // Type = Type.replace(/^["'](.+(?=["']$))["']$/, '$1');
+  var params = {
+    TableName: "sessionDB"
+  }
 
-          if(type[0]=="Donor")
-          {
-            var params = {
-                TableName: "Donor",
-                Key: {
-                  "email": Email
-                }
-        
-              }
-        
-              docClient.get(params, function (err, data) {
-        
-                console.log("response from db: ", JSON.stringify(data))
-                if (err) {
-                  console.log(err);
-                }
-                else {
-                  var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
-                  res.json(object)
-                }
-              })
-            }
-            else if(type[0]=="Requester")
-            {
-                var params = {
-                    TableName: "requester",
-                    Key: {
-                      "email": Email
-                    }
-            
-                  }
-            
-                  docClient.get(params, function (err, data) {
-            
-                    console.log("response from db: ", JSON.stringify(data))
-                    if (err) {
-                      console.log(err);
-                    }
-                    else {
-                      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
-                      res.json(object)
-                    }
-                  })
-            }
-            else if(type[0]=="Admin")
-            {
-                var params = {
-                    TableName: "Admin",
-                    Key: {
-                      "email": Email
-                    }
-            
-                  }
-            
-                  docClient.get(params, function (err, data) {
-            
-                    console.log("response from db: ", JSON.stringify(data))
-                    if (err) {
-                      console.log(err);
-                    }
-                    else {
-                      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
-                      res.json(object)
-                    }
-                  })
-            }
-            else{
-                var params = {
-                    TableName: "Volunteers",
-                    Key: {
-                      "email": Email
-                    }
-            
-                  }
-            
-                  docClient.get(params, function (err, data) {
-            
-                    console.log("response from db: ", JSON.stringify(data))
-                    if (err) {
-                      console.log(err);
-                    }
-                    else {
-                      var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
-                      res.json(object)
-                    }
-                  })
-            }
+  docClient.scan(params, function (err, data1) {
+
+    console.log("response from db: ", JSON.stringify(data1))
+    if (err) {
+      console.log(err);
+    }
+    else {
+
+      console.log("sucessful data fetch", data1.Item);
+      let E = [];
+      let type = []
+      var i = 0;
+      //console.log("sucessful data fetch",data.Items); 
+      data1.Items.forEach((record) => {
+        E[i] = record.email;
+        type[i] = record.Type
+        i++;
+        console.log(record.email)
+      })
+      console.log("Email:" + E)
+
+      let Email = JSON.stringify(E[0])
+      //let Type=JSON.stringify(T[0])
+      Email = Email.replace(/^["'](.+(?=["']$))["']$/, '$1');
+      // Type = Type.replace(/^["'](.+(?=["']$))["']$/, '$1');
+
+      if (type[0] == "Donor") {
+        var params = {
+          TableName: "Donor",
+          Key: {
+            "email": Email
+          }
+
         }
-          })   
-          
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else if (type[0] == "Requester") {
+        var params = {
+          TableName: "requester",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else if (type[0] == "Admin") {
+        var params = {
+          TableName: "Admin",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+      else {
+        var params = {
+          TableName: "Volunteers",
+          Key: {
+            "email": Email
+          }
+
+        }
+
+        docClient.get(params, function (err, data) {
+
+          console.log("response from db: ", JSON.stringify(data))
+          if (err) {
+            console.log(err);
+          }
+          else {
+            var object = { message: ' Successfull fetched', statusCode: '200', statusMessage: 'success', 'data': data };
+            res.json(object)
+          }
+        })
+      }
+    }
+  })
+
 })
 module.exports = router;
 
