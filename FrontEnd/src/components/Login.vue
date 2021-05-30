@@ -63,10 +63,9 @@ export default {
   mounted() {
     console.log("Component mounted.");
     document.getElementById("Button").disabled = true;
-    function preventBack(){window.history.forward();}
-    setTimeout("preventBack()", 0);
-    window.onunload=function(){null};
-    preventBack()
+    
+    
+    
   },
   data() {
     return {
