@@ -8,11 +8,7 @@ var awsconfig = {
 <<<<<<< HEAD
  "accessKeyId":'',
 "secretAccessKey":''
-=======
-  "accessKeyId": 'AKIATSPZDOCGCYECV3G7',
-  "secretAccessKey": '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'
->>>>>>> 8fcd2400d6c59a92628b504924f2548d00d2e2d8
-}
+
 
 AWS.config.update(awsconfig)
 var docClient = new AWS.DynamoDB.DocumentClient();
